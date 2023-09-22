@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+// Abstracts
+@import 'abstracts/mixins';
+
+// Global
+// @import 'base/global';
+// @import 'base/overrides';
+// @import 'base/color';
+
+// Layouts
+@import 'layouts/global';
+// @import 'layouts/default';
+// @import 'layouts/error';
+
+
+
+body {
+  @apply bg-dark text-white;
+}
