@@ -15,7 +15,11 @@ const config: Config = {
       },
       colors: {
         dark: '#222222',
+        'dark-secondary': 'rgba(84, 84, 84, 0.46)',
+        orange: '#F26B50',
         white: '#FBFBFB',
+        'white-overlay': 'rgba(251, 251, 251, 0.40)',
+        'white-overlay-2': 'rgba(251, 251, 251, 0.20)',
       },
     },
   },

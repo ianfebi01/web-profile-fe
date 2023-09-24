@@ -1,4 +1,5 @@
 import '@/assets/scss/main.scss'
+import Navbar from '@/components/Molecules/Navbar'
 import type { Metadata } from 'next'
 import { Outfit } from 'next/font/google'
 
@@ -16,11 +17,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={outfit.className}>
-        <main className="main">
-          <div className="main__container">{children}</div>
-        </main>
-      </body>
+      <body className={outfit.className}>{children}</body>
     </html>
   )
 }
