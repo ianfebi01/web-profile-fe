@@ -24,7 +24,7 @@ const PersonImage = () => {
         variants={{
           hidden: {
             opacity: 0,
-            y: 75,
+            y: 391,
           },
           visible: {
             opacity: 1,

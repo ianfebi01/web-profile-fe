@@ -1,7 +1,14 @@
 'use client'
 
 import React, { useEffect, useRef } from 'react'
-import { useAnimation, useInView, motion, easeInOut } from 'framer-motion'
+import {
+  useAnimation,
+  useInView,
+  motion,
+  easeInOut,
+  easeIn,
+  easeOut,
+} from 'framer-motion'
 
 const TextBackground = () => {
   const textRef = useRef(null)
@@ -20,7 +27,7 @@ const TextBackground = () => {
   return (
     <div
       ref={textRef}
-      className="text-9xl font-bold  w-fit h-fit absolute inset-x-0 mx-auto inset-y-0 my-auto -translate-y-24"
+      className="text-9xl font-bold  w-fit h-fit absolute inset-x-0 mx-auto inset-y-0 my-auto -translate-y-10 sm:-translate-y-24"
     >
       <motion.div
         variants={{
@@ -36,14 +43,14 @@ const TextBackground = () => {
         initial="hidden"
         animate={textControl}
         transition={{
-          duration: 0.5,
+          duration: 0.3,
           delay: 0.3,
-          ease: easeInOut,
+          ease: easeOut,
         }}
-        className="flex gap-8"
+        className="flex flex-col sm:flex-row sm:gap-8 text-center"
       >
-        <h1>IAN</h1>
-        <h1 className="text-orange">FEBI</h1>
+        <h1 className="leading-none m-0">IAN</h1>
+        <h1 className="text-orange leading-none">FEBI</h1>
       </motion.div>
     </div>
   )

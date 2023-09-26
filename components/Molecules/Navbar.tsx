@@ -7,6 +7,7 @@ import {
   useMotionValueEvent,
   useAnimation,
 } from 'framer-motion'
+import Link from 'next/link'
 
 const menus = [
   { id: 'home', label: 'Home' },
@@ -37,6 +38,20 @@ const Navbar: FunctionComponent<Props> = () => {
   useMotionValueEvent(scrollY, 'change', () => {
     update()
   })
+
+  const handleScroll = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    // first prevent the default behavior
+    e.preventDefault()
+    // get the href and remove everything before the hash (#)
+    const href = e.currentTarget.href
+    const targetId = href.replace(/.*\#/, '')
+    // get the element by id and use scrollIntoView
+    const elem = document.getElementById(targetId)
+    elem?.scrollIntoView({
+      behavior: 'smooth',
+    })
+  }
+
   return (
     <motion.nav
       variants={{
@@ -62,21 +77,19 @@ const Navbar: FunctionComponent<Props> = () => {
         }}
       >
         {menus.map((item) => (
-          <Button
-            variant={'link'}
-            key={item.id}
-            onClick={() => setActiveMenu(item.id)}
-          >
-            {activeMenu === item.id && (
-              <motion.span
-                layoutId="bubble"
-                className="absolute inset-0 z-10 bg-white-overlay text-white "
-                style={{ borderRadius: 9999 }}
-                transition={{ type: 'spring', bounce: 0.2, duration: 0.5 }}
-              />
-            )}
-            {item.label}
-          </Button>
+          <Link href={`#${item.id}`} key={item.id} onClick={handleScroll}>
+            <Button variant={'link'} onClick={() => setActiveMenu(item.id)}>
+              {activeMenu === item.id && (
+                <motion.span
+                  layoutId="bubble"
+                  className="absolute inset-0 z-10 bg-white-overlay text-white "
+                  style={{ borderRadius: 9999 }}
+                  transition={{ type: 'spring', bounce: 0.2, duration: 0.5 }}
+                />
+              )}
+              {item.label}
+            </Button>
+          </Link>
         ))}
       </div>
     </motion.nav>
