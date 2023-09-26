@@ -19,9 +19,13 @@ const config: Config = {
         dark: '#222222',
         'dark-secondary': 'rgba(84, 84, 84, 0.46)',
         orange: '#F26B50',
+        green: '#4FAA84',
         white: '#FBFBFB',
         'white-overlay': 'rgba(251, 251, 251, 0.40)',
         'white-overlay-2': 'rgba(251, 251, 251, 0.20)',
+      },
+      boxShadow: {
+        skill: '0px 1px 4px 1px rgba(34, 34, 34, 0.25)',
       },
     },
   },
