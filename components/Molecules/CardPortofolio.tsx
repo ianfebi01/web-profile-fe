@@ -1,10 +1,10 @@
 'use client'
 import Image from 'next/image'
 import React, { FunctionComponent, useEffect, useRef } from 'react'
-import DOMPurify from 'dompurify'
-import { motion, useInView, useAnimation, easeOut } from 'framer-motion'
+import { sanitize } from 'isomorphic-dompurify'
+import { useInView, useAnimation } from 'framer-motion'
 import AnimationProvider from './AnimationProvider'
-import MacbookMockup from '../Atoms/MacbookMockup'
+// import MacbookMockup from '../Atoms/MacbookMockup'
 
 interface Props {
   color?: 'bg-dark-secondary' | 'bg-green' | 'bg-white'
@@ -52,7 +52,7 @@ const CardPortofolio: FunctionComponent<Props> = (props) => {
           <h3 className="text-base font-bold">{title}</h3>
           <p
             className="text-xs"
-            dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(subtitle) }}
+            dangerouslySetInnerHTML={{ __html: sanitize(subtitle) }}
           ></p>
         </div>
         <div className="grow-[1]" />

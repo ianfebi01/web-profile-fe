@@ -21,23 +21,23 @@ const Button: FunctionComponent<Props> = (props) => {
     if (theme === 'dark') {
       switch (variant) {
         case 'link':
-          return 'bg-none text-white'
+          return 'bg-none text-white py-0 px-2.5'
         case 'normal':
-          return 'bg-white-overlay text-white'
+          return 'py-2 px-2.5 bg-white-overlay text-white'
       }
     } else if (theme === 'light') {
       switch (variant) {
         case 'link':
-          return 'bg-none text-dark'
+          return 'bg-none text-dark py-0 px-2.5'
         case 'normal':
-          return 'bg-dark-secondary text-white'
+          return 'bg-dark-secondary text-white py-2 px-2.5'
       }
     }
   }
 
   return (
     <button
-      className={`${generateBg()} py-2 px-2.5 transition-all duration-300 ease-linear filter hover:brightness-90 relative ${className}`}
+      className={`${generateBg()} transition-all duration-300 ease-linear filter hover:brightness-90 relative ${className}`}
       style={{
         borderRadius: 99999,
       }}
