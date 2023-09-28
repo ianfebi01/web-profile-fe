@@ -1,13 +1,18 @@
 'use client'
 import Image from 'next/image'
-import React, { FunctionComponent } from 'react'
+import React, { FunctionComponent, useEffect, useRef } from 'react'
 import DOMPurify from 'dompurify'
+import { motion, useInView, useAnimation, easeOut } from 'framer-motion'
+import AnimationProvider from './AnimationProvider'
+import MacbookMockup from '../Atoms/MacbookMockup'
 
 interface Props {
   color?: 'bg-dark-secondary' | 'bg-green' | 'bg-white'
   title?: string
   subtitle?: string
   skill?: string[]
+  image?: string
+  imageDevice?: string
 }
 const CardPortofolio: FunctionComponent<Props> = (props) => {
   const {
@@ -15,19 +20,38 @@ const CardPortofolio: FunctionComponent<Props> = (props) => {
     title = 'Gendut Grosir',
     subtitle = 'subtitle',
     skill = ['ts', 'react', 'tailwind'],
+    image,
+    imageDevice = 'mobile',
   } = props
+
+  const cardRef = useRef(null)
+  const isInView = useInView(cardRef, {
+    once: true,
+  })
+  const animationControl = useAnimation()
+
+  useEffect(() => {
+    if (isInView) {
+      animationControl.start('visible')
+    }
+  }, [isInView])
+
   return (
-    <div
+    <AnimationProvider
       className={`${color} ${
         color === 'bg-white' && 'text-dark'
-      } border border-none rounded-lg w-full h-64 p-6 grid grid-rows-1 grid-cols-5 items-center relative `}
+      } border border-none rounded-lg w-full sm:h-64 md:h-64 p-6 grid grid-rows-1 grid-cols-5 items-center relative cursor-pointer hover:scale-90`}
     >
       {/* @ NOTE Text */}
-      <div className=" flex flex-col gap-6 col-span-3">
+      <div
+        className={`flex flex-col gap-2 sm:gap-6 ${
+          image ? 'col-span-3' : 'col-span-5'
+        }`}
+      >
         <div className="flex flex-col gap-2">
           <h3 className="text-base font-bold">{title}</h3>
           <p
-            className="text-[8px]"
+            className="text-xs"
             dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(subtitle) }}
           ></p>
         </div>
@@ -50,17 +74,28 @@ const CardPortofolio: FunctionComponent<Props> = (props) => {
           ))}
         </div>
       </div>
-      <div>
-        <div className="w-56 absolute right-0 inset-y-0 my-auto ">
-          <Image
-            src="/MacBookPro.png"
-            alt="Project Image"
-            layout="fill"
-            objectFit="contain"
-          />
+      {image && (
+        <div>
+          <div
+            className={`w-48 lg:w-56 absolute inset-y-0 my-auto ${
+              imageDevice === 'desktop'
+                ? '-right-16'
+                : imageDevice === 'mobile'
+                ? '-bottom-32 h-[120%] sm:h-[90%] -right-6 sm:-right-4 lg:-right-10'
+                : ''
+            }`}
+          >
+            {/* <MacbookMockup image={image} /> */}
+            <Image
+              src={image}
+              alt="Project Image"
+              layout="fill"
+              objectFit="contain"
+            />
+          </div>
         </div>
-      </div>
-    </div>
+      )}
+    </AnimationProvider>
   )
 }
 

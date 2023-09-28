@@ -1,7 +1,3 @@
-import PersonImage from '@/components/Atoms/PersonImage'
-import Shape from '@/components/Atoms/Shape'
-import TextBackground from '@/components/Atoms/TextBackground'
-import TextSide from '@/components/Atoms/TextSide'
 import Navbar from '@/components/Molecules/Navbar'
 import Section1 from '@/components/Organisms/Home/Section1'
 import Section2 from '@/components/Organisms/Home/Section2'
