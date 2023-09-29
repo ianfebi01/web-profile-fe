@@ -66,8 +66,10 @@ const CardPortofolio: FunctionComponent<Props> = (props) => {
             >
               <Image
                 src={`/${item}.svg`}
-                layout="fill"
-                objectFit="contain"
+                fill
+                style={{
+                  objectFit: 'contain',
+                }}
                 alt="Icon"
               />
             </div>
@@ -89,8 +91,11 @@ const CardPortofolio: FunctionComponent<Props> = (props) => {
             <Image
               src={image}
               alt="Project Image"
-              layout="fill"
-              objectFit="contain"
+              fill
+              priority
+              style={{
+                objectFit: 'contain',
+              }}
             />
           </div>
         </div>

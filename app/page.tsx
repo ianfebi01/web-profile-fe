@@ -3,7 +3,6 @@ import Section1 from '@/components/Organisms/Home/Section1'
 import Section2 from '@/components/Organisms/Home/Section2'
 import Section3 from '@/components/Organisms/Home/Section3'
 import Section4 from '@/components/Organisms/Home/Section4'
-import Image from 'next/image'
 
 export default function Home() {
   return (
