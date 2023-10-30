@@ -33,13 +33,13 @@ const Section4: FunctionComponent = () => {
     } else setShow([...show, i])
   }
   return (
-    <section id="portofolio" className="main__section h-fit bg-dark-secondary">
+    <section id="experience" className="main__section h-fit bg-dark-secondary">
       <div className="main__container my-8 flex flex-col gap-4">
         <div className="grid grid-cols-5 gap-4">
           <div className=" col-span-5 md:col-span-2">
             <TextHeader
-              title="Portofolio"
-              subtitle="See what i’ve been build"
+              title="Experience"
+              subtitle="See what i’ve been working on"
             />
           </div>
           <div className="bg-dark w-full h-fit border border-none rounded-lg col-span-5 md:col-span-3 p-4 flex flex-col">
