@@ -6,7 +6,7 @@ import Section4 from '@/components/Organisms/Home/Section4'
 
 export default function Home() {
   return (
-    <main className="main">
+    <>
       <Navbar />
       {/* @ NOTE Section 1 */}
       <Section1 />
@@ -16,6 +16,6 @@ export default function Home() {
       <Section3 />
       {/* @ NOTE Section 4 */}
       <Section4 />
-    </main>
+    </>
   )
 }

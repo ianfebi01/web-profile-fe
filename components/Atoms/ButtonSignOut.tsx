@@ -5,7 +5,7 @@ import React from 'react'
 const ButtonSignOut = () => {
   return (
     <button
-      className="bg-slate-600 px-4 py-2 text-white"
+      className="bg-white-overlay px-4 py-2 text-white"
       onClick={() => signOut({ callbackUrl: '/' })}
       type="button"
     ></button>

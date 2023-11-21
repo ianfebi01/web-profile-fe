@@ -14,16 +14,10 @@ export const metadata: Metadata = {
   description: 'Customize data on landing page',
 }
 
-export default function RootLayout({
+export default function AdminLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
-  return (
-    <html lang="en">
-      <body className={outfit.className} suppressHydrationWarning={true}>
-        <NextAuthProvider>{children}</NextAuthProvider>
-      </body>
-    </html>
-  )
+  return <NextAuthProvider>{children}</NextAuthProvider>
 }
