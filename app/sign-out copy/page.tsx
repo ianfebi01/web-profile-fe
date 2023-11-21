@@ -6,19 +6,19 @@ import { authOptions } from '../../lib/auth'
 import ButtonSignOut from '@/components/Atoms/ButtonSignOut'
 
 const SignOutPage = async () => {
-  const session = await getServerSession(authOptions)
+	const session = await getServerSession( authOptions )
 
-  if (!session) {
-    redirect('/')
-  } else {
-    return (
-      <div>
-        <h1>SignOutPage</h1>
+	if ( !session ) {
+		redirect( '/' )
+	} else {
+		return (
+			<div>
+				<h1>SignOutPage</h1>
 
-        <ButtonSignOut />
-      </div>
-    )
-  }
+				<ButtonSignOut />
+			</div>
+		)
+	}
 }
 
 export default SignOutPage

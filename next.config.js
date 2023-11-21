@@ -2,6 +2,7 @@
 const nextConfig = {
   publicRuntimeConfig: {
     // Will be available on both server and client
+    baseUrl: process.env.BASE_URL,
   },
   async rewrites() {
     return [

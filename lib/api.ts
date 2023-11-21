@@ -1,48 +1,78 @@
-import axios from 'axios'
-import Cookies from 'universal-cookie'
+// import axios, { AxiosError } from 'axios'
+// import Cookies from 'universal-cookie'
 
-const cookie = new Cookies()
+import axios from "axios";
 
-const api = axios.create({
-  baseURL: '/api-web', // Replace with your API base URL
-})
+// const cookie = new Cookies()
 
-// Request interceptor
-api.interceptors.request.use(
-  async (config) => {
-    // Modify the request config here (add headers, authentication tokens)
+// const api = axios.create({
+//   baseURL: '/api-web', // Replace with your API base URL
+// })
 
-    console.log(cookie.get('accessToken'))
+// // Request interceptor
+// api.interceptors.request.use(
+//   async (config) => {
+//     // Modify the request config here (add headers, authentication tokens)
+
+//     console.log(cookie.get('accessToken'))
     
-    const accessToken = cookie.get('accessToken')
+//     const accessToken = cookie.get('accessToken')
 
-    // If token is present add it to request's Authorization Header
-    if (accessToken) {
-      config.headers['Authorization'] = `Bearer ${accessToken}`
-    }
-    return config
-  },
-  (error) => {
-    // Handle request errors here
+//     // If token is present add it to request's Authorization Header
+//     if (accessToken) {
+//       config.headers['Authorization'] = `Bearer ${accessToken}`
+//     }
+//     return config
+//   },
+//   (error) => {
+//     // Handle request errors here
 
-    return Promise.reject(error)
-  }
-)
-// End of Request interceptor
+//     return Promise.reject(error)
+//   }
+// )
+// // End of Request interceptor
 
-// Response interceptor
-api.interceptors.response.use(
-  (response) => {
-    // Modify the response data here
+// // Response interceptor
+// api.interceptors.response.use(
+//   (response) => {
+//     // Modify the response data here
 
-    return response
-  },
-  (error) => {
-    // Handle response errors here
+//     return response
+//   },
+//   (error:AxiosError) => {
+//     // Handle response errors here
 
-    return Promise.reject(error)
-  }
-)
-// End of Response interceptor
+//     if(error.response?.status === 401){
+//       console.log('gblok')
+//     }
+
+//     return Promise.reject(error)
+//   }
+// )
+// // End of Response interceptor
+
+// export default api
+
+// import axios from "axios";
+
+// const BASE_URL = '/api-web'
+// export default axios.create({
+//   baseURL: BASE_URL,
+//   headers: { "Content-Type": "application/json" },
+// });
+// export const axiosAuth = axios.create({
+//   baseURL: BASE_URL,
+//   headers: { "Content-Type": "application/json" },
+// });
+
+const api = axios.create( {
+	baseURL : '/api-web', 
+	headers : { "Content-Type" : "application/json" },
+} )
 
 export default api
+
+export const apiAuth = axios.create( {
+	baseURL : '/api-web',
+	headers : { "Content-Type" : "application/json" },
+} )

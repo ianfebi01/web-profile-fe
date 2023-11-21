@@ -9,47 +9,48 @@ interface Props {
   className?: string
 }
 
-const AnimationProvider: FunctionComponent<Props> = ({
-  children,
-  className,
-}) => {
-  const ref = useRef(null)
-  const isInView = useInView(ref, {
-    once: true,
-  })
-  const animationControl = useAnimation()
+const AnimationProvider: FunctionComponent<Props> = ( {
+	children,
+	className,
+} ) => {
+	const ref = useRef( null )
+	const isInView = useInView( ref, {
+		once : true,
+	} )
+	const animationControl = useAnimation()
 
-  useEffect(() => {
-    if (isInView) {
-      animationControl.start('visible')
-    }
-  }, [isInView])
-  return (
-    <div ref={ref}>
-      <motion.div
-        variants={{
-          hidden: {
-            opacity: 0,
-            y: 75,
-          },
-          visible: {
-            opacity: 1,
-            y: 0,
-          },
-        }}
-        initial="hidden"
-        animate={animationControl}
-        transition={{
-          duration: 0.3,
-          delay: 0.2,
-          ease: easeOut,
-        }}
-        className={className}
-      >
-        {children}
-      </motion.div>
-    </div>
-  )
+	useEffect( () => {
+		if ( isInView ) {
+			animationControl.start( 'visible' )
+		}
+	}, [isInView] )
+	
+	return (
+		<div ref={ref}>
+			<motion.div
+				variants={{
+					hidden : {
+						opacity : 0,
+						y       : 75,
+					},
+					visible : {
+						opacity : 1,
+						y       : 0,
+					},
+				}}
+				initial="hidden"
+				animate={animationControl}
+				transition={{
+					duration : 0.3,
+					delay    : 0.2,
+					ease     : easeOut,
+				}}
+				className={className}
+			>
+				{children}
+			</motion.div>
+		</div>
+	)
 }
 
 export default AnimationProvider

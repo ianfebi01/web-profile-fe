@@ -2,43 +2,62 @@
 
 import { IApi } from '@/types/api'
 import { IApiProfile } from '@/types/api/profile'
-import axios, { AxiosResponse } from 'axios'
-import { Session } from 'next-auth'
+import { AxiosResponse } from 'axios'
 import { signIn, signOut, useSession } from 'next-auth/react'
 import React, { FunctionComponent, useEffect } from 'react'
-import api from '../../lib/api'
+import useAxiosAuth from '@/lib/hooks/useAxiosAuth'
 
 interface Props {
-  session: Session | null
+  // session: Session | null
 }
 
-const Test: FunctionComponent<Props> = ({ session }) => {
-  const { status } = useSession()
+const Test: FunctionComponent<Props> = () => {
+	const { data: session, status, update } = useSession()
 
-  // const getProfile = async () => {
-  //   const userProfile: AxiosResponse<IApi<IApiProfile>> = await api.get(
-  //     `/v1/user`
-  //   )
-  //   console.log(userProfile)
-  // }
+	const axiosAuth = useAxiosAuth()
 
-  // useEffect(() => {
-  //   getProfile()
-  // }, [])
-  return (
-    <div>
-      <div>
+	const getProfile = async () => {
+		const userProfile: AxiosResponse<IApi<IApiProfile>> = await axiosAuth.get(
+			`/v1/user`
+		)
+
+	}
+
+	useEffect( () => {
+		getProfile()
+	}, [] )
+
+	const updateSession = async () => {
+		await update( {
+			...session,
+			accessToken : 'cupu',
+			user        : {
+				...session?.user,
+				name : 'kuning',
+			},
+		} )
+	}
+	
+	return (
+		<div className="overflow-hidden">
+			<div>
         ClientComponent {status}{' '}
-        {status === 'authenticated' && session?.user?.name}
-      </div>
-      <ul>
-        <li>{session?.accessToken}</li>
-        <li>{session?.oauthAccessToken}</li>
-      </ul>
-      <button onClick={() => signOut()}>Sign out</button>
-      <button onClick={() => signIn('github')}>Sign in</button>
-    </div>
-  )
+				{status === 'authenticated' && session?.user?.name}
+			</div>
+			<ul>
+				<li>
+					<p className="break-all">{session?.accessToken}</p>
+				</li>
+				<li>
+					<p>{session?.oauthAccessToken}</p>
+				</li>
+			</ul>
+
+			<button onClick={() => updateSession()}>UpdateName</button>
+			<button onClick={() => signOut()}>Sign out</button>
+			<button onClick={() => signIn( 'github' )}>Sign in</button>
+		</div>
+	)
 }
 
 export default Test

@@ -14,6 +14,7 @@
     "@fortawesome/free-regular-svg-icons": "^6.4.2",
     "@fortawesome/free-solid-svg-icons": "^6.4.2",
     "@fortawesome/react-fontawesome": "^0.2.0",
+    "@tanstack/react-query": "^5.8.4",
     "@types/node": "20.6.3",
     "@types/react": "18.2.22",
     "@types/react-dom": "18.2.7",
@@ -35,6 +36,7 @@
     "universal-cookie": "^6.1.1"
   },
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^6.12.0",
     "sass": "^1.68.0"
   }
 }
