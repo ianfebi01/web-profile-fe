@@ -4,7 +4,6 @@ import axios, { AxiosResponse } from 'axios';
 import { NextAuthOptions } from 'next-auth';
 import GithubProvider from 'next-auth/providers/github';
 import getConfig from 'next/config';
-import { cookies } from 'next/headers'
 
 export const authOptions: NextAuthOptions = {
 	// Secret for Next-auth, without this JWT encryption/decryption won't work

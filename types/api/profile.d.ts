@@ -8,3 +8,8 @@ export interface IApiProfile{
         accessToken: string
         refreshToken: string
 }
+export interface IApiPayload{
+        email: string
+        name: string
+        quote?: string | null
+}
