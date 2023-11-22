@@ -12,7 +12,7 @@ const useAxiosAuth = () => {
 		const requestIntercept = apiAuth.interceptors.request.use(
 			( config ) => {
 				if ( !config.headers["Authorization"] ) {
-					config.headers["Authorization"] = `Bearer ${session?.accessToken}`;
+					config.headers["Authorization"] = `Bearer ${session?.user?.accessToken}`;
 				}
 				
 				return config;
@@ -34,7 +34,7 @@ const useAxiosAuth = () => {
 					// get new session because we updated the session on useRefreshToken hooks
 					const newSession = await getSession()
 
-					prevRequest.headers["Authorization"] = `Bearer ${newSession?.accessToken }`;
+					prevRequest.headers["Authorization"] = `Bearer ${newSession?.user?.accessToken }`;
 					
 					return apiAuth( prevRequest );
 				}

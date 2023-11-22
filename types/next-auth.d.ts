@@ -1,4 +1,6 @@
+// eslint-disable-next-line
 import NextAuth from "next-auth"
+// eslint-disable-next-line
 import { IApiProfile } from "./api/profile"
 
 declare module "next-auth" {
@@ -8,16 +10,15 @@ declare module "next-auth" {
   interface Session {
 
       /** Access Token. */
-      accessToken: string,
-      refreshToken: string,
+    user: IApiProfile & {
       oauthAccessToken: string
+    }
 
   }
   interface Account {
       /** Access Token. */
-      api_token:{
-        access_token?: string,
-        refresh_token?: string
+      apiData:  IApiProfile & {
+        oauthAccessToken?: string
       }
   }
 }

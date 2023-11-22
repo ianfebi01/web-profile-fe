@@ -30,11 +30,8 @@ const Test: FunctionComponent<Props> = () => {
 	const updateSession = async () => {
 		await update( {
 			...session,
+			name        : 'feee',
 			accessToken : 'cupu',
-			user        : {
-				...session?.user,
-				name : 'kuning',
-			},
 		} )
 	}
 	
@@ -46,10 +43,10 @@ const Test: FunctionComponent<Props> = () => {
 			</div>
 			<ul>
 				<li>
-					<p className="break-all">{session?.accessToken}</p>
+					<p className="break-all">{session?.user?.accessToken}</p>
 				</li>
 				<li>
-					<p>{session?.oauthAccessToken}</p>
+					<p>{session?.user?.oauthAccessToken}</p>
 				</li>
 			</ul>
 

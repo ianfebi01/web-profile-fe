@@ -38,14 +38,12 @@ export const authOptions: NextAuthOptions = {
 					Authorization : 'Bearer ' + account?.access_token
 				}
 			} )
-			const { accessToken, refreshToken } = userProfile.data.data
+			const data = userProfile.data.data
 
 			if( account ){
-				cookies().set( 'accessToken', accessToken )
-				cookies().set( 'refreshToken', refreshToken )
-				account.api_token ={
-					access_token  : accessToken,
-					refresh_token : refreshToken
+				account.apiData ={
+					...data,
+					oauthAccessToken : account.access_token
 				}
 			}
 			
@@ -56,27 +54,35 @@ export const authOptions: NextAuthOptions = {
 
 			if ( account && trigger === 'signIn' ) {
 
-				token.oauthAccessToken = account.access_token
-				token.accessToken = account.api_token.access_token
-				token.refreshToken = account.api_token.refresh_token
+				token = {
+					...account.apiData
+				}
+				// token.oauthAccessToken = account.access_token
+				// token.accessToken = account.api_token.access_token
+				// token.refreshToken = account.api_token.refresh_token
 			}
 
 			if ( trigger === 'update' ) {
-				token.oauthAccessToken = session.oauthAccessToken
-				token.accessToken = session.accessToken
-				token.refreshToken = session.refreshToken
+				// token.oauthAccessToken = session.oauthAccessToken
+				// token.accessToken = session.accessToken
+				// token.refreshToken = session.refreshToken
+				token ={
+					...token,
+					...session.user
+				}
 				
 				return { ...token, ...session }
 			}
-      
+			
 			return token
 		},
 		async session( { session, token } ) {
 			// Send properties to the client, like an access_token from a provider.
-			
-			session.oauthAccessToken = token.oauthAccessToken as string
-			session.accessToken = token.accessToken as string
-			session.refreshToken = token.refreshToken as string
+
+			// session.oauthAccessToken = token.oauthAccessToken as string
+			// session.accessToken = token.accessToken as string
+			// session.refreshToken = token.refreshToken as string
+			session.user = token as any
 			
 			return session
 		}

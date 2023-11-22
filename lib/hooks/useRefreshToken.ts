@@ -27,11 +27,17 @@ export const useRefreshToken = () => {
 		)
 		const res = await api.get( "/v1/auth/refresh", {
 			headers : {
-				Authorization : 'Bearer ' + session?.refreshToken
+				Authorization : 'Bearer ' + session?.user?.refreshToken
 			}
 		} );
     
-		if ( session ) await  updateSession( { ...session, accessToken : res.data.data.accessToken } )
+		if ( session ) await  updateSession( { 
+			...session, 
+			user : {
+				...session.user,
+				accessToken : res.data.data.accessToken
+			} 
+		} )
 		else signIn();
 	};
 	
