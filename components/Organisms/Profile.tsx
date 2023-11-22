@@ -40,9 +40,11 @@ const Profile = () => {
 
 	// Schema
 	const schema = yup.object( {
-		name  : yup.string().min( 3 ).max( 30 ).required().label( 'Name' ),
-		email : yup.string().email().required().label( 'Email' ),
-		quote : yup.string().min( 3 ).max( 200 ).label( 'Quote' ),
+		name   : yup.string().min( 3 ).max( 30 ).required().label( 'Name' ),
+		email  : yup.string().email().required().label( 'Email' ),
+		quote  : yup.string().min( 3 ).max( 200 ).label( 'Quote' ),
+		textBg : yup.string().min( 3 ).max( 10 ).label( 'Text on background' ),
+
 	} )
 	// formdata
 	const [formData, setFormData] = useState<FormData>();
@@ -88,6 +90,11 @@ const Profile = () => {
 						label='Quote'
 						name="quote"
 						placeholder="eg. Hari yang cerah"
+					/>
+					<FormikField     
+						label='Text on background'
+						name="textBg"
+						placeholder="eg. IAN FEBI"
 					/>
 					<FormikField     
 						label='Person Image'
