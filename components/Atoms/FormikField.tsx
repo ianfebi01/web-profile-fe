@@ -53,7 +53,6 @@ const FormikField: FunctionComponent<Props> = ( props ) => {
 							onChange={handleImage}
 
 						/> 
-						{imageUrl}
 						{
 							imageUrl ? 
 								<div className=' aspect-square w-60 relative' >
