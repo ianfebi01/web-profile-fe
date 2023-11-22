@@ -31,7 +31,7 @@ export const useRefreshToken = () => {
 			}
 		} );
     
-		if ( session ) updateSession( { ...session, accessToken : res.data.data.accessToken } )
+		if ( session ) await  updateSession( { ...session, accessToken : res.data.data.accessToken } )
 		else signIn();
 	};
 	

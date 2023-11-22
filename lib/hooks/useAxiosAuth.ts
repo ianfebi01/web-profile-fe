@@ -1,5 +1,5 @@
 "use client";
-import { useSession } from "next-auth/react";
+import { getSession, useSession } from "next-auth/react";
 import { useEffect } from "react";
 import { useRefreshToken } from "./useRefreshToken";
 import { apiAuth } from "../api";
@@ -28,8 +28,13 @@ const useAxiosAuth = () => {
 				// When access token invalid
 				if ( error?.response?.status === 401 && !prevRequest?.sent ) {
 					prevRequest.sent = true;
+					
 					await refreshToken();
-					prevRequest.headers["Authorization"] = `Bearer ${session?.accessToken}`;
+
+					// get new session because we updated the session on useRefreshToken hooks
+					const newSession = await getSession()
+
+					prevRequest.headers["Authorization"] = `Bearer ${newSession?.accessToken }`;
 					
 					return apiAuth( prevRequest );
 				}

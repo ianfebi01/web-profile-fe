@@ -54,13 +54,18 @@ export const authOptions: NextAuthOptions = {
 		async jwt( { token, account, trigger, session } ) {
 			// Persist the OAuth access_token and or the user id to the token right after signin
 
-			if ( account && trigger !== 'update' ) {
+			if ( account && trigger === 'signIn' ) {
+
 				token.oauthAccessToken = account.access_token
 				token.accessToken = account.api_token.access_token
 				token.refreshToken = account.api_token.refresh_token
 			}
 
 			if ( trigger === 'update' ) {
+				token.oauthAccessToken = session.oauthAccessToken
+				token.accessToken = session.accessToken
+				token.refreshToken = session.refreshToken
+				
 				return { ...token, ...session }
 			}
       
@@ -68,7 +73,7 @@ export const authOptions: NextAuthOptions = {
 		},
 		async session( { session, token } ) {
 			// Send properties to the client, like an access_token from a provider.
-      
+			
 			session.oauthAccessToken = token.oauthAccessToken as string
 			session.accessToken = token.accessToken as string
 			session.refreshToken = token.refreshToken as string
