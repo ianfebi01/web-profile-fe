@@ -7,6 +7,7 @@ import { Form, FormikProvider, useFormik } from 'formik'
 import useAxiosAuth from '@/lib/hooks/useAxiosAuth'
 import { useMutation } from '@tanstack/react-query'
 import Button2 from '../Atoms/Button2'
+import Spinner from '../Atoms/Spinner'
 
 const Profile = () => {
 
@@ -103,7 +104,12 @@ const Profile = () => {
 						fieldType='image'
 						defaultImageUrl={session?.user.personImage}
 					/>
-					<Button2 disabled={!formik.isValid} type="submit">{isPending ? 'Loading..':'Submit'}</Button2>
+					<Button2 disabled={!formik.isValid} type="submit">{isPending ? 
+						<div className='flex gap-2 items-center'>
+							<Spinner/>
+							<p>Loading..</p>
+						</div>
+						:'Submit'}</Button2>
 				</Form>
 			</FormikProvider>
 		</section>
