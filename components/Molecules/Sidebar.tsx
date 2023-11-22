@@ -5,10 +5,13 @@ import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
 import React from 'react'
 import ButtonSignOut from '../Atoms/ButtonSignOut'
+import { useSession } from 'next-auth/react'
 
 const Sidebar = () => {
 	const pathname = usePathname()
 	const router = useRouter()
+
+	const { data:session } = useSession()
 	
 	return (
 		<aside
@@ -64,7 +67,16 @@ const Sidebar = () => {
 				</ul>
 			</div>
 			<div className="px-3">
-				<ButtonSignOut />
+				<div>
+					<div className='bg-transparent hover:bg-dark border border-white/25 hover:border-transparent p-2 transition-all ease-in-out duration-500 text-base text-white flex items-center gap-2 w-full rounded-lg'>
+						<Image src={session?.user?.avatar as string} alt='Avatar' width={40} height={40} className='border border-none rounded-full overflow-hidden'/>
+						<div className='flex flex-col gap-2'>
+							<h2 className='line-clamp-1 text-xs'>{session?.user?.name}</h2>
+							<p className='line-clamp-1 text-[0.5rem] leading-none'>{session?.user?.email}</p>
+						</div>
+						<ButtonSignOut iconOnly/>
+					</div>
+				</div>
 			</div>
 		</aside>
 	)

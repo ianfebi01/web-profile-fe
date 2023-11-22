@@ -2,17 +2,31 @@
 import { faSignOut } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { signOut } from 'next-auth/react'
-import React from 'react'
+import React, { FunctionComponent, useMemo } from 'react'
 
-const ButtonSignOut = () => {
+interface Props{
+	iconOnly?: boolean
+}
+const ButtonSignOut: FunctionComponent<Props> = ( props ) => {
+	const { iconOnly = false } = props
+	const classes = useMemo( ()=>{
+		const buttonClasses = 'bg-transparent hover:bg-dark  p-2 transition-all ease-in-out duration-500 text-base text-white flex items-center gap-2 rounded-lg'
+		if ( iconOnly ){
+			return `${buttonClasses} w-fit border hover:border-white/25 border-transparent`
+		}else{
+			return `${buttonClasses} w-full border border-white/25 hover:border-transparent`
+		}
+	}, [props] )
+	
 	return (
 		<button
-			className="bg-transparent hover:bg-dark border border-white/25 hover:border-transparent p-2 transition-all ease-in-out duration-500 text-base text-white flex items-center gap-2 w-full rounded-lg"
+			className={classes}
 			onClick={() => signOut( { callbackUrl : '/' } )}
 			type="button"
 		>
-			<p>Sign Out</p>
-			<div className="grow-[1]"></div>
+			{!iconOnly && <p>Sign Out</p> }
+			{!iconOnly && <div className="grow-[1]"></div> }
+			
 			<FontAwesomeIcon icon={faSignOut} size="sm" />
 		</button>
 	)

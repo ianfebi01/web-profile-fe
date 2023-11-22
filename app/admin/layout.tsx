@@ -26,14 +26,14 @@ export default async function AdminLayout( {
 	
 	return (
 		<main className={`h-screen overflow-hidden ${inter.className}`}>
-			<Sidebar />
-			<section className="ml-64 h-full flex flex-col">
-				<div className="mx-6 mt-6 p-4 border border-none rounded-lg bg-dark-secondary grow-[1]">
-					<NextAuthProvider session={session as Session}>
+			<NextAuthProvider session={session as Session}>
+				<Sidebar />
+				<section className="ml-64 h-full flex flex-col">
+					<div className="mx-6 mt-6 p-4 border border-none rounded-lg bg-dark-secondary grow-[1]">
 						<ReactQueryProvider>{children}</ReactQueryProvider>
-					</NextAuthProvider>
-				</div>
-			</section>
+					</div>
+				</section>
+			</NextAuthProvider>
 		</main>
 	)
 }
