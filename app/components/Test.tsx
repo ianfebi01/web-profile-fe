@@ -33,8 +33,11 @@ const Test: FunctionComponent<Props> = () => {
 	const updateSession = async () => {
 		await update( {
 			...session,
-			name        : 'feee',
-			accessToken : 'cupu',
+			user : {
+				...session?.user,
+				name        : 'feee',
+				accessToken : 'cupu',
+			}
 		} )
 	}
 	

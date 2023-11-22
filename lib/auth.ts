@@ -70,7 +70,7 @@ export const authOptions: NextAuthOptions = {
 					...session.user
 				}
 				
-				return { ...token, ...session }
+				return { ...token, ...session.user }
 			}
 			
 			return token
