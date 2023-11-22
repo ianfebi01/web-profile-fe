@@ -1,11 +1,13 @@
 import Profile from "@/components/Organisms/Profile";
+import Test from "../components/Test";
 
 export default async function Admin() {
 
 	return (
-		<div className="flex flex-col gap-6">
+		<div className="flex flex-col gap-6 overflow-scroll">
 			<h1 className="text-2xl font-semibold ">Update Profile</h1>
 			<Profile/>
+			<Test/>
 		</div>
 	)
 }

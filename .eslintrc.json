@@ -33,7 +33,9 @@
 
     // React
     "react/react-in-jsx-scope": "off",
-    "react/jsx-max-props-per-line": [1, { "maximum": 2 }]
+    "react/jsx-max-props-per-line": [1, { "maximum": 2 }],
+    "react/jsx-closing-bracket-location": 1
+    // "react/jsx-tag-spacing":[{ "closingSlash": "never" }]
 
 
     

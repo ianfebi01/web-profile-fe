@@ -5,6 +5,8 @@ export interface IApiProfile{
         avatar: string
         quote?: string | null
         positionId?: string | null
+        personImage?: string
+        textBg?: string
         accessToken: string
         refreshToken: string
 }

@@ -6,6 +6,9 @@ import { AxiosResponse } from 'axios'
 import { signIn, signOut, useSession } from 'next-auth/react'
 import React, { FunctionComponent, useEffect } from 'react'
 import useAxiosAuth from '@/lib/hooks/useAxiosAuth'
+import Button2 from '@/components/Atoms/Button2'
+import ButtonSignIn from '@/components/Atoms/ButtonSignIn'
+import ButtonSignOut from '@/components/Atoms/ButtonSignOut'
 
 interface Props {
   // session: Session | null
@@ -36,23 +39,33 @@ const Test: FunctionComponent<Props> = () => {
 	}
 	
 	return (
-		<div className="overflow-hidden">
+		<div className="overflow-hidden flex flex-col gap-2">
 			<div>
-        ClientComponent {status}{' '}
-				{status === 'authenticated' && session?.user?.name}
+				<p>
+        		Client Component {status}
+				</p>
+				<p className='text-red-300'>
+					{status === 'authenticated' && session?.user?.name}
+				</p>
 			</div>
-			<ul>
-				<li>
+			<ul className='flex flex-col gap-2'>
+				<li className='flex gap-4 bg-dark-secondary p-2 border border-none rounded-lg'>
+					<p>Access Token</p>
 					<p className="break-all">{session?.user?.accessToken}</p>
 				</li>
-				<li>
-					<p>{session?.user?.oauthAccessToken}</p>
+				<li className='flex gap-4 bg-dark-secondary p-2 border border-none rounded-lg'>
+					<p>Oauth Access Token</p>
+					<p className="break-all">{session?.user?.oauthAccessToken}</p>
+				</li>
+				<li className='flex gap-4 bg-dark-secondary p-2 border border-none rounded-lg'>
+					<p>Session expires</p>
+					<p className="break-all">{session?.expires}</p>
 				</li>
 			</ul>
 
-			<button onClick={() => updateSession()}>UpdateName</button>
-			<button onClick={() => signOut()}>Sign out</button>
-			<button onClick={() => signIn( 'github' )}>Sign in</button>
+			<Button2 type='button' onClick={() => updateSession()}>UpdateName</Button2>
+			<ButtonSignOut/>
+			<ButtonSignIn/>
 		</div>
 	)
 }
