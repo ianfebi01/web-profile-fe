@@ -104,7 +104,7 @@ const Profile = () => {
 						fieldType='image'
 						defaultImageUrl={session?.user.personImage}
 					/>
-					<Button2 disabled={!formik.isValid} type="submit">{isPending ? 
+					<Button2 disabled={!formik.isValid || isPending} type="submit">{isPending ? 
 						<div className='flex gap-2 items-center'>
 							<Spinner/>
 							<p>Loading..</p>
