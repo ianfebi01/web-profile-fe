@@ -36,7 +36,6 @@ const Position = () => {
 	
 	return (
 		<div className='flex flex-col gap-8'>
-
 			<SearchInput placeholder='Search position' type='text'
 				value={params.q} setValue={( value: string )=> setParams( {
 					...params,
