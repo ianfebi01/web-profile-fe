@@ -41,10 +41,11 @@ const Profile = () => {
 
 	// Schema
 	const schema = yup.object( {
-		name   : yup.string().min( 3 ).max( 30 ).required().label( 'Name' ),
-		email  : yup.string().email().required().label( 'Email' ),
-		quote  : yup.string().min( 3 ).max( 200 ).label( 'Quote' ),
-		textBg : yup.string().min( 3 ).max( 10 ).label( 'Text on background' ),
+		name       : yup.string().min( 3 ).max( 30 ).required().label( 'Name' ),
+		email      : yup.string().email().required().label( 'Email' ),
+		quote      : yup.string().min( 3 ).max( 200 ).label( 'Quote' ),
+		textBg     : yup.string().min( 3 ).max( 10 ).label( 'Text on background' ),
+		openToWork : yup.boolean().required().label( 'Open to work' ),
 
 	} )
 	// formdata
@@ -52,11 +53,12 @@ const Profile = () => {
 	// Formik
 	const formik = useFormik( {
 		initialValues : {
-			name   : session?.user.name || '',
-			email  : session?.user.email || '',
-			quote  : session?.user.quote || '',
+			name       : session?.user.name || '',
+			email      : session?.user.email || '',
+			quote      : session?.user.quote || '',
 			// personImage : session?.user.personImage || '',
-			textBg : session?.user.textBg || '',
+			textBg     : session?.user.textBg || '',
+			openToWork : session?.user.openToWork || false
 
 		},
 		validationSchema : schema,
@@ -67,7 +69,14 @@ const Profile = () => {
 
 	const onSubmit = ( e: FormEvent<HTMLFormElement> )=>{
 		e.preventDefault();
-		setFormData( new FormData( e.target as HTMLFormElement ) )
+		const formData =  new FormData( e.target as HTMLFormElement )
+
+		// parse boolean value to formdata
+		if( !formData.get( 'openToWork' ) ){
+			formData.append( 'openToWork', "false" )
+		}
+		
+		setFormData( formData )
 
 		formik.handleSubmit( e )
 	}
@@ -96,6 +105,12 @@ const Profile = () => {
 						label='Text on background'
 						name="textBg"
 						placeholder="eg. IAN FEBI"
+					/>
+					<FormikField     
+						label='Open to work'
+						name="openToWork"
+						placeholder="Open to work"
+						fieldType='switch'
 					/>
 					<FormikField     
 						label='Person Image'

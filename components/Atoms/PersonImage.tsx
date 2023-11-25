@@ -38,8 +38,15 @@ const PersonImage = () => {
 					duration : 0.5,
 					ease     : easeInOut,
 				}}
+				className='w-[261px] h-[391px] relative'
+
 			>
-				<Image src="/me-3.png" alt="Profile image" width={261} height={391} />
+				<Image src="/me-3.png" alt="Profile image"
+					fill
+					priority
+					className='relative'
+					sizes='auto'
+				/>
 			</motion.div>
 		</div>
 	)

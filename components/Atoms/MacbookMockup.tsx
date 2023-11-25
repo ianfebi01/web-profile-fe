@@ -17,7 +17,7 @@ const MacbookMockup: FunctionComponent<Props> = ( { image } ) => {
 				<path
 					d="M263.053 165.539L33.8019 165.539C31.3284 165.539 25.3415 166.185 20.4298 166.981C15.518 167.777 13.8409 168.423 16.6838 168.423L280.171 168.423C283.014 168.423 281.337 167.777 276.425 166.981C271.514 166.185 265.527 165.539 263.053 165.539Z"
 					fill="black"
-					fill-opacity="0.4"
+					fillOpacity="0.4"
 				/>
 			</g>
 			<g filter="url(#filter1_dd_153_90)">
@@ -58,24 +58,27 @@ const MacbookMockup: FunctionComponent<Props> = ( { image } ) => {
 			</mask>
 			<g mask="url(#mask0_153_90)">
 				{/* <rect x="37" y="12" width="223" height="139" fill="currentColor" /> */}
-				<image x="37" y="12" width="223" height="139" xlinkHref={image}></image>
+				<image x="37" y="12"
+					width="223" height="139"
+					xlinkHref={image}
+				></image>
 			</g>
 			<path
-				fill-rule="evenodd"
-				clip-rule="evenodd"
+				fillRule="evenodd"
+				clipRule="evenodd"
 				d="M148.5 8.48961C148.06 8.48961 147.704 8.1345 147.704 7.69644C147.704 7.25838 148.06 6.90326 148.5 6.90326C148.94 6.90326 149.296 7.25838 149.296 7.69644C149.296 8.1345 148.94 8.48961 148.5 8.48961Z"
 				fill="#262C2D"
 			/>
 			<path
-				fill-rule="evenodd"
-				clip-rule="evenodd"
+				fillRule="evenodd"
+				clipRule="evenodd"
 				d="M148.5 8.19216C148.225 8.19216 148.003 7.97021 148.003 7.69642C148.003 7.42263 148.225 7.20068 148.5 7.20068C148.775 7.20068 148.997 7.42263 148.997 7.69642C148.997 7.97021 148.775 8.19216 148.5 8.19216Z"
 				fill="#121515"
 			/>
 			<path
 				opacity="0.4"
-				fill-rule="evenodd"
-				clip-rule="evenodd"
+				fillRule="evenodd"
+				clipRule="evenodd"
 				d="M148.5 7.59728C148.445 7.59728 148.4 7.55289 148.4 7.49813C148.4 7.44338 148.445 7.39899 148.5 7.39899C148.555 7.39899 148.599 7.44338 148.599 7.49813C148.599 7.55289 148.555 7.59728 148.5 7.59728Z"
 				fill="#636F73"
 			/>
@@ -96,8 +99,8 @@ const MacbookMockup: FunctionComponent<Props> = ( { image } ) => {
 				fill="url(#paint2_linear_153_90)"
 			/>
 			<path
-				fill-rule="evenodd"
-				clip-rule="evenodd"
+				fillRule="evenodd"
+				clipRule="evenodd"
 				d="M148.717 163.231L294 163.231C294 163.231 287.633 167.269 266.723 167.269L148.717 167.269L148.428 167.269L30.2767 167.269C9.36697 167.269 3 163.231 3 163.231L148.428 163.231L148.717 163.231Z"
 				fill="url(#paint3_linear_153_90)"
 			/>
@@ -118,8 +121,8 @@ const MacbookMockup: FunctionComponent<Props> = ( { image } ) => {
 				fill="url(#paint6_linear_153_90)"
 			/>
 			<path
-				fill-rule="evenodd"
-				clip-rule="evenodd"
+				fillRule="evenodd"
+				clipRule="evenodd"
 				d="M148.717 163.231L294 163.231C294 163.231 287.633 167.269 266.723 167.269L148.717 167.269L148.428 167.269L30.2767 167.269C9.36697 167.269 3 163.231 3 163.231L148.428 163.231L148.717 163.231Z"
 				fill="url(#paint7_linear_153_90)"
 			/>
@@ -131,9 +134,9 @@ const MacbookMockup: FunctionComponent<Props> = ( { image } ) => {
 					width="296.256"
 					height="32.8843"
 					filterUnits="userSpaceOnUse"
-					color-interpolation-filters="sRGB"
+					colorInterpolationFilters="sRGB"
 				>
-					<feFlood flood-opacity="0" result="BackgroundImageFix" />
+					<feFlood floodOpacity="0" result="BackgroundImageFix" />
 					<feBlend
 						mode="normal"
 						in="SourceGraphic"
@@ -152,9 +155,9 @@ const MacbookMockup: FunctionComponent<Props> = ( { image } ) => {
 					width="243.723"
 					height="169.231"
 					filterUnits="userSpaceOnUse"
-					color-interpolation-filters="sRGB"
+					colorInterpolationFilters="sRGB"
 				>
-					<feFlood flood-opacity="0" result="BackgroundImageFix" />
+					<feFlood floodOpacity="0" result="BackgroundImageFix" />
 					<feColorMatrix
 						in="SourceAlpha"
 						type="matrix"
@@ -204,14 +207,14 @@ const MacbookMockup: FunctionComponent<Props> = ( { image } ) => {
 					y2="161.068"
 					gradientUnits="userSpaceOnUse"
 				>
-					<stop stop-color="#303135" />
-					<stop offset="0.0218797" stop-color="#535458" />
-					<stop offset="0.0363004" stop-color="#4D4E52" />
-					<stop offset="0.05818" stop-color="#333438" />
-					<stop offset="0.0865241" stop-color="#35363A" />
-					<stop offset="0.135753" stop-color="#4E4F53" />
-					<stop offset="0.756906" stop-color="#818286" />
-					<stop offset="1" stop-color="#818286" />
+					<stop stopColor="#303135" />
+					<stop offset="0.0218797" stopColor="#535458" />
+					<stop offset="0.0363004" stopColor="#4D4E52" />
+					<stop offset="0.05818" stopColor="#333438" />
+					<stop offset="0.0865241" stopColor="#35363A" />
+					<stop offset="0.135753" stopColor="#4E4F53" />
+					<stop offset="0.756906" stopColor="#818286" />
+					<stop offset="1" stopColor="#818286" />
 				</linearGradient>
 				<linearGradient
 					id="paint1_linear_153_90"
@@ -221,14 +224,14 @@ const MacbookMockup: FunctionComponent<Props> = ( { image } ) => {
 					y2="161.068"
 					gradientUnits="userSpaceOnUse"
 				>
-					<stop stop-color="#303135" />
-					<stop offset="0.0218797" stop-color="#535458" />
-					<stop offset="0.0363004" stop-color="#4D4E52" />
-					<stop offset="0.05818" stop-color="#333438" />
-					<stop offset="0.0865241" stop-color="#35363A" />
-					<stop offset="0.135753" stop-color="#4E4F53" />
-					<stop offset="0.756906" stop-color="#818286" />
-					<stop offset="1" stop-color="#818286" />
+					<stop stopColor="#303135" />
+					<stop offset="0.0218797" stopColor="#535458" />
+					<stop offset="0.0363004" stopColor="#4D4E52" />
+					<stop offset="0.05818" stopColor="#333438" />
+					<stop offset="0.0865241" stopColor="#35363A" />
+					<stop offset="0.135753" stopColor="#4E4F53" />
+					<stop offset="0.756906" stopColor="#818286" />
+					<stop offset="1" stopColor="#818286" />
 				</linearGradient>
 				<linearGradient
 					id="paint2_linear_153_90"
@@ -238,10 +241,14 @@ const MacbookMockup: FunctionComponent<Props> = ( { image } ) => {
 					y2="160.347"
 					gradientUnits="userSpaceOnUse"
 				>
-					<stop stop-opacity="0.5" />
-					<stop offset="0.139373" stop-color="#818487" stop-opacity="0" />
-					<stop offset="0.860627" stop-color="#818487" stop-opacity="0" />
-					<stop offset="1" stop-opacity="0.5" />
+					<stop stopOpacity="0.5" />
+					<stop offset="0.139373" stopColor="#818487"
+						stopOpacity="0"
+					/>
+					<stop offset="0.860627" stopColor="#818487"
+						stopOpacity="0"
+					/>
+					<stop offset="1" stopOpacity="0.5" />
 				</linearGradient>
 				<linearGradient
 					id="paint3_linear_153_90"
@@ -251,8 +258,8 @@ const MacbookMockup: FunctionComponent<Props> = ( { image } ) => {
 					y2="167.269"
 					gradientUnits="userSpaceOnUse"
 				>
-					<stop stop-color="#303135" />
-					<stop offset="1" stop-color="#08090D" />
+					<stop stopColor="#303135" />
+					<stop offset="1" stopColor="#08090D" />
 				</linearGradient>
 				<linearGradient
 					id="paint4_linear_153_90"
@@ -262,14 +269,14 @@ const MacbookMockup: FunctionComponent<Props> = ( { image } ) => {
 					y2="161.068"
 					gradientUnits="userSpaceOnUse"
 				>
-					<stop stop-color="#717576" />
-					<stop offset="0.016907" stop-color="#9C9FA1" />
-					<stop offset="0.0353058" stop-color="#9C9FA1" />
-					<stop offset="0.0571855" stop-color="#797E82" />
-					<stop offset="0.0979612" stop-color="#797E82" />
-					<stop offset="0.151169" stop-color="#B2B5B7" />
-					<stop offset="0.756906" stop-color="#CACDCF" />
-					<stop offset="1" stop-color="#CACDCF" />
+					<stop stopColor="#717576" />
+					<stop offset="0.016907" stopColor="#9C9FA1" />
+					<stop offset="0.0353058" stopColor="#9C9FA1" />
+					<stop offset="0.0571855" stopColor="#797E82" />
+					<stop offset="0.0979612" stopColor="#797E82" />
+					<stop offset="0.151169" stopColor="#B2B5B7" />
+					<stop offset="0.756906" stopColor="#CACDCF" />
+					<stop offset="1" stopColor="#CACDCF" />
 				</linearGradient>
 				<linearGradient
 					id="paint5_linear_153_90"
@@ -279,14 +286,14 @@ const MacbookMockup: FunctionComponent<Props> = ( { image } ) => {
 					y2="161.068"
 					gradientUnits="userSpaceOnUse"
 				>
-					<stop stop-color="#717576" />
-					<stop offset="0.016907" stop-color="#9C9FA1" />
-					<stop offset="0.0353058" stop-color="#9C9FA1" />
-					<stop offset="0.0571855" stop-color="#797E82" />
-					<stop offset="0.0979612" stop-color="#797E82" />
-					<stop offset="0.151169" stop-color="#B2B5B7" />
-					<stop offset="0.756906" stop-color="#CACDCF" />
-					<stop offset="1" stop-color="#CACDCF" />
+					<stop stopColor="#717576" />
+					<stop offset="0.016907" stopColor="#9C9FA1" />
+					<stop offset="0.0353058" stopColor="#9C9FA1" />
+					<stop offset="0.0571855" stopColor="#797E82" />
+					<stop offset="0.0979612" stopColor="#797E82" />
+					<stop offset="0.151169" stopColor="#B2B5B7" />
+					<stop offset="0.756906" stopColor="#CACDCF" />
+					<stop offset="1" stopColor="#CACDCF" />
 				</linearGradient>
 				<linearGradient
 					id="paint6_linear_153_90"
@@ -296,10 +303,14 @@ const MacbookMockup: FunctionComponent<Props> = ( { image } ) => {
 					y2="160.347"
 					gradientUnits="userSpaceOnUse"
 				>
-					<stop stop-opacity="0.5" />
-					<stop offset="0.139373" stop-color="#818487" stop-opacity="0" />
-					<stop offset="0.860627" stop-color="#818487" stop-opacity="0" />
-					<stop offset="1" stop-opacity="0.5" />
+					<stop stopOpacity="0.5" />
+					<stop offset="0.139373" stopColor="#818487"
+						stopOpacity="0"
+					/>
+					<stop offset="0.860627" stopColor="#818487"
+						stopOpacity="0"
+					/>
+					<stop offset="1" stopOpacity="0.5" />
 				</linearGradient>
 				<linearGradient
 					id="paint7_linear_153_90"
@@ -309,8 +320,8 @@ const MacbookMockup: FunctionComponent<Props> = ( { image } ) => {
 					y2="167.269"
 					gradientUnits="userSpaceOnUse"
 				>
-					<stop stop-color="#838688" />
-					<stop offset="1" stop-color="#17191B" />
+					<stop stopColor="#838688" />
+					<stop offset="1" stopColor="#17191B" />
 				</linearGradient>
 			</defs>
 		</svg>

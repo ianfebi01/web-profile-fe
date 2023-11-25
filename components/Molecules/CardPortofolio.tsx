@@ -70,6 +70,7 @@ const CardPortofolio: FunctionComponent<Props> = ( props ) => {
 								style={{
 									objectFit : 'contain',
 								}}
+								sizes='auto'
 								alt="Icon"
 							/>
 						</div>
@@ -93,6 +94,7 @@ const CardPortofolio: FunctionComponent<Props> = ( props ) => {
 							alt="Project Image"
 							fill
 							priority
+							sizes='auto'
 							style={{
 								objectFit : 'contain',
 							}}

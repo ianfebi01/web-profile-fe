@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useRef } from 'react'
+import React, { FunctionComponent, useEffect, useMemo, useRef } from 'react'
 import {
 	useAnimation,
 	useInView,
@@ -8,7 +8,21 @@ import {
 	easeOut,
 } from 'framer-motion'
 
-const TextBackground = () => {
+interface Props{
+	textBg: string
+}
+
+const TextBackground: FunctionComponent<Props> = ( { textBg } ) => {
+
+	// Split Text
+	const textSplited = useMemo( ()=>{
+		const splitBySpaces = textBg.split( ' ' )
+		if( splitBySpaces.length ){
+			return [splitBySpaces[0], textBg.slice( splitBySpaces[0].length + 1 ) ]
+		}else return [textBg]
+
+	}, [textBg] )
+
 	const textRef = useRef( null )
 	const textView = useInView( textRef, {
 		once : true,
@@ -47,8 +61,16 @@ const TextBackground = () => {
 				}}
 				className="flex flex-col sm:flex-row sm:gap-8 text-center"
 			>
-				<h1 className="leading-none m-0">IAN</h1>
-				<h1 className="text-orange leading-none">FEBI</h1>
+				{textSplited?.length ?
+					<>
+						<h1 className="leading-none m-0">{textSplited[0]}</h1>
+						<h1 className="text-orange leading-none">{textSplited[1]}</h1>
+					</>
+					:
+					<h1 className="leading-none m-0">{textSplited[0]}</h1>
+
+				}
+				
 			</motion.div>
 		</div>
 	)

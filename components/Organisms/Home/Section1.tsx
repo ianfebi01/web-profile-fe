@@ -2,9 +2,16 @@ import PersonImage from '@/components/Atoms/PersonImage'
 import Shape from '@/components/Atoms/Shape'
 import TextBackground from '@/components/Atoms/TextBackground'
 import TextSide from '@/components/Atoms/TextSide'
-import React from 'react'
+import { IApiProfile } from '@/types/api/profile'
+import React, { FunctionComponent } from 'react'
 
-const Section1 = () => {
+interface Props{
+	profile: IApiProfile
+}
+
+const Section1: FunctionComponent<Props> = ( props ) => {
+	const { profile } = props
+
 	return (
 		<section
 			id="home"
@@ -13,14 +20,14 @@ const Section1 = () => {
 			<Shape />
 			<div className="main__container mt-20 sm:mt-6 relative overflow-hidden">
 				<div className="text-center sm:text-left transition-default">
-					<p>Ian Febi Sastrataruna</p>
+					<p>{profile?.name}</p>
 					<a href="mailto:ianfebi01@gmail.com" className="text-white-overlay">
-            ianfebi01@gmail.com
+						{profile.email}
 					</a>
 				</div>
-				<TextBackground />
+				<TextBackground textBg={profile?.textBg as string}/>
 				<PersonImage />
-				<TextSide />
+				<TextSide openToWork={profile?.openToWork as boolean} />
 			</div>
 		</section>
 	)

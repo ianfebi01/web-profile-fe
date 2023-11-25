@@ -5,17 +5,18 @@ interface Props{
     children: ReactNode
     onClick?: () => void
     type: 'submit' | 'button' | 'reset'
+	customClases?: string
 }
 
 const Button2: FunctionComponent<Props> = ( props ) => {
 
-	const { disabled, children, onClick, type } = props
+	const { disabled, children, onClick, type, customClases } = props
 	const classes = useMemo( ()=>{
-		const buttonClasses = 'py-2 px-4 transition-all ease-in-out duration-500 text-xs text-white items-center gap-2 rounded-lg border border-transparent w-fit'
+		const buttonClasses = 'py-2 px-4 text-xs text-white items-center gap-2 rounded-lg border border-transparent transition-default w-fit'
 		if ( disabled ){
-			return `${buttonClasses} bg-dark/50 text-white/50`
+			return `${buttonClasses} bg-dark/50 text-white/50 ${customClases}`
 		}else{
-			return `${buttonClasses} bg-dark text-white hover:border-white/25`
+			return `${buttonClasses} bg-dark text-white hover:border-white/25 ${customClases}`
 		}
 	}, [props] )
 	

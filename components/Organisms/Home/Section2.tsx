@@ -1,8 +1,13 @@
 import TextQuote from '@/components/Atoms/TextQuote'
 import Image from 'next/image'
-import React from 'react'
+import React, { FunctionComponent } from 'react'
 
-const Section2 = () => {
+interface Props{
+	quote: string
+}
+const Section2: FunctionComponent<Props> = ( props ) => {
+	const { quote } = props
+	
 	return (
 		<section id="quote" className="main__section h-fit bg-dark-secondary">
 			<div className="main__container my-8 h-full">
@@ -14,14 +19,16 @@ const Section2 = () => {
 							className="absolute top-0 left-0 w-8 h-8 md:w-[52px] md:h-[52px]"
 							width={0}
 							height={0}
+							priority
 						/>
-						<TextQuote />
+						<TextQuote quote={quote} />
 						<Image
 							src="/quote.svg"
 							className="absolute bottom-0 right-0 w-8 h-8 md:w-[52px] md:h-[52px]"
 							width={0}
 							height={0}
 							alt="Quote icon"
+							priority
 						/>
 					</div>
 				</div>

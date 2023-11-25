@@ -1,8 +1,11 @@
 'use client'
-import React, { useEffect, useRef } from 'react'
+import React, { FunctionComponent, useEffect, useRef } from 'react'
 import { motion, useAnimation, useInView } from 'framer-motion'
 
-const TextQuote = () => {
+interface Props{
+	quote: string
+}
+const TextQuote: FunctionComponent<Props> = ( { quote } ) => {
 	const textRef = useRef( null )
 	const isInView = useInView( textRef, {
 		once : true,
@@ -37,8 +40,7 @@ const TextQuote = () => {
 				animate={textControll}
 				className="text-base md:text-2xl font-medium text-center"
 			>
-        Learning is the compass that guides us through the uncharted territories
-        of knowledge, lighting our path toward growth and understanding.
+				{quote}
 			</motion.p>
 		</div>
 	)

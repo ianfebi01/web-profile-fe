@@ -1,5 +1,11 @@
-export interface IApi<T>{
+import { IApiProfile } from "./profile"
+
+export interface IApi<T = void>{
     message: string,
     status: number,
-    data: T
+    data?: T
+}
+
+export interface IApiLanding{
+    profile: IApiProfile
 }
