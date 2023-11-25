@@ -25,12 +25,12 @@ const SearchInput: FunctionComponent<Props> = ( props ) => {
 	}, [] )
 	
 	return (
-		<div className="text-white p-2 border rounded-lg bg-transparent ring-0 focus:ring-0 shadow-none focus:outline-none  transition-default focus:border-white/50 border-white/25 max-w-xs flex items-center gap-2">
+		<div className="text-white p-2 border rounded-lg bg-transparent ring-0 focus:ring-0 shadow-none focus:outline-none  transition-default focus-within:border-white/50 border-white/25 max-w-xs flex items-center gap-2">
 			<FontAwesomeIcon icon={faMagnifyingGlass}/>
 			<input placeholder={placeholder} type={type}
 				value={inputValue}
 				onChange={( e ) => handleChange( e.target.value )}
-				className='bg-transparent ring-0 focus:ring-0 shadow-none focus:outline-none '
+				className='w-full bg-transparent ring-0 focus:ring-0 shadow-none focus:outline-none '
 			/>
 		</div>
 	)
