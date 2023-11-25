@@ -1,13 +1,10 @@
-'use client' // Error components must be Client Components
-
+"use client"
 import Button from '@/components/Atoms/Button'
 import Image from 'next/image'
-
-export default function Error( {
-	reset,
-}: {
-    reset: () => void
-} ) {
+import { useRouter } from 'next/navigation'
+export default function NotFound() {
+	const router = useRouter()
+	
 	return (
 		<div className='h-screen flex flex-col items-center justify-center relative'>
 			<div className='absolute container w-full h-full z-10'>
@@ -20,26 +17,26 @@ export default function Error( {
 			</div>
 			<article className=' max-w-xl flex flex-col items-center justify-center text-center p-4 border rounded-lg border-none relative z-20'>
 				<div className='relative w-60 h-60'>
-					<Image src='/error.svg' 
+					<Image src='/404.svg' 
 						fill
 						sizes='auto'
-						alt='Error image'
+						alt='Not found image'
 						className='object-cover'
 						priority
 					/>
 				</div>
 
-				<h2 className='text-xl mb-4'>Something went wrong!</h2>
+				<h2 className='text-xl mb-4'>Look like you&apos;ve got lost...</h2>
 				<Button
 					onClick={
 						// Attempt to recover by trying to re-render the segment
-						() => reset()
+						() => router.push( '/admin' )
 					}
 				>
-                    Try again
+                    Back to home
 				</Button>
 
 			</article>
-		</div>
+		</div> 
 	)
 }
