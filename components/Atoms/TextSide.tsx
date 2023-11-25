@@ -14,7 +14,6 @@ const TextSide: FunctionComponent<Props> = ( { openToWork } ) => {
 	const textControl = useAnimation()
 	useEffect( () => {
 		textControl.start( 'visible' )
-		console.log( openToWork )
 	}, [textView] )
 	
 	return (
