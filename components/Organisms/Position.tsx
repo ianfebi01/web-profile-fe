@@ -8,6 +8,7 @@ import { useQuery } from '@tanstack/react-query'
 import { AxiosResponse } from 'axios'
 import React, { useState } from 'react'
 import { Pagination } from "react-headless-pagination";
+import SearchInput from '../Atoms/SearchInput'
 
 const Position = () => {
 
@@ -15,11 +16,12 @@ const Position = () => {
     
 	const [params, setParams] = useState<IPayloadPagination>( {
 		page  : 1,
-		limit : 12
+		limit : 12,
+		q     : ''
 	} );
 
 	const{ data } = useQuery<AxiosResponse<IApi<IApiPosition[]> & IApiPagination>>( {
-		queryKey : ['position', params.page],
+		queryKey : ['position', params.page, params.q],
 		queryFn  : async ()=> await axiosAuth.get( '/v1/position', {
 			params : params
 		} ),
@@ -34,6 +36,14 @@ const Position = () => {
 	
 	return (
 		<div className='flex flex-col gap-8'>
+
+			<SearchInput placeholder='Search position' type='text'
+				value={params.q} setValue={( value: string )=> setParams( {
+					...params,
+					q : value
+				} )}
+			/>
+
 			<div className='flex gap-4 flex-wrap'>
 				{
 					data?.data?.data?.map( ( item: IApiPosition, i )=>(

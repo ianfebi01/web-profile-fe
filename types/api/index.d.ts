@@ -13,6 +13,7 @@ export interface IApiLanding{
 export interface IPayloadPagination{
     page: number,
     limit: number,
+    q: string
 }
 export interface IApiPagination{
     page: number,
