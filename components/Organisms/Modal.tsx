@@ -9,13 +9,22 @@ interface Props{
 	desciption?: string
 	children: ReactNode
 	onConfirm: () => void
+	onCancel?: () => void
 	confirmText?: string
 	cancelText?: string
 
 }
 const Modal: FunctionComponent<Props> = ( props ) => {
 
-	const { isOpen, setIsOpen, title, desciption, children, onConfirm, confirmText='Save', cancelText='Cancel'  } = props
+	const { isOpen, setIsOpen, title, desciption, children, onConfirm, confirmText='Save', cancelText='Cancel', onCancel  } = props
+	
+	const handleCancel = () =>{
+		if( onCancel !== undefined ){
+			onCancel()
+		}else{
+			setIsOpen( false )
+		}
+	}
 	
 	return (
 		<Transition
@@ -59,8 +68,10 @@ const Modal: FunctionComponent<Props> = ( props ) => {
 						</div>
 						<div className='p-4 flex justify-end gap-2'>
 							<Button2 type='button'
-								onClick={() => setIsOpen( false )}
-							>{cancelText}</Button2>
+								onClick={handleCancel}
+							>
+								{cancelText}
+							</Button2>
 
 							<Button2 type='button' className='bg-dark-secondary'
 								onClick={() => onConfirm( )}
