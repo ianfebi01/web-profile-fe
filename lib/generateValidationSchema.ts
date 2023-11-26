@@ -10,7 +10,7 @@ export const generateValidationSchema = ( fields: IDynamicForm[] ) => {
 		let validations: any = yup
 
 		validations = validations.string()
-		if ( field.required ) validations = validations = validations.required()
+		if ( field.validation.required ) validations = validations = validations.required()
 		if ( field.type === 'email' ) validations = validations.email()
 		if ( field.validation.numeric ) validations = validations.matches( /^\d*$/, ( { label }: { label: string } ) => `${label} must be number only` )
 		if ( field.type === 'phone' ) validations = validations.matches( /^[0-9]\d*$/, 'Phone number is not valid' )
@@ -19,8 +19,10 @@ export const generateValidationSchema = ( fields: IDynamicForm[] ) => {
 			if ( field.validation.charLength.max ) validations = validations.max( field.validation.charLength.max )
 		}
 
-		validationsGroup[field.key] = validations.label( field.label )
+		validationsGroup[field.name] = validations.label( field.label )
 	}
 	
-	return validationsGroup
+	return yup.object( {
+		...validationsGroup
+	} )
 }

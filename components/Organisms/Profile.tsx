@@ -2,12 +2,13 @@
 import { useSession } from 'next-auth/react'
 import React, { FormEvent, useState } from 'react'
 import FormikField from '../Atoms/FormikField'
-import * as yup from 'yup'
 import { Form, FormikProvider, useFormik } from 'formik'
 import useAxiosAuth from '@/lib/hooks/useAxiosAuth'
 import { useMutation } from '@tanstack/react-query'
 import Button2 from '../Atoms/Button2'
 import Spinner from '../Atoms/Spinner'
+import { IDynamicForm } from '@/types/form'
+import { generateValidationSchema } from '@/lib/generateValidationSchema'
 
 const Profile = () => {
 
@@ -39,15 +40,82 @@ const Profile = () => {
 		}
 	} )
 
-	// Schema
-	const schema = yup.object( {
-		name       : yup.string().min( 3 ).max( 30 ).required().label( 'Name' ),
-		email      : yup.string().email().required().label( 'Email' ),
-		quote      : yup.string().min( 3 ).max( 200 ).label( 'Quote' ),
-		textBg     : yup.string().min( 3 ).max( 10 ).label( 'Text on background' ),
-		openToWork : yup.boolean().required().label( 'Open to work' ),
+	const field: IDynamicForm[] = [
+		{
+			name        : 'name',
+			type        : 'text',
+			placeholder : 'eg. Ian Febi S',
+			fieldType   : 'text',
+			label       : 'Name',
+			validation  : {
+				charLength : {
+					min : 3,
+					max : 30
+				},
+				required : true
+			}
+		},
+		{
+			name        : 'email',
+			type        : 'email',
+			placeholder : "eg. iangtg@gmail.com",
+			fieldType   : 'text',
+			label       : 'Email',
+			validation  : {
+				charLength : {
+					min : 3,
+					max : 30
+				},
+				required : true
+			}
+		},
+		{
+			name        : 'quote',
+			type        : 'text',
+			placeholder : "eg. Hari yang cerah",
+			fieldType   : 'text',
+			label       : 'Quote',
+			validation  : {
+				charLength : {
+					min : 3,
+					max : 300
+				},
+				required : false
+			}
+		},
+		{
+			name        : 'openToWork',
+			type        : 'text',
+			placeholder : "Open to work",
+			fieldType   : 'switch',
+			label       : 'Open to work',
+			validation  : {
+				required : false
+			}
+		},
+		{
+			name        : 'personImage',
+			type        : 'text',
+			placeholder : "Select person image",
+			fieldType   : 'image',
+			label       : 'Person Image',
+			validation  : {
+				required : false
+			},
+		},
+	]
 
-	} )
+	// Schema
+	// const schema = yup.object( {
+	// 	name       : yup.string().min( 3 ).max( 30 ).required().label( 'Name' ),
+	// 	email      : yup.string().email().required().label( 'Email' ),
+	// 	quote      : yup.string().min( 3 ).max( 200 ).label( 'Quote' ),
+	// 	textBg     : yup.string().min( 3 ).max( 10 ).label( 'Text on background' ),
+	// 	openToWork : yup.boolean().required().label( 'Open to work' ),
+
+	// } )
+
+	const schema = generateValidationSchema( field )
 	// formdata
 	const [formData, setFormData] = useState<FormData>();
 	// Formik
@@ -86,7 +154,20 @@ const Profile = () => {
 			<FormikProvider value={formik}>
 
 				<Form onSubmit={onSubmit} className='flex flex-col gap-2'>
-					<FormikField     
+
+					{
+						field.map( ( item: IDynamicForm )=>(
+							<FormikField     
+								label={item.label}
+								name={item.name}
+								placeholder={item.placeholder}
+								key={item.name}
+								fieldType={item.fieldType}
+								defaultImageUrl={session?.user.personImage}
+							/>
+						) )
+					}
+					{/* <FormikField     
 						label='Name'
 						name="name"
 						placeholder="eg. Ian Febi S"
@@ -118,7 +199,7 @@ const Profile = () => {
 						placeholder="Select image"
 						fieldType='image'
 						defaultImageUrl={session?.user.personImage}
-					/>
+					/> */}
 					<Button2 disabled={!formik.isValid || isPending} type="submit">{isPending ? 
 						<div className='flex gap-2 items-center'>
 							<Spinner/>

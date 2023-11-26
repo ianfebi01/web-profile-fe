@@ -1,13 +1,13 @@
 export interface IDynamicForm{
-    key: string,
+    name: string,
     label: string,
     type: string,
-    required: boolean,
-    fieldType: string,
-    placeholder?: string,
+    fieldType?: 'text' | 'image' | 'switch',
+    placeholder: string,
     options?: Option[],
     validation: IValidation
     disabled?: boolean
+    defaultImageUrl?: string
 }
 
 interface IValidation{
@@ -21,4 +21,5 @@ interface IValidation{
     },
     inputRule?: RegExp[],
     numeric?: boolean,
+    required?: boolean
 }
