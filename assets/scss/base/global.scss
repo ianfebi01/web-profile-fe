@@ -6,3 +6,6 @@
 .btn-admin-default{
     @apply bg-dark-secondary border transition-default border-white/25 hover:border-transparent hover:bg-dark;
 }
+p{
+    @apply text-xs;
+}
