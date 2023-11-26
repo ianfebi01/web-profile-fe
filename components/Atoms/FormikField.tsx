@@ -82,7 +82,6 @@ const FormikField: FunctionComponent<Props> = ( props ) => {
 					</>
 					: fieldType === 'switch' ?
 						<>
-							{'value: '+field.value}
 							<Switch
 								name={field.name}
 								checked={field.value}
