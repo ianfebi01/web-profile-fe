@@ -11,7 +11,7 @@ import NoDataFound from '../Atoms/NoDataFound'
 import Button2 from '../Atoms/Button2'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
-import Modal from './Modal'
+import ModalAddPosition from './ModalAddPosition'
 
 const Position = () => {
 
@@ -45,13 +45,7 @@ const Position = () => {
 	return (
 		<>
 			<div className='flex flex-col gap-8 h-full'>
-				<Modal isOpen={isOpen} setIsOpen={setIsOpen}
-					onConfirm={()=>null}
-					title='Add new position'
-
-				>
-					<p>lkanklsd alksndaskld alksdnkals mklasnmdkna lkasndklas</p>
-				</Modal>
+				<ModalAddPosition isOpen={isOpen} setIsOpen={setIsOpen}/>
 				<div className='flex gap-4 justify-between'>
 					<SearchInput placeholder='Search position' type='text'
 						value={params.q} setValue={( value: string )=> setParams( {
