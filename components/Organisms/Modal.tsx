@@ -12,11 +12,12 @@ interface Props{
 	onCancel?: () => void
 	confirmText?: string
 	cancelText?: string
+	loading?: boolean
 
 }
 const Modal: FunctionComponent<Props> = ( props ) => {
 
-	const { isOpen, setIsOpen, title, desciption, children, onConfirm, confirmText='Save', cancelText='Cancel', onCancel  } = props
+	const { isOpen, setIsOpen, title, desciption, children, onConfirm, confirmText='Save', cancelText='Cancel', onCancel, loading } = props
 	
 	const handleCancel = () =>{
 		if( onCancel !== undefined ){
@@ -74,6 +75,7 @@ const Modal: FunctionComponent<Props> = ( props ) => {
 							</Button2>
 
 							<Button2 type='button' className='bg-dark-secondary'
+								loading={loading}
 								onClick={() => onConfirm( )}
 							>{confirmText}</Button2>
 						</div>

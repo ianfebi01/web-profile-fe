@@ -99,9 +99,6 @@ const Profile = () => {
 			placeholder : "Select person image",
 			fieldType   : 'image',
 			label       : 'Person Image',
-			validation  : {
-				required : false
-			},
 		},
 	]
 
@@ -116,6 +113,7 @@ const Profile = () => {
 	// } )
 
 	const schema = generateValidationSchema( field )
+	console.log( schema )
 	// formdata
 	const [formData, setFormData] = useState<FormData>();
 	// Formik
@@ -200,12 +198,9 @@ const Profile = () => {
 						fieldType='image'
 						defaultImageUrl={session?.user.personImage}
 					/> */}
-					<Button2 disabled={!formik.isValid || isPending} type="submit">{isPending ? 
-						<div className='flex gap-2 items-center'>
-							<Spinner/>
-							<p>Loading..</p>
-						</div>
-						:'Submit'}</Button2>
+					<Button2 disabled={!formik.isValid || isPending} loading={isPending}
+						type="submit"
+					>Submit</Button2>
 				</Form>
 			</FormikProvider>
 		</section>

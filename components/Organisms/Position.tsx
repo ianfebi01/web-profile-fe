@@ -4,7 +4,7 @@ import { IApi, IApiPagination, IPayloadPagination } from '@/types/api'
 import { IApiPosition } from '@/types/api/position'
 import { useQuery } from '@tanstack/react-query'
 import { AxiosResponse } from 'axios'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import SearchInput from '../Atoms/SearchInput'
 import StyledPagination from '../Molecules/StyledPagination'
 import NoDataFound from '../Atoms/NoDataFound'
@@ -12,8 +12,12 @@ import Button2 from '../Atoms/Button2'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import ModalAddPosition from './ModalAddPosition'
+import { PositionContext } from '@/context/PositionContext'
 
 const Position = () => {
+
+	// Position Context
+	const { state, dispatch } = useContext( PositionContext )
 
 	const axiosAuth = useAxiosAuth()
     
@@ -23,11 +27,20 @@ const Position = () => {
 		q     : ''
 	} );
 
-	const{ data, isLoading } = useQuery<AxiosResponse<IApi<IApiPosition[]> & IApiPagination>>( {
+	const{ isLoading } = useQuery<IApi<IApiPosition[]> & IApiPagination>( {
 		queryKey : ['position', params.page, params.q],
-		queryFn  : async ()=> await axiosAuth.get( '/v1/position', {
-			params : params
-		} ),
+		queryFn  : async ()=> {
+			const data: AxiosResponse<IApi<IApiPosition[]> & IApiPagination>  = await axiosAuth.get( '/v1/position', {
+				params : params
+			} )
+
+			dispatch( {
+				type    : 'set_data',
+				payload : data?.data
+			} )
+			
+			return data?.data
+		},
 	} )
     
 	const handlePageChange = ( page: number )=>{
@@ -64,9 +77,9 @@ const Position = () => {
 				</div>
 
 				{
-					data?.data?.data?.length && !isLoading ?
+					state.positions?.length && !isLoading ?
 						<div className='grid grid-cols-2 lg:grid-cols-3 gap-4'>
-							{data?.data?.data?.map( ( item: IApiPosition, i )=>(
+							{state.positions?.map( ( item: IApiPosition, i )=>(
                     
 								<article key={i} className='h-24 bg-dark p-4 border border-none rounded-lg flex flex-col gap-2'>
 									<h2 className='text-xl font-bold line-clamp-1 leading-none'>
@@ -99,12 +112,12 @@ const Position = () => {
 				}
 
 				{/* Pagination */}
-				{data?.data  && data?.data?.data?.length && !isLoading ? (
+				{state && state.positions?.length && !isLoading ? (
 					<StyledPagination 
 						setCurrentPage={handlePageChange} 
 						currentPage={params.page}
-						totalPages={data?.data?.totalPage as number}
-						hasNextPage={data?.data?.hasNextPage}
+						totalPages={state.paginator?.totalPage as number}
+						hasNextPage={state.paginator?.hasNextPage as boolean}
 					/>
 
 				) : ''

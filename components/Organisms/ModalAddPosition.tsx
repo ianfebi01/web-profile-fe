@@ -1,16 +1,46 @@
-import React, { FunctionComponent, useEffect, useRef } from 'react'
+"use client"
+import React, { FunctionComponent, useContext, useEffect, useRef } from 'react'
 import Modal from './Modal'
 import { generateValidationSchema } from '@/lib/generateValidationSchema'
 import { IDynamicForm } from '@/types/form'
 import { Form, FormikProvider, useFormik } from 'formik'
-import Button2 from '../Atoms/Button2'
 import FormikField from '../Atoms/FormikField'
+import useAxiosAuth from '@/lib/hooks/useAxiosAuth'
+import { useMutation } from '@tanstack/react-query'
+import { PositionContext } from '@/context/PositionContext'
+import { AxiosResponse } from 'axios'
+import { IApi, IApiPagination } from '@/types/api'
+import { IApiPosition } from '@/types/api/position'
 
 interface Props{
     isOpen: boolean
     setIsOpen: ( value: boolean ) => void
 }
 const ModalAddPosition: FunctionComponent<Props> = ( { isOpen, setIsOpen } ) => {
+
+	// Context
+	const { dispatch } = useContext( PositionContext );
+
+	const axiosAuth = useAxiosAuth()
+
+	const { mutate, isPending } = useMutation( {
+		mutationKey : ['position'],
+		mutationFn  : async( value: Omit<IApiPosition, 'id'> )=> {
+			const data: AxiosResponse<IApi<IApiPosition> & IApiPagination> = await axiosAuth.post(
+				`/v1/position`, 
+				value
+			)
+			dispatch( {
+				type    : "push_data",
+				payload : { ...data?.data?.data as IApiPosition }
+			} )
+			
+			return data.data.data
+		},
+		onSuccess : ()=> setIsOpen( false )
+	} )
+
+	// Dynamic fields
 	const fields: IDynamicForm[] = [
 		{
 			name        : 'name',
@@ -53,7 +83,8 @@ const ModalAddPosition: FunctionComponent<Props> = ( { isOpen, setIsOpen } ) => 
 		},
 		validationSchema : schema,
 		onSubmit         : ( values )=>{
-			console.log( values )
+			mutate( values )
+
 		}
 	} )
 
@@ -71,6 +102,7 @@ const ModalAddPosition: FunctionComponent<Props> = ( { isOpen, setIsOpen } ) => 
 			onConfirm={()=>submitRef.current?.click()}
 			onCancel={()=> setIsOpen( false )}
 			title='Add new position'
+			loading={isPending}
 		>
 			<FormikProvider value={formik}>
 				<Form onSubmit={formik.handleSubmit} className='flex flex-col gap-2'>
@@ -85,7 +117,9 @@ const ModalAddPosition: FunctionComponent<Props> = ( { isOpen, setIsOpen } ) => 
 							/>
 						) )
 					}
-					<button ref={submitRef} type='submit'></button>
+					<button ref={submitRef} type='submit'
+						className='hidden'
+					></button>
 				</Form>
 			</FormikProvider>
 		</Modal>

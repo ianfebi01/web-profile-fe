@@ -5,7 +5,7 @@ export interface IDynamicForm{
     fieldType?: 'text' | 'image' | 'switch',
     placeholder: string,
     options?: Option[],
-    validation: IValidation
+    validation?: IValidation
     disabled?: boolean
     defaultImageUrl?: string
 }
