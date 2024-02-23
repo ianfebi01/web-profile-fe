@@ -14,11 +14,13 @@ interface Props{
 
 const TextBackground: FunctionComponent<Props> = ( { textBg } ) => {
 
+	console.log( textBg )
+
 	// Split Text
 	const textSplited = useMemo( ()=>{
-		const splitBySpaces = textBg.split( ' ' )
-		if( splitBySpaces.length ){
-			return [splitBySpaces[0], textBg.slice( splitBySpaces[0].length + 1 ) ]
+		const splitBySpaces = textBg?.split( ' ' )
+		if( splitBySpaces?.length ){
+			return [splitBySpaces[0], textBg?.slice( splitBySpaces[0]?.length + 1 ) ]
 		}else return [textBg]
 
 	}, [textBg] )

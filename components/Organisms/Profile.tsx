@@ -6,7 +6,6 @@ import { Form, FormikProvider, useFormik } from 'formik'
 import useAxiosAuth from '@/lib/hooks/useAxiosAuth'
 import { useMutation } from '@tanstack/react-query'
 import Button2 from '../Atoms/Button2'
-import Spinner from '../Atoms/Spinner'
 import { IDynamicForm } from '@/types/form'
 import { generateValidationSchema } from '@/lib/generateValidationSchema'
 
@@ -70,6 +69,20 @@ const Profile = () => {
 			}
 		},
 		{
+			name        : 'textBg',
+			type        : 'text',
+			placeholder : "eg. IAN FEBI",
+			fieldType   : 'text',
+			label       : 'Text on BG',
+			validation  : {
+				charLength : {
+					min : 3,
+					max : 30
+				},
+				required : false
+			}
+		},
+		{
 			name        : 'quote',
 			type        : 'text',
 			placeholder : "eg. Hari yang cerah",
@@ -113,7 +126,6 @@ const Profile = () => {
 	// } )
 
 	const schema = generateValidationSchema( field )
-	console.log( schema )
 	// formdata
 	const [formData, setFormData] = useState<FormData>();
 	// Formik

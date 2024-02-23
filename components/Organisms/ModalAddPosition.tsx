@@ -6,7 +6,7 @@ import { IDynamicForm } from '@/types/form'
 import { Form, FormikProvider, useFormik } from 'formik'
 import FormikField from '../Atoms/FormikField'
 import useAxiosAuth from '@/lib/hooks/useAxiosAuth'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { PositionContext } from '@/context/PositionContext'
 import { AxiosResponse } from 'axios'
 import { IApi, IApiPagination } from '@/types/api'
@@ -19,10 +19,12 @@ interface Props{
 const ModalAddPosition: FunctionComponent<Props> = ( { isOpen, setIsOpen } ) => {
 
 	// Context
-	const { dispatch } = useContext( PositionContext );
+	const { state } = useContext( PositionContext );
 
 	const axiosAuth = useAxiosAuth()
 
+	// React Query
+	const queryClient = useQueryClient()
 	const { mutate, isPending } = useMutation( {
 		mutationKey : ['position'],
 		mutationFn  : async( value: Omit<IApiPosition, 'id'> )=> {
@@ -30,14 +32,24 @@ const ModalAddPosition: FunctionComponent<Props> = ( { isOpen, setIsOpen } ) => 
 				`/v1/position`, 
 				value
 			)
-			dispatch( {
-				type    : "push_data",
-				payload : { ...data?.data?.data as IApiPosition }
-			} )
 			
 			return data.data.data
 		},
-		onSuccess : ()=> setIsOpen( false )
+		onSuccess : ( data )=> {
+			
+			queryClient.setQueryData( ['position', state.paginator.page, state.paginator.q], ( oldData: IApi<IApiPosition[]> & IApiPagination )=> {
+				const tmp = oldData.data
+				if( tmp && tmp?.length < state.paginator.limit ){
+					tmp.push( data  as IApiPosition )
+				}
+				
+				return {
+					...oldData,
+					data : tmp
+				}
+			} )
+			setIsOpen( false )
+		}
 	} )
 
 	// Dynamic fields

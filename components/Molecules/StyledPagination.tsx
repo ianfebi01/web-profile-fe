@@ -31,8 +31,8 @@ const StyledPagination: FunctionComponent<Props> = ( props ) => {
 				<nav className="flex justify-center flex-grow">
 					<ul className="flex items-center justify-center gap-4">
 						<Pagination.PageButton
-							activeClassName="text-orange font-bold"
-							inactiveClassName=""
+							activeClassName="text-orange font-bold cursor-default"
+							inactiveClassName="cursor-pointer"
 							className=""
 						/>
 					</ul>

@@ -5,15 +5,12 @@ import React, { ReactNode, Reducer, createContext, useReducer } from 'react';
 
 // Initial position state
 const initialState: IInitialPosition = {
-	positions : [],
 	paginator : {
-		hasNextPage : false,
-		itemCount   : 0,
-		limit       : 12,
-		page        : 0,
-		total       : 0,
-		totalPage   : 0
+		limit : 12,
+		page  : 1,
+		q     : ''
 	}
+
 };
 
 // Create Reducer
@@ -52,30 +49,43 @@ IInitialPosition,
 IActions<ActionMapDefaultReducer>
 > = ( state, action ) => {
 	switch ( action.type ) {
-	case 'push_data': {
-
-		const tmp = state?.positions
-		tmp?.push( action.payload )
+	// case 'push_data': {
+	// 	const tmp = state?.position?.datas
+	// 	const index = tmp?.findIndex( ( item )=> item.id === action.payload.id )
+	// 	if ( index === -1 ) {
+	// 		tmp?.push( action.payload )
+	// 	}
 		
-		return { 
-			...state, 
-			positions : tmp
-		};
-	}
-	case 'set_data': {
+	// 	return { 
+	// 		...state, 
+	// 		positions : {
+	// 			...state.position,
+	// 			data : tmp
+	// 		}
+	// 	};
+	// }
+	// case 'set_data': {
 		
-		return { 
-			...state, 
-			positions : action.payload.data,
-			paginator : {
-				hasNextPage : action.payload.hasNextPage,
-				itemCount   : action.payload.itemCount,
-				limit       : action.payload.limit,
-				page        : action.payload.page,
-				total       : action.payload.total,
-				totalPage   : action.payload.totalPage
-			}
-		};
+	// 	return { 
+	// 		...state, 
+	// 		position : {
+	// 			datas     : action.payload.data,
+	// 			paginator : {
+	// 				hasNextPage : action.payload.hasNextPage,
+	// 				itemCount   : action.payload.itemCount,
+	// 				limit       : action.payload.limit,
+	// 				page        : action.payload.page,
+	// 				total       : action.payload.total,
+	// 				totalPage   : action.payload.totalPage
+	// 			}
+	// 		},
+	// 	};
+	// }
+	case 'set_paginator':{
+		return {
+			...state,
+			paginator : action.payload
+		}
 	}
 	// case 'changed': {
 	// 	return tasks.map( t => {

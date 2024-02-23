@@ -27,17 +27,17 @@ const Position = () => {
 		q     : ''
 	} );
 
-	const{ isLoading } = useQuery<IApi<IApiPosition[]> & IApiPagination>( {
+	const{ data, isLoading } = useQuery<IApi<IApiPosition[]> & IApiPagination>( {
 		queryKey : ['position', params.page, params.q],
 		queryFn  : async ()=> {
 			const data: AxiosResponse<IApi<IApiPosition[]> & IApiPagination>  = await axiosAuth.get( '/v1/position', {
 				params : params
 			} )
 
-			dispatch( {
-				type    : 'set_data',
-				payload : data?.data
-			} )
+			// dispatch( {
+			// 	type    : 'set_data',
+			// 	payload : JSON.parse( JSON.stringify( data?.data ) )
+			// } )
 			
 			return data?.data
 		},
@@ -47,6 +47,14 @@ const Position = () => {
 		setParams( {
 			...params,
 			page : page + 1
+		} )
+
+		dispatch( {
+			type    : 'set_paginator',
+			payload : {
+				...state.paginator,
+				page : page + 1
+			}
 		} )
 	}
 
@@ -75,11 +83,11 @@ const Position = () => {
 					</Button2>
 
 				</div>
-
+				
 				{
-					state.positions?.length && !isLoading ?
+					data?.data?.length && !isLoading ?
 						<div className='grid grid-cols-2 lg:grid-cols-3 gap-4'>
-							{state.positions?.map( ( item: IApiPosition, i )=>(
+							{data?.data?.map( ( item: IApiPosition, i )=>(
                     
 								<article key={i} className='h-24 bg-dark p-4 border border-none rounded-lg flex flex-col gap-2'>
 									<h2 className='text-xl font-bold line-clamp-1 leading-none'>
@@ -112,12 +120,12 @@ const Position = () => {
 				}
 
 				{/* Pagination */}
-				{state && state.positions?.length && !isLoading ? (
+				{data && data?.data?.length && !isLoading ? (
 					<StyledPagination 
 						setCurrentPage={handlePageChange} 
-						currentPage={params.page}
-						totalPages={state.paginator?.totalPage as number}
-						hasNextPage={state.paginator?.hasNextPage as boolean}
+						currentPage={state.paginator.page}
+						totalPages={data?.totalPage as number}
+						hasNextPage={data?.hasNextPage as boolean}
 					/>
 
 				) : ''

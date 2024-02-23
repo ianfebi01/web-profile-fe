@@ -35,12 +35,12 @@ const FormikField: FunctionComponent<Props> = ( props ) => {
 	}
 	
 	return (
-		<div className='flex flex-col gap-2'>
+		<div className='flex flex-col gap-2 relative'>
 			<label htmlFor={name}>{label}</label>
 			{ fieldType === 'text' ?
 				<input id={name} type="text"
 					placeholder={placeholder} {...field}
-					className={`text-white p-2 border rounded-lg bg-transparent ring-0 focus:ring-0 shadow-none focus:outline-none  transition-default ${meta.touched && meta.error ? 'focus:border-red-500 border-red-500 ':'focus:border-white/50 border-white/25 '}`}
+					className={`text-white p-2 border rounded-lg bg-transparent ring-0 focus:ring-0 shadow-none focus:outline-none  transition-default ${meta.touched && meta.error ? 'focus:border-red-500 border-red-500 ':'focus:border-white/50 border-white/25'}`}
 				/> 
 				: fieldType === 'image' ?
 					<>
@@ -104,7 +104,8 @@ const FormikField: FunctionComponent<Props> = ( props ) => {
 						</>
 				  : ''
 			}
-			<p className={`text-[0.7rem] text-red-500 transition-default delay-100 ${meta.error && meta.touched ? 'translate-y-0 opacity-100': '-translate-y-2 opacity-0'}`}>{meta.error}</p>
+			<p className='invisible'>sdfsfss</p>
+			<p className={`absolute bottom-0 text-[0.7rem] text-red-500 transition-default delay-100 ${meta.error && meta.touched ? 'translate-y-0 opacity-100': '-translate-y-2 opacity-0'}`}>{meta.error}</p>
 		</div>
 	)
 }

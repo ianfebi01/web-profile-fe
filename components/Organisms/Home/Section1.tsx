@@ -11,6 +11,7 @@ interface Props{
 
 const Section1: FunctionComponent<Props> = ( props ) => {
 	const { profile } = props
+	console.log( profile )
 
 	return (
 		<section

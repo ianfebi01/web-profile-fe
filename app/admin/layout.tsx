@@ -9,6 +9,7 @@ import ReactQueryProvider from '@/components/Contex/ReactQueryProvider'
 import { Session, getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import ProfileProvider from '@/components/Contex/ProfileProvider'
+import { PositionProvider } from '@/context/PositionContext'
 const inter = Inter( { subsets : ['latin'] } )
 
 config.autoAddCss = false
@@ -28,16 +29,18 @@ export default async function AdminLayout( {
 	return (
 		<main className={`h-screen overflow-scroll ${inter.className}`}>
 			<NextAuthProvider session={session as Session}>
-				<ReactQueryProvider>
-					<ProfileProvider>
-						<Sidebar />
-						<section className="ml-64 h-full flex flex-col">
-							<div className="mx-6 mt-6 p-4 border border-none rounded-lg bg-dark-secondary grow-[1]">
-								<ReactQueryProvider>{children}</ReactQueryProvider>
-							</div>
-						</section>
-					</ProfileProvider>
-				</ReactQueryProvider>
+				<PositionProvider>
+					<ReactQueryProvider>
+						<ProfileProvider>
+							<Sidebar />
+							<section className="ml-64 h-full flex flex-col">
+								<div className="mx-6 mt-6 p-4 border border-none rounded-lg bg-dark-secondary grow-[1]">
+									<ReactQueryProvider>{children}</ReactQueryProvider>
+								</div>
+							</section>
+						</ProfileProvider>
+					</ReactQueryProvider>
+				</PositionProvider>
 			</NextAuthProvider>
 		</main>
 	)
