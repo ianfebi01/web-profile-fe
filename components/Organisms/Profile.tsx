@@ -8,6 +8,7 @@ import { useMutation } from '@tanstack/react-query'
 import Button2 from '../Atoms/Button2'
 import { IDynamicForm } from '@/types/form'
 import { generateValidationSchema } from '@/lib/generateValidationSchema'
+import toast from 'react-hot-toast'
 
 const Profile = () => {
 
@@ -36,6 +37,9 @@ const Profile = () => {
 			} )
 			
 			return data
+		},
+		onSuccess : () => {
+			toast.success( 'Successfully update profile data!' )
 		}
 	} )
 
