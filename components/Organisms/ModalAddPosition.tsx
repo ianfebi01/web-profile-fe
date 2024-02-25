@@ -11,6 +11,7 @@ import { PositionContext } from '@/context/PositionContext'
 import { AxiosResponse } from 'axios'
 import { IApi, IApiPagination } from '@/types/api'
 import { IApiPosition } from '@/types/api/position'
+import toast from 'react-hot-toast'
 
 interface Props{
     isOpen: boolean
@@ -48,6 +49,7 @@ const ModalAddPosition: FunctionComponent<Props> = ( { isOpen, setIsOpen } ) => 
 					data : tmp
 				}
 			} )
+			toast.success( 'Successfully add new position!' )
 			setIsOpen( false )
 		}
 	} )
