@@ -34,7 +34,7 @@ export default async function AdminLayout( {
 						<ProfileProvider>
 							<Sidebar />
 							<section className="ml-64 h-full flex flex-col">
-								<div className="mx-6 mt-6 p-4 border border-none rounded-lg bg-dark-secondary grow-[1]">
+								<div className="mx-6 mt-6 p-4 border border-none rounded-t-lg bg-dark-secondary grow-[1]">
 									<ReactQueryProvider>{children}</ReactQueryProvider>
 								</div>
 							</section>
