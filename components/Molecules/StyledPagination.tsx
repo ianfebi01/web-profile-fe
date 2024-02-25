@@ -25,7 +25,9 @@ const StyledPagination: FunctionComponent<Props> = ( props ) => {
 				truncableClassName=""
 			>
 				<Pagination.PrevButton className={`w-6 h-6 rounded-full btn-admin-default ${currentPage <= 1 && 'cursor-default hover:bg-dark-secondary border-none hover:border-none'}`} disabled={currentPage <= 1}>
-					<FontAwesomeIcon icon={faChevronLeft}/>
+					<div className={`${currentPage <= 1 ? 'text-white/25' : 'text-white'} `}>
+						<FontAwesomeIcon icon={faChevronLeft}/>
+					</div>
 				</Pagination.PrevButton>
 
 				<nav className="flex justify-center flex-grow">
@@ -39,7 +41,9 @@ const StyledPagination: FunctionComponent<Props> = ( props ) => {
 				</nav>
 
 				<Pagination.NextButton className={`w-6 h-6 rounded-full btn-admin-default ${!hasNextPage && 'cursor-default hover:bg-dark-secondary border-none hover:border-none'}`} disabled={!hasNextPage}>
-					<FontAwesomeIcon icon={faChevronRight}/>
+					<div className={`${!hasNextPage ? 'text-white/25' : 'text-white'} `}>
+						<FontAwesomeIcon icon={faChevronRight} />
+					</div>
 				</Pagination.NextButton>
 			</Pagination>
 		</div>
