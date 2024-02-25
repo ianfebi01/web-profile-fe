@@ -1,6 +1,6 @@
 'use client'
 
-import React, { FunctionComponent, ReactNode, useEffect, useRef } from 'react'
+import React, { FunctionComponent, ReactNode, useCallback, useEffect, useRef } from 'react'
 
 import { motion, useInView, useAnimation, easeOut } from 'framer-motion'
 
@@ -18,12 +18,16 @@ const AnimationProvider: FunctionComponent<Props> = ( {
 		once : true,
 	} )
 	const animationControl = useAnimation()
-
-	useEffect( () => {
+	
+	const startAnimation = useCallback( ()=>{
 		if ( isInView ) {
 			animationControl.start( 'visible' )
 		}
-	}, [isInView] )
+	}, [isInView, animationControl] )
+
+	useEffect( () => {
+		startAnimation()
+	}, [startAnimation] )
 	
 	return (
 		<div ref={ref}>
