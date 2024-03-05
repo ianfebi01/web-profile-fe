@@ -1,9 +1,12 @@
 'use client'
 import Image from 'next/image'
-import React, { useEffect, useRef } from 'react'
+import React, { FunctionComponent, useEffect, useRef } from 'react'
 import { useAnimation, useInView, motion, easeInOut } from 'framer-motion'
 
-const PersonImage = () => {
+type Props = {
+	image: string
+}
+const PersonImage: FunctionComponent<Props> = ( { image } ) => {
 	const personImageRef = useRef( null )
 	const personImageView = useInView( personImageRef, {
 		once : false,
@@ -41,7 +44,7 @@ const PersonImage = () => {
 				className='w-[261px] h-[391px] relative'
 
 			>
-				<Image src="/me-3.png" alt="Profile image"
+				<Image src={image} alt="Profile image"
 					fill
 					priority
 					className='relative'

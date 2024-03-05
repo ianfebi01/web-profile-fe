@@ -1,10 +1,11 @@
 "use client"
-import React, { ChangeEvent, FunctionComponent, useRef, useState } from 'react'
+import React, { ChangeEvent, FunctionComponent, useMemo, useRef, useState } from 'react'
 import { useField } from 'formik'
 import Image from 'next/image'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faXmark } from '@fortawesome/free-solid-svg-icons'
 import { Switch } from '@headlessui/react'
+import readAsBase64 from '@/lib/readAsBase63'
 
 interface Props{
     name: string
@@ -12,10 +13,13 @@ interface Props{
 	placeholder: string
 	fieldType?: 'text' | 'image' | 'switch'
 	defaultImageUrl?: string
+	setImageBase64?: ( base64: string ) => void
+	required?: boolean
+	disabled?: boolean
 }
 const FormikField: FunctionComponent<Props> = ( props ) => {
 
-	const { name, label, placeholder, fieldType='text', defaultImageUrl } = props
+	const { name, label, placeholder, fieldType='text', defaultImageUrl, setImageBase64, required, disabled = false } = props
 
 	const [field, meta, helpers] = useField( name )
 
@@ -23,9 +27,14 @@ const FormikField: FunctionComponent<Props> = ( props ) => {
 	const [imageUrl, setImageUrl] = useState<string>( defaultImageUrl || '' );
 	const imageField = useRef<HTMLInputElement>( null )
 
-	const handleImage = ( e: ChangeEvent<HTMLInputElement> )=>{
+	const handleImage =  async ( e: ChangeEvent<HTMLInputElement> )=>{
 		if( !e?.target?.files ) return
 		setImageUrl( URL.createObjectURL( e.target.files[0] ) )
+		
+		const base64 = await readAsBase64( e.target.files[0] )
+
+		if( setImageBase64 ) 
+			setImageBase64( base64 )
 	}
 
 	const clearImage= ()=>{
@@ -33,14 +42,26 @@ const FormikField: FunctionComponent<Props> = ( props ) => {
 		if( !imageField.current?.value ) return
 		imageField.current.value= ''
 	}
+
+	const requiredIcon = useMemo( ()=>{
+		if( required && disabled ) return "*"
+		else if( required && !disabled ) return <span className='text-red-500'>*</span>
+		else if( required && !disabled ) return ''
+	}, [] )
 	
 	return (
 		<div className='flex flex-col gap-2 relative'>
-			<label htmlFor={name}>{label}</label>
+			<label htmlFor={name}>
+				<span>
+					{label}
+				</span>
+				{requiredIcon}
+			</label>
 			{ fieldType === 'text' ?
 				<input id={name} type="text"
 					placeholder={placeholder} {...field}
 					className={`text-white p-2 border rounded-lg bg-transparent ring-0 focus:ring-0 shadow-none focus:outline-none  transition-default ${meta.touched && meta.error ? 'focus:border-red-500 border-red-500 ':'focus:border-white/50 border-white/25'}`}
+					disabled={disabled}
 				/> 
 				: fieldType === 'image' ?
 					<>
@@ -52,7 +73,7 @@ const FormikField: FunctionComponent<Props> = ( props ) => {
 							{...field}
 							className="hidden"
 							onChange={handleImage}
-
+							disabled={disabled}
 						/> 
 						{
 							imageUrl ? 
@@ -73,6 +94,7 @@ const FormikField: FunctionComponent<Props> = ( props ) => {
 								:
 								<button type='button' className='bg-dark-secondary aspect-square w-60 border border-dashed border-white/25'
 									onClick={()=> imageField.current?.click()}
+									disabled={disabled}
 								>
 									Select Image
 								</button>
@@ -93,6 +115,7 @@ const FormikField: FunctionComponent<Props> = ( props ) => {
 								className={`${
 									field.value ? 'bg-orange' : 'bg-dark-secondary'
 								} relative inline-flex h-6 w-11 items-center rounded-full border border-transparent transition-default bg-dark hover:border-white/25`}
+								disabled={disabled}
 							>
 								<span className="sr-only">Enable notifications</span>
 								<span

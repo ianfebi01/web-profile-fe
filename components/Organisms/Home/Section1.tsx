@@ -26,7 +26,7 @@ const Section1: FunctionComponent<Props> = ( props ) => {
 					</a>
 				</div>
 				<TextBackground textBg={profile?.textBg as string}/>
-				<PersonImage />
+				<PersonImage image={profile?.personImage as string} />
 				<TextSide openToWork={profile?.openToWork as boolean} />
 			</div>
 		</section>

@@ -15,4 +15,7 @@ export interface IApiPayload{
         email: string
         name: string
         quote?: string | null
+        personImage?: string
+        textBg?: string,
+        openToWork?: boolean
 }

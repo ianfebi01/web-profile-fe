@@ -9,6 +9,9 @@ import Button2 from '../Atoms/Button2'
 import { IDynamicForm } from '@/types/form'
 import { generateValidationSchema } from '@/lib/generateValidationSchema'
 import toast from 'react-hot-toast'
+import { IApiPayload } from '@/types/api/profile'
+import { AxiosError } from 'axios'
+import { IApi } from '@/types/api'
 
 const Profile = () => {
 
@@ -17,7 +20,7 @@ const Profile = () => {
 
 	const { mutate, isPending } = useMutation( {
 
-		mutationFn : async( value: FormData )=> {
+		mutationFn : async( value: IApiPayload )=> {
 			const data = await axiosAuth.put(
 				`/v1/profile`, 
 				value,
@@ -27,7 +30,6 @@ const Profile = () => {
 					}
 				}
 			)
-
 			await update( {
 				...session,
 				user : {
@@ -40,6 +42,9 @@ const Profile = () => {
 		},
 		onSuccess : () => {
 			toast.success( 'Successfully update profile data!' )
+		},
+		onError : ( error: AxiosError<IApi> ) => {
+			toast.error( error.response?.data?.message as string )
 		}
 	} )
 
@@ -131,7 +136,8 @@ const Profile = () => {
 
 	const schema = generateValidationSchema( field )
 	// formdata
-	const [formData, setFormData] = useState<FormData>();
+	// const [formData, setFormData] = useState<FormData>();
+	const [imageBase64, setImageBase64] = useState<string>( '' );
 	// Formik
 	const formik = useFormik( {
 		initialValues : {
@@ -144,21 +150,22 @@ const Profile = () => {
 
 		},
 		validationSchema : schema,
-		onSubmit         : ( ) => {
-			mutate( formData as FormData )
+		onSubmit         : ( value ) => {
+			// mutate( formData as FormData )
+			mutate( { ...value, personImage : imageBase64 } )
 		},
 	} )
 
 	const onSubmit = ( e: FormEvent<HTMLFormElement> )=>{
 		e.preventDefault();
-		const formData =  new FormData( e.target as HTMLFormElement )
+		// const formData =  new FormData( e.target as HTMLFormElement )
 
 		// parse boolean value to formdata
-		if( !formData.get( 'openToWork' ) ){
-			formData.append( 'openToWork', "false" )
-		}
+		// if( !formData.get( 'openToWork' ) ){
+		// 	formData.append( 'openToWork', "false" )
+		// }
 		
-		setFormData( formData )
+		// setFormData( formData )
 
 		formik.handleSubmit( e )
 	}
@@ -178,42 +185,11 @@ const Profile = () => {
 								key={item.name}
 								fieldType={item.fieldType}
 								defaultImageUrl={session?.user.personImage}
+								setImageBase64={setImageBase64}
+								required={item.validation?.required}
 							/>
 						) )
 					}
-					{/* <FormikField     
-						label='Name'
-						name="name"
-						placeholder="eg. Ian Febi S"
-					/>
-					<FormikField     
-						label='Email'
-						name="email"
-						placeholder="eg. iangtg@gmail.com"
-					/>
-					<FormikField     
-						label='Quote'
-						name="quote"
-						placeholder="eg. Hari yang cerah"
-					/>
-					<FormikField     
-						label='Text on background'
-						name="textBg"
-						placeholder="eg. IAN FEBI"
-					/>
-					<FormikField     
-						label='Open to work'
-						name="openToWork"
-						placeholder="Open to work"
-						fieldType='switch'
-					/>
-					<FormikField     
-						label='Person Image'
-						name="personImage"
-						placeholder="Select image"
-						fieldType='image'
-						defaultImageUrl={session?.user.personImage}
-					/> */}
 					<Button2 disabled={!formik.isValid || isPending} loading={isPending}
 						type="submit"
 					>Submit</Button2>
