@@ -124,48 +124,28 @@ const Profile = () => {
 		},
 	]
 
-	// Schema
-	// const schema = yup.object( {
-	// 	name       : yup.string().min( 3 ).max( 30 ).required().label( 'Name' ),
-	// 	email      : yup.string().email().required().label( 'Email' ),
-	// 	quote      : yup.string().min( 3 ).max( 200 ).label( 'Quote' ),
-	// 	textBg     : yup.string().min( 3 ).max( 10 ).label( 'Text on background' ),
-	// 	openToWork : yup.boolean().required().label( 'Open to work' ),
-
-	// } )
-
 	const schema = generateValidationSchema( field )
-	// formdata
-	// const [formData, setFormData] = useState<FormData>();
+
 	const [imageBase64, setImageBase64] = useState<string>( '' );
 	// Formik
 	const formik = useFormik( {
 		initialValues : {
-			name       : session?.user.name || '',
-			email      : session?.user.email || '',
-			quote      : session?.user.quote || '',
-			// personImage : session?.user.personImage || '',
-			textBg     : session?.user.textBg || '',
-			openToWork : session?.user.openToWork || false
+			name        : session?.user.name || '',
+			email       : session?.user.email || '',
+			quote       : session?.user.quote || '',
+			personImage : session?.user.personImage || '',
+			textBg      : session?.user.textBg || '',
+			openToWork  : session?.user.openToWork || false
 
 		},
 		validationSchema : schema,
 		onSubmit         : ( value ) => {
-			// mutate( formData as FormData )
 			mutate( { ...value, personImage : imageBase64 } )
 		},
 	} )
 
 	const onSubmit = ( e: FormEvent<HTMLFormElement> )=>{
 		e.preventDefault();
-		// const formData =  new FormData( e.target as HTMLFormElement )
-
-		// parse boolean value to formdata
-		// if( !formData.get( 'openToWork' ) ){
-		// 	formData.append( 'openToWork', "false" )
-		// }
-		
-		// setFormData( formData )
 
 		formik.handleSubmit( e )
 	}
