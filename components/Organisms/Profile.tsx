@@ -130,12 +130,12 @@ const Profile = () => {
 	// Formik
 	const formik = useFormik( {
 		initialValues : {
-			name        : session?.user.name || '',
-			email       : session?.user.email || '',
-			quote       : session?.user.quote || '',
-			personImage : session?.user.personImage || '',
-			textBg      : session?.user.textBg || '',
-			openToWork  : session?.user.openToWork || false
+			name       : session?.user.name || '',
+			email      : session?.user.email || '',
+			quote      : session?.user.quote || '',
+			// personImage : session?.user.personImage || '',
+			textBg     : session?.user.textBg || '',
+			openToWork : session?.user.openToWork || false
 
 		},
 		validationSchema : schema,

@@ -11,7 +11,7 @@ import NoDataFound from '../Atoms/NoDataFound'
 import Button2 from '../Atoms/Button2'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
-import ModalAddPosition from './ModalAddPosition'
+import ModalAddPosition from '../Modal/ModalAddPosition'
 import { PositionContext } from '@/context/PositionContext'
 
 const Position = () => {

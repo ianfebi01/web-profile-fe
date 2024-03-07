@@ -1,6 +1,6 @@
 "use client"
 import React, { FunctionComponent, useContext, useEffect, useRef } from 'react'
-import Modal from './Modal'
+import Modal from '../Organisms/Modal'
 import { generateValidationSchema } from '@/lib/generateValidationSchema'
 import { IDynamicForm } from '@/types/form'
 import { Form, FormikProvider, useFormik } from 'formik'
@@ -128,6 +128,7 @@ const ModalAddPosition: FunctionComponent<Props> = ( { isOpen, setIsOpen } ) => 
 								placeholder={item.placeholder}
 								key={item.name}
 								fieldType={item.fieldType}
+								required={item.validation?.required}
 							/>
 						) )
 					}
