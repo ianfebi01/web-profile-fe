@@ -49,56 +49,12 @@ IInitialPosition,
 IActions<ActionMapDefaultReducer>
 > = ( state, action ) => {
 	switch ( action.type ) {
-	// case 'push_data': {
-	// 	const tmp = state?.position?.datas
-	// 	const index = tmp?.findIndex( ( item )=> item.id === action.payload.id )
-	// 	if ( index === -1 ) {
-	// 		tmp?.push( action.payload )
-	// 	}
-		
-	// 	return { 
-	// 		...state, 
-	// 		positions : {
-	// 			...state.position,
-	// 			data : tmp
-	// 		}
-	// 	};
-	// }
-	// case 'set_data': {
-		
-	// 	return { 
-	// 		...state, 
-	// 		position : {
-	// 			datas     : action.payload.data,
-	// 			paginator : {
-	// 				hasNextPage : action.payload.hasNextPage,
-	// 				itemCount   : action.payload.itemCount,
-	// 				limit       : action.payload.limit,
-	// 				page        : action.payload.page,
-	// 				total       : action.payload.total,
-	// 				totalPage   : action.payload.totalPage
-	// 			}
-	// 		},
-	// 	};
-	// }
 	case 'set_paginator':{
 		return {
 			...state,
 			paginator : action.payload
 		}
 	}
-	// case 'changed': {
-	// 	return tasks.map( t => {
-	// 		if ( t.id === action.task.id ) {
-	// 			return action.task;
-	// 		} else {
-	// 			return t;
-	// 		}
-	// 	} );
-	// }
-	// case 'deleted': {
-	// 	return tasks.filter( t => t.id !== action.id );
-	// }
 	default: {
 		throw Error( 'Unknown action' );
 	}
