@@ -41,6 +41,8 @@ const FormikField: FunctionComponent<Props> = ( props ) => {
 		setImageUrl( '' )
 		if( !imageField.current?.value ) return
 		imageField.current.value= ''
+		if( setImageBase64 ) 
+			setImageBase64( '' )
 	}
 
 	const requiredIcon = useMemo( ()=>{
