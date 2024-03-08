@@ -1,5 +1,4 @@
 import '@/assets/scss/main.scss'
-import Navbar from '@/components/Molecules/Navbar'
 import type { Metadata } from 'next'
 import { Outfit } from 'next/font/google'
 import { config } from '@fortawesome/fontawesome-svg-core'
