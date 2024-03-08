@@ -3,12 +3,12 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import { config } from '@fortawesome/fontawesome-svg-core'
 import '@fortawesome/fontawesome-svg-core/styles.css'
-import NextAuthProvider from '@/components/Contex/NextAuthProvider'
+import NextAuthProvider from '@/components/Context/NextAuthProvider'
 import Sidebar from '@/components/Molecules/Sidebar'
-import ReactQueryProvider from '@/components/Contex/ReactQueryProvider'
+import ReactQueryProvider from '@/components/Context/ReactQueryProvider'
 import { Session, getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
-import ProfileProvider from '@/components/Contex/ProfileProvider'
+import ProfileProvider from '@/components/Context/ProfileProvider'
 import { Toaster } from "react-hot-toast";
 const inter = Inter( { subsets : ['latin'] } )
 
