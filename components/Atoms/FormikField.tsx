@@ -39,10 +39,8 @@ const FormikField: FunctionComponent<Props> = ( props ) => {
 
 	const clearImage= ()=>{
 		setImageUrl( '' )
-		if( !imageField.current?.value ) return
-		imageField.current.value= ''
-		if( setImageBase64 ) 
-			setImageBase64( '' )
+		if( setImageBase64 === undefined ) return
+		setImageBase64( 'deleteImage' )
 	}
 
 	const requiredIcon = useMemo( ()=>{
@@ -83,6 +81,7 @@ const FormikField: FunctionComponent<Props> = ( props ) => {
 									<div className='absolute z-20 right-4 top-4'>
 										<button type='button' className='text-dark w-6 aspect-square border border-none bg-dark-secondary rounded-full'
 											onClick={()=> clearImage()}
+											disabled={disabled}
 										><FontAwesomeIcon icon={faXmark}/></button>
 									</div>
 									<Image src={imageUrl as string} alt='Preview image'

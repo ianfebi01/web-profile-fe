@@ -126,21 +126,25 @@ const Profile = () => {
 
 	const schema = generateValidationSchema( field )
 
-	const [imageBase64, setImageBase64] = useState<string>( '' );
+	const [imageBase64, setImageBase64] = useState<string>( session?.user.personImage || '' );
+
+	const initial: IApiPayload = {
+		name        : session?.user.name || '',
+		email       : session?.user.email || '',
+		quote       : session?.user.quote || '',
+		personImage : '',
+		textBg      : session?.user.textBg || '',
+		openToWork  : session?.user.openToWork || false
+	}
 	// Formik
 	const formik = useFormik( {
-		initialValues : {
-			name       : session?.user.name || '',
-			email      : session?.user.email || '',
-			quote      : session?.user.quote || '',
-			// personImage : session?.user.personImage || '',
-			textBg     : session?.user.textBg || '',
-			openToWork : session?.user.openToWork || false
-
-		},
+		initialValues    : initial,
 		validationSchema : schema,
 		onSubmit         : ( value ) => {
-			mutate( { ...value, personImage : imageBase64 } )
+			if ( imageBase64 === 'deleteImage' )
+				mutate( { ...value, personImage : '' } )
+			else
+				mutate( { ...value, personImage : imageBase64 } )
 		},
 	} )
 
@@ -167,6 +171,7 @@ const Profile = () => {
 								defaultImageUrl={session?.user.personImage}
 								setImageBase64={setImageBase64}
 								required={item.validation?.required}
+								disabled={isPending}
 							/>
 						) )
 					}
