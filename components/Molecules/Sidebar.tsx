@@ -1,5 +1,5 @@
 'use client'
-import { faBusinessTime, faCode, faUser } from '@fortawesome/free-solid-svg-icons'
+import { faBusinessTime, faCode, faPenRuler, faUser } from '@fortawesome/free-solid-svg-icons'
 import Image from 'next/image'
 import React from 'react'
 import ButtonSignOut from '../Atoms/ButtonSignOut'
@@ -42,6 +42,11 @@ const Sidebar = () => {
 					<li>
 						<ButtonSidebar text='Position' icon={faBusinessTime}
 							path="/admin/position"
+						/>
+					</li>
+					<li>
+						<ButtonSidebar text='Skill' icon={faPenRuler}
+							path="/admin/skill"
 						/>
 					</li>
 				</ul>

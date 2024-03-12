@@ -55,7 +55,7 @@ const Modal: FunctionComponent<Props> = ( props ) => {
 					unmount={false}
 				>
 
-					<Dialog.Panel className='inset-x-0 inset-y-0 m-auto max-w-2xl w-full max-h-[600px] bg-dark border border-none rounded-lg overflow-hidden'>
+					<Dialog.Panel className='inset-x-0 inset-y-0 m-auto max-w-2xl w-full max-h-[600px] flex flex-col bg-dark border border-none rounded-lg overflow-hidden'>
 						<Dialog.Title className={`px-4 pt-4 text-xl ${!desciption ? 'border-b-[1px] border-white/25 pb-4' : ''}`}>{title}</Dialog.Title>
 						{desciption ? 
 							<Dialog.Description className='px-4 border-b-[1px] border-white/25 pb-4'>
@@ -64,7 +64,7 @@ const Modal: FunctionComponent<Props> = ( props ) => {
 							: ''
 						
 						}
-						<div className='p-4 border-b-[1px] border-white/25 pb-4'>
+						<div className='p-4 border-b-[1px] border-white/25 pb-4 overflow-scroll'>
 							{children}
 						</div>
 						<div className='p-4 flex justify-end gap-2'>

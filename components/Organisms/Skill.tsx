@@ -11,10 +11,10 @@ import NoDataFound from '../Atoms/NoDataFound'
 import Button2 from '../Atoms/Button2'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
-import ModalAddPosition from '../Modal/ModalAddPosition'
 import { PositionContext } from '@/context/PositionContext'
+import ModalAddSkill from '../Modal/ModalAddSkill'
 
-const Position = () => {
+const Skill = () => {
 
 	// Position Context
 	const { state, dispatch } = useContext( PositionContext )
@@ -30,7 +30,7 @@ const Position = () => {
 	const{ data, isLoading } = useQuery<IApi<IApiPosition[]> & IApiPagination>( {
 		queryKey : ['position', params.page, params.q],
 		queryFn  : async ()=> {
-			const data: AxiosResponse<IApi<IApiPosition[]> & IApiPagination>  = await axiosAuth.get( '/v1/position', {
+			const data: AxiosResponse<IApi<IApiPosition[]> & IApiPagination>  = await axiosAuth.get( '/v1/skill', {
 				params : params
 			} )
 			
@@ -61,7 +61,7 @@ const Position = () => {
 	return (
 		<>
 			<div className='flex flex-col gap-8 h-full'>
-				<ModalAddPosition isOpen={isOpen} setIsOpen={setIsOpen}/>
+				<ModalAddSkill isOpen={isOpen} setIsOpen={setIsOpen}/>
 				<div className='flex gap-4 justify-between'>
 					<SearchInput placeholder='Search position' type='text'
 						value={params.q} setValue={( value: string )=> setParams( {
@@ -131,4 +131,4 @@ const Position = () => {
 	)
 }
 
-export default Position
+export default Skill
