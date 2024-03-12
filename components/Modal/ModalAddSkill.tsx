@@ -1,5 +1,5 @@
 "use client"
-import React, { FunctionComponent, useContext, useEffect, useRef } from 'react'
+import React, { FunctionComponent, useEffect, useRef, useState } from 'react'
 import Modal from '../Organisms/Modal'
 import { generateValidationSchema } from '@/lib/generateValidationSchema'
 import { IDynamicForm } from '@/types/form'
@@ -7,50 +7,39 @@ import { Form, FormikProvider, useFormik } from 'formik'
 import FormikField from '../Atoms/FormikField'
 import useAxiosAuth from '@/lib/hooks/useAxiosAuth'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { PositionContext } from '@/context/PositionContext'
-import { AxiosResponse } from 'axios'
-import { IApi, IApiPagination } from '@/types/api'
-import { IApiPosition } from '@/types/api/position'
+import { AxiosError, AxiosResponse } from 'axios'
+import { IApi, IApiPagination, IPayloadPagination } from '@/types/api'
 import toast from 'react-hot-toast'
+import { IApiSkill } from '@/types/api/skill'
 
 interface Props{
     isOpen: boolean
     setIsOpen: ( value: boolean ) => void
+	params: IPayloadPagination
 }
-const ModalAddSkill: FunctionComponent<Props> = ( { isOpen, setIsOpen } ) => {
-
-	// Context
-	const { state } = useContext( PositionContext );
+const ModalAddSkill: FunctionComponent<Props> = ( { isOpen, setIsOpen, params } ) => {
 
 	const axiosAuth = useAxiosAuth()
-
+	
 	// React Query
 	const queryClient = useQueryClient()
 	const { mutate, isPending } = useMutation( {
-		mutationKey : ['position'],
-		mutationFn  : async( value: Omit<IApiPosition, 'id'> )=> {
-			const data: AxiosResponse<IApi<IApiPosition> & IApiPagination> = await axiosAuth.post(
-				`/v1/position`, 
+		mutationKey : ['skill', params.q, params.page],
+		mutationFn  : async( value: Omit<IApiSkill, 'id'> )=> {
+			const data: AxiosResponse<IApi<IApiSkill> & IApiPagination> = await axiosAuth.post(
+				`/v1/skill`, 
 				value
 			)
 			
 			return data.data.data
 		},
-		onSuccess : ( data )=> {
-			
-			queryClient.setQueryData( ['position', state.paginator.page, state.paginator.q], ( oldData: IApi<IApiPosition[]> & IApiPagination )=> {
-				const tmp = oldData.data
-				if( tmp && tmp?.length < state.paginator.limit ){
-					tmp.push( data  as IApiPosition )
-				}
-				
-				return {
-					...oldData,
-					data : tmp
-				}
-			} )
+		onSuccess : (  )=> {
+			queryClient.invalidateQueries( { queryKey : ['skill', params.q, params.page] } )
 			toast.success( 'Successfully add new position!' )
 			setIsOpen( false )
+		},
+		onError : ( error: AxiosError<IApi> ) => {
+			toast.error( error.response?.data?.message as string )
 		}
 	} )
 
@@ -91,25 +80,29 @@ const ModalAddSkill: FunctionComponent<Props> = ( { isOpen, setIsOpen } ) => {
 			fieldType   : 'image',
 			label       : 'Icon',
 			validation  : {
-				required : true
+				required : false
 			}
 		},
 	]
 
 	// Form
 	const schema = generateValidationSchema( fields )
+	const [imageBase64, setImageBase64] = useState<string>( '' );
 
 	// Formik
 	const formik = useFormik( {
 		initialValues : {
 			name        : '',
-			description : ''
+			description : '',
+			image       : ''
 		},
 		validationSchema : schema,
-		onSubmit         : ( values )=>{
-			mutate( values )
-
-		}
+		onSubmit         : ( value ) => {
+			if ( imageBase64 === 'deleteImage' )
+				mutate( { ...value, image : '' } )
+			else
+				mutate( { ...value, image : imageBase64 } )
+		},
 	} )
 
 	const submitRef = useRef<HTMLButtonElement>( null )
@@ -119,6 +112,7 @@ const ModalAddSkill: FunctionComponent<Props> = ( { isOpen, setIsOpen } ) => {
 			name        : '',
 			description : ''
 		} )
+		setImageBase64( '' )
 	}, [isOpen] )
 	
 	return (
@@ -139,6 +133,7 @@ const ModalAddSkill: FunctionComponent<Props> = ( { isOpen, setIsOpen } ) => {
 								key={item.name}
 								fieldType={item.fieldType}
 								required={item.validation?.required}
+								setImageBase64={setImageBase64}
 							/>
 						) )
 					}

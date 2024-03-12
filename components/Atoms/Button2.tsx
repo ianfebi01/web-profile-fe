@@ -1,5 +1,6 @@
-import React, { FunctionComponent, ReactNode, useMemo } from 'react'
+import React, { FunctionComponent, ReactNode } from 'react'
 import Spinner from './Spinner'
+import { cn } from '@/lib/utils'
 
 interface Props{
     disabled?: boolean | undefined
@@ -8,30 +9,48 @@ interface Props{
     type: 'submit' | 'button' | 'reset'
 	className?: string
 	loading?: boolean
+	variant?: 'primary' | 'secondary' | 'icon' | 'iconOnly' | 'link'
 }
 
 const Button2: FunctionComponent<Props> = ( props ) => {
 
-	const { disabled, children, onClick, type, className, loading } = props
-	const classes = useMemo( ()=>{
-		const buttonClasses = 'py-2 px-4 text-xs text-white flex items-center gap-2 rounded-lg border border-transparent transition-default w-fit'
-		if ( disabled || loading ){
-			return `${buttonClasses} bg-dark/50 text-white/50 ${className}`
-		}else{
-			return `${buttonClasses} bg-dark text-white hover:border-white/25 ${className}`
-		}
-	}, [props] )
+	const { disabled, children, onClick, type, className, loading, variant = 'primary' } = props
 	
 	return (
 		<button
-			className={classes}
+			className={cn(
+				'py-2 px-4 text-xs flex items-center gap-2 rounded-lg border border-transparent transition-default w-fit',
+				' hover:border-white/25',
+				// variant
+				[
+					variant === 'primary' && [
+						'bg-dark text-white'
+					],
+					variant === 'secondary' && [
+						'bg-dark-secondary text-white'
+					],
+					variant === 'icon' && [
+						'w-8 aspect-square p-2',
+						'flex items-center justify-center',
+						'text-white border hover:border-white/25 border-transparent bg-transparent'
+					],
+					variant === 'iconOnly' && [
+						'w-fit p-0',
+						'hover:opacity-75 focus:opacity-75',
+						'text-white border-none'
+					]
+				],
+				disabled && 'bg-dark/50 text-white/50',
+				className
+
+			)}
 			onClick={onClick}
 			type={type}
 			disabled={disabled || loading}
 		>
 			{loading ? <Spinner/> : ''}
 			
-			{children}
+			{variant === 'iconOnly' && loading ? '' : children}
 		</button>
 	)
 }
