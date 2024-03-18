@@ -86,6 +86,7 @@ const FormikField = forwardRef <FormikFieldHandler, Props>( function FormikField
 							className="hidden"
 							onChange={handleImage}
 							disabled={disabled}
+							accept='image/jpeg,image/png,image/gif,image/webp,image/svg+xml'
 						/> 
 						{
 							imageUrl ? 
