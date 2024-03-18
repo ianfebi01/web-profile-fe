@@ -14,6 +14,7 @@ import ModalAddSkill from '../Modal/ModalAddSkill'
 import { IApiSkill } from '@/types/api/skill'
 import toast from 'react-hot-toast'
 import DeleteButton from '../Atoms/DeleteButton'
+import Image from 'next/image'
 
 const Skill = () => {
 	const axiosAuth = useAxiosAuth()
@@ -110,19 +111,27 @@ const Skill = () => {
 						{data?.data?.map( ( item: IApiSkill, i ) => (
 							<article
 								key={i}
-								className="h-24 bg-dark p-4 border border-none rounded-lg flex flex-col gap-2"
+								className=" bg-dark p-4 border border-none rounded-lg flex gap-4 items-start hover:scale-95 transition-default"
 							>
-								<div className="flex gap-2 justify-between">
-									<h2 className="text-xl font-bold line-clamp-1 leading-none">
-										{item.name}
-									</h2>
-									<DeleteButton
-										loading={isPending && id === item.id}
-										disabled={isPending}
-										onClick={() => handleDelete( item.id as number )}
-									/>
+
+								<Image src={item.image} alt={item.name}
+									width={40} height={40}
+									className='flex-shrink-0'
+								/>
+
+								<div className='flex flex-col gap-2 grow-[1]'>
+									<div className="flex gap-2 justify-between">
+										<h2 className="text-xl font-bold line-clamp-1 leading-none">
+											{item.name}
+										</h2>
+										<DeleteButton
+											loading={isPending && id === item.id}
+											disabled={isPending}
+											onClick={() => handleDelete( item.id as number )}
+										/>
+									</div>
+									<p className="text-[0.8rem] line-clamp-3">{item.description}</p>
 								</div>
-								<p className="text-[0.8rem] line-clamp-2">{item.description}</p>
 							</article>
 						) )}
 					</div>

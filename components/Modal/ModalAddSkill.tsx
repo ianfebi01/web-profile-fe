@@ -4,7 +4,7 @@ import Modal from '../Organisms/Modal'
 import { generateValidationSchema } from '@/lib/generateValidationSchema'
 import { IDynamicForm } from '@/types/form'
 import { Form, FormikProvider, useFormik } from 'formik'
-import FormikField, { FormikFieldHandler } from '../Atoms/FormikField'
+import FormikField from '../Atoms/FormikField'
 import useAxiosAuth from '@/lib/hooks/useAxiosAuth'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { AxiosError, AxiosResponse } from 'axios'
@@ -90,7 +90,6 @@ const ModalAddSkill: FunctionComponent<Props> = ( { isOpen, setIsOpen, params } 
 
 	// Form
 	const schema = generateValidationSchema( fields )
-	const formikFieldRef = useRef<FormikFieldHandler>( null )
 
 	// Formik
 	const formik = useFormik( {
@@ -117,7 +116,6 @@ const ModalAddSkill: FunctionComponent<Props> = ( { isOpen, setIsOpen, params } 
 			description : '',
 			image       : ''
 		} )
-		formikFieldRef.current?.clearImage()
 	}, [isOpen] )
 	
 	return (
@@ -138,7 +136,6 @@ const ModalAddSkill: FunctionComponent<Props> = ( { isOpen, setIsOpen, params } 
 								key={item.name}
 								fieldType={item.fieldType}
 								required={item.validation?.required}
-								ref={formikFieldRef}
 							/>
 						) )
 					}
