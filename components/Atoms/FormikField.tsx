@@ -24,7 +24,7 @@ export interface FormikFieldHandler{
 }
 const FormikField = forwardRef <FormikFieldHandler, Props>( function FormikField( props, ref ) {
 
-	const { name, label, placeholder, fieldType='text', defaultImageUrl, setImageBase64, required, disabled = false } = props
+	const { name, label, placeholder, fieldType='text', defaultImageUrl, required, disabled = false } = props
 
 	const [field, meta, helpers] = useField( name )
 
@@ -38,16 +38,11 @@ const FormikField = forwardRef <FormikFieldHandler, Props>( function FormikField
 		const base64 = await readAsBase64( e.target.files[0] )
 		setImageUrl( base64 )
 		helpers.setValue( base64 )
-
-		if( setImageBase64 ) 
-			setImageBase64( base64 )
 	}
 
 	const clearImage= ()=>{
 		helpers.setValue( '' )
 		setImageUrl( '' )
-		if( setImageBase64 === undefined ) return
-		setImageBase64( 'deleteImage' )
 	}
 
 	const requiredIcon = useMemo( ()=>{
@@ -89,7 +84,7 @@ const FormikField = forwardRef <FormikFieldHandler, Props>( function FormikField
 							accept='image/jpeg,image/png,image/gif,image/webp,image/svg+xml'
 						/> 
 						{
-							imageUrl ? 
+							imageUrl !== '' ? 
 								<div className=' aspect-square w-60 relative' >
 									<div className='absolute z-20 right-4 top-4'>
 										<button type='button' className='text-dark w-6 aspect-square border border-none bg-dark-secondary rounded-full'

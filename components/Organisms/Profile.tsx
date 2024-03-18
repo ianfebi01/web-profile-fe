@@ -1,6 +1,6 @@
 "use client"
 import { useSession } from 'next-auth/react'
-import React, { FormEvent, useState } from 'react'
+import React, { FormEvent } from 'react'
 import FormikField from '../Atoms/FormikField'
 import { Form, FormikProvider, useFormik } from 'formik'
 import useAxiosAuth from '@/lib/hooks/useAxiosAuth'
@@ -126,13 +126,11 @@ const Profile = () => {
 
 	const schema = generateValidationSchema( field )
 
-	const [imageBase64, setImageBase64] = useState<string>( session?.user.personImage || '' );
-
 	const initial: IApiPayload = {
 		name        : session?.user.name || '',
 		email       : session?.user.email || '',
 		quote       : session?.user.quote || '',
-		personImage : '',
+		personImage : session?.user.personImage || '',
 		textBg      : session?.user.textBg || '',
 		openToWork  : session?.user.openToWork || false
 	}
@@ -141,10 +139,7 @@ const Profile = () => {
 		initialValues    : initial,
 		validationSchema : schema,
 		onSubmit         : ( value ) => {
-			if ( imageBase64 === 'deleteImage' )
-				mutate( { ...value, personImage : '' } )
-			else
-				mutate( { ...value, personImage : imageBase64 } )
+			mutate( { ...value } )
 		},
 	} )
 
@@ -169,7 +164,6 @@ const Profile = () => {
 								key={item.name}
 								fieldType={item.fieldType}
 								defaultImageUrl={session?.user.personImage}
-								setImageBase64={setImageBase64}
 								required={item.validation?.required}
 								disabled={isPending}
 							/>
