@@ -9,10 +9,11 @@ import StyledPagination from '../Molecules/StyledPagination'
 import NoDataFound from '../Atoms/NoDataFound'
 import Button2 from '../Atoms/Button2'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus, faTrash } from '@fortawesome/free-solid-svg-icons'
+import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import ModalAddSkill from '../Modal/ModalAddSkill'
 import { IApiSkill } from '@/types/api/skill'
 import toast from 'react-hot-toast'
+import DeleteButton from '../Atoms/DeleteButton'
 
 const Skill = () => {
 	const axiosAuth = useAxiosAuth()
@@ -48,7 +49,7 @@ const Skill = () => {
 	const [isOpen, setIsOpen] = useState<boolean>( false )
 
 	// @NOTE handle delete
-	const [id, setId] = useState<number | null>( null );
+	const [id, setId] = useState<number | null>( null )
 	const queryClient = useQueryClient()
 	const { mutate, isPending } = useMutation( {
 		mutationKey : ['skill', 'delete'],
@@ -100,7 +101,7 @@ const Skill = () => {
 						onClick={() => setIsOpen( true )}
 					>
 						<FontAwesomeIcon icon={faPlus} />
-            Add Position
+            			Add Position
 					</Button2>
 				</div>
 
@@ -115,15 +116,11 @@ const Skill = () => {
 									<h2 className="text-xl font-bold line-clamp-1 leading-none">
 										{item.name}
 									</h2>
-									<Button2
-										type="button"
+									<DeleteButton
 										loading={isPending && id === item.id}
 										disabled={isPending}
-										variant="iconOnly"
 										onClick={() => handleDelete( item.id as number )}
-									>
-										<FontAwesomeIcon icon={faTrash} size="sm" />
-									</Button2>
+									/>
 								</div>
 								<p className="text-[0.8rem] line-clamp-2">{item.description}</p>
 							</article>
