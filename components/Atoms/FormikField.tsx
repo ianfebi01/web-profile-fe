@@ -1,5 +1,5 @@
 "use client"
-import React, { ChangeEvent, FunctionComponent, useMemo, useRef, useState } from 'react'
+import React, { ChangeEvent, forwardRef, useImperativeHandle, useMemo, useRef, useState } from 'react'
 import { useField } from 'formik'
 import Image from 'next/image'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -17,7 +17,11 @@ interface Props{
 	required?: boolean
 	disabled?: boolean
 }
-const FormikField: FunctionComponent<Props> = ( props ) => {
+
+export interface FormikFieldHandler{
+	clearImage: () => void
+}
+const FormikField = forwardRef <FormikFieldHandler, Props>( function FormikField( props, ref ) {
 
 	const { name, label, placeholder, fieldType='text', defaultImageUrl, setImageBase64, required, disabled = false } = props
 
@@ -48,6 +52,12 @@ const FormikField: FunctionComponent<Props> = ( props ) => {
 		else if( required && !disabled ) return <span className='text-red-500'>*</span>
 		else if( required && !disabled ) return ''
 	}, [] )
+
+	useImperativeHandle( ref, () => {
+		return{
+			clearImage
+		}
+	} )
 	
 	return (
 		<div className='flex flex-col gap-2 relative'>
@@ -132,6 +142,6 @@ const FormikField: FunctionComponent<Props> = ( props ) => {
 			<p className={`absolute bottom-0 text-[0.7rem] text-red-500 transition-default delay-100 ${meta.error && meta.touched ? 'translate-y-0 opacity-100': '-translate-y-2 opacity-0'}`}>{meta.error}</p>
 		</div>
 	)
-}
+} )
 
 export default FormikField

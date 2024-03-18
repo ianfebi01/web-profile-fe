@@ -4,7 +4,7 @@ import Modal from '../Organisms/Modal'
 import { generateValidationSchema } from '@/lib/generateValidationSchema'
 import { IDynamicForm } from '@/types/form'
 import { Form, FormikProvider, useFormik } from 'formik'
-import FormikField from '../Atoms/FormikField'
+import FormikField, { FormikFieldHandler } from '../Atoms/FormikField'
 import useAxiosAuth from '@/lib/hooks/useAxiosAuth'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { AxiosError, AxiosResponse } from 'axios'
@@ -80,7 +80,7 @@ const ModalAddSkill: FunctionComponent<Props> = ( { isOpen, setIsOpen, params } 
 			fieldType   : 'image',
 			label       : 'Icon',
 			validation  : {
-				required : false
+				required : true
 			}
 		},
 	]
@@ -88,6 +88,7 @@ const ModalAddSkill: FunctionComponent<Props> = ( { isOpen, setIsOpen, params } 
 	// Form
 	const schema = generateValidationSchema( fields )
 	const [imageBase64, setImageBase64] = useState<string>( '' );
+	const formikFieldRef = useRef<FormikFieldHandler>( null )
 
 	// Formik
 	const formik = useFormik( {
@@ -110,9 +111,11 @@ const ModalAddSkill: FunctionComponent<Props> = ( { isOpen, setIsOpen, params } 
 	useEffect( ()=>{
 		formik.handleReset( {
 			name        : '',
-			description : ''
+			description : '',
+			image       : ''
 		} )
 		setImageBase64( '' )
+		formikFieldRef.current?.clearImage()
 	}, [isOpen] )
 	
 	return (
@@ -134,6 +137,7 @@ const ModalAddSkill: FunctionComponent<Props> = ( { isOpen, setIsOpen, params } 
 								fieldType={item.fieldType}
 								required={item.validation?.required}
 								setImageBase64={setImageBase64}
+								ref={formikFieldRef}
 							/>
 						) )
 					}
