@@ -1,5 +1,5 @@
 "use client"
-import React, { FunctionComponent, useEffect, useRef, useState } from 'react'
+import React, { FunctionComponent, useEffect, useRef } from 'react'
 import Modal from '../Organisms/Modal'
 import { generateValidationSchema } from '@/lib/generateValidationSchema'
 import { IDynamicForm } from '@/types/form'
@@ -80,14 +80,16 @@ const ModalAddSkill: FunctionComponent<Props> = ( { isOpen, setIsOpen, params } 
 			fieldType   : 'image',
 			label       : 'Icon',
 			validation  : {
-				required : true
+				required : true,
+				image    : {
+					maxSize : 1000
+				}
 			}
 		},
 	]
 
 	// Form
 	const schema = generateValidationSchema( fields )
-	const [imageBase64, setImageBase64] = useState<string>( '' );
 	const formikFieldRef = useRef<FormikFieldHandler>( null )
 
 	// Formik
@@ -99,10 +101,11 @@ const ModalAddSkill: FunctionComponent<Props> = ( { isOpen, setIsOpen, params } 
 		},
 		validationSchema : schema,
 		onSubmit         : ( value ) => {
-			if ( imageBase64 === 'deleteImage' )
-				mutate( { ...value, image : '' } )
-			else
-				mutate( { ...value, image : imageBase64 } )
+			// if ( imageBase64 === 'deleteImage' )
+			// 	mutate( { ...value, image : '' } )
+			// else
+			// 	mutate( { ...value, image : imageBase64 } )
+			mutate( { ...value } )
 		},
 	} )
 
@@ -114,7 +117,6 @@ const ModalAddSkill: FunctionComponent<Props> = ( { isOpen, setIsOpen, params } 
 			description : '',
 			image       : ''
 		} )
-		setImageBase64( '' )
 		formikFieldRef.current?.clearImage()
 	}, [isOpen] )
 	
@@ -136,7 +138,6 @@ const ModalAddSkill: FunctionComponent<Props> = ( { isOpen, setIsOpen, params } 
 								key={item.name}
 								fieldType={item.fieldType}
 								required={item.validation?.required}
-								setImageBase64={setImageBase64}
 								ref={formikFieldRef}
 							/>
 						) )

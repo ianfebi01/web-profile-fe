@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faXmark } from '@fortawesome/free-solid-svg-icons'
 import { Switch } from '@headlessui/react'
 import readAsBase64 from '@/lib/readAsBase63'
+import { cn } from '@/lib/utils'
 
 interface Props{
     name: string
@@ -33,15 +34,17 @@ const FormikField = forwardRef <FormikFieldHandler, Props>( function FormikField
 
 	const handleImage =  async ( e: ChangeEvent<HTMLInputElement> )=>{
 		if( !e?.target?.files ) return
-		setImageUrl( URL.createObjectURL( e.target.files[0] ) )
 		
 		const base64 = await readAsBase64( e.target.files[0] )
+		setImageUrl( base64 )
+		helpers.setValue( base64 )
 
 		if( setImageBase64 ) 
 			setImageBase64( base64 )
 	}
 
 	const clearImage= ()=>{
+		helpers.setValue( '' )
 		setImageUrl( '' )
 		if( setImageBase64 === undefined ) return
 		setImageBase64( 'deleteImage' )
@@ -70,7 +73,7 @@ const FormikField = forwardRef <FormikFieldHandler, Props>( function FormikField
 			{ fieldType === 'text' ?
 				<input id={name} type="text"
 					placeholder={placeholder} {...field}
-					className={`text-white p-2 border rounded-lg bg-transparent ring-0 focus:ring-0 shadow-none focus:outline-none  transition-default ${meta.touched && meta.error ? 'focus:border-red-500 border-red-500 ':'focus:border-white/50 border-white/25'}`}
+					className={`text-white p-2 border rounded-lg bg-transparent ring-0 focus:ring-0 shadow-none focus:outline-none  transition-default ${meta.touched && meta.error ? 'focus:border-red-500 border-red-500':'focus:border-white/50 border-white/25'}`}
 					disabled={disabled}
 				/> 
 				: fieldType === 'image' ?
@@ -80,7 +83,6 @@ const FormikField = forwardRef <FormikFieldHandler, Props>( function FormikField
 							ref={imageField}
 							type="file"
 							placeholder={placeholder} 
-							{...field}
 							className="hidden"
 							onChange={handleImage}
 							disabled={disabled}
@@ -103,9 +105,12 @@ const FormikField = forwardRef <FormikFieldHandler, Props>( function FormikField
 									/>
 								</div>
 								:
-								<button type='button' className='bg-dark-secondary aspect-square w-60 border border-dashed border-white/25'
-									onClick={()=> imageField.current?.click()}
-									disabled={disabled}
+								<button type='button' className={cn(
+									'bg-dark-secondary aspect-square w-60 border border-dashed border-white/25',
+									meta.touched && meta.error && 'focus:border-red-500 border-red-500'
+								)}
+								onClick={()=> imageField.current?.click()}
+								disabled={disabled}
 								>
 									Select Image
 								</button>
