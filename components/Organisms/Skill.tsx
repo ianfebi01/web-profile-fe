@@ -15,6 +15,8 @@ import { IApiSkill } from '@/types/api/skill'
 import toast from 'react-hot-toast'
 import DeleteButton from '../Atoms/DeleteButton'
 import Image from 'next/image'
+import EditButton from '../Atoms/EditButton'
+import ModalEditSkill from '../Modal/ModalEditSkill'
 
 const Skill = () => {
 	const axiosAuth = useAxiosAuth()
@@ -77,11 +79,41 @@ const Skill = () => {
 		mutate( id )
 	}
 
+	// @NOTE handleEdit
+	const [detailDataId, setDetailDataId] = useState<number>(  );
+	const [isEditOpen, setIsEditOpen] = useState<boolean>( false );
+	const [detailData, setDetailData] = useState<IApiSkill>(  );
+
+	const { mutate: detailMutate, isPending: isDetailPending } = useMutation( {
+		mutationKey : ['skill', 'detail', detailDataId],
+		mutationFn  : async ( id: number ) => {
+			const data: AxiosResponse<IApi<IApiSkill>> = await axiosAuth.get( `/v1/skill/${id}` )
+		
+			return data.data.data
+		},
+		onSuccess : ( data ) => {
+			setDetailData( data )
+			setIsEditOpen( true )
+		},
+		onError : ( error: AxiosError<IApi> ) => {
+			toast.error( error.response?.data?.message as string )
+		},
+	} )
+
+	const handleEdit = ( id: number ) => {
+		setDetailDataId( id )
+		detailMutate( id )
+	}
+
 	return (
 		<>
 			<div className="flex flex-col gap-8 h-full">
 				<ModalAddSkill isOpen={isOpen} setIsOpen={setIsOpen}
 					params={params}
+				/>
+				<ModalEditSkill isOpen={isEditOpen} setIsOpen={setIsEditOpen}
+					params={params}
+					detail={detailData as IApiSkill}
 				/>
 				<div className="flex gap-4 justify-between">
 					<SearchInput
@@ -107,11 +139,11 @@ const Skill = () => {
 				</div>
 
 				{data?.data?.length && !isLoading ? (
-					<div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
+					<div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
 						{data?.data?.map( ( item: IApiSkill, i ) => (
 							<article
 								key={i}
-								className=" bg-dark p-4 border border-none rounded-lg flex gap-4 items-start hover:scale-95 transition-default"
+								className=" bg-dark p-4 border border-none rounded-lg flex gap-4 items-start hover:scale-105 transition-default"
 							>
 
 								<Image src={item.image} alt={item.name}
@@ -120,17 +152,24 @@ const Skill = () => {
 								/>
 
 								<div className='flex flex-col gap-2 grow-[1]'>
-									<div className="flex gap-2 justify-between">
-										<h2 className="text-xl font-bold line-clamp-1 leading-none">
+									<div className="flex gap-4 justify-between">
+										<p className="text-xl font-bold line-clamp-1 leading-none text-ellipsis">
 											{item.name}
-										</h2>
-										<DeleteButton
-											loading={isPending && id === item.id}
-											disabled={isPending}
-											onClick={() => handleDelete( item.id as number )}
-										/>
+										</p>
+										<div className='flex items-center justify-center gap-4'>
+											<EditButton
+												loading={isDetailPending && detailDataId === item.id}
+												disabled={isDetailPending}
+												onClick={() => handleEdit( item.id as number )}
+											/>
+											<DeleteButton
+												loading={isPending && id === item.id}
+												disabled={isPending}
+												onClick={() => handleDelete( item.id as number )}
+											/>
+										</div>
 									</div>
-									<p className="text-[0.8rem] line-clamp-3">{item.description}</p>
+									<p className="text-[0.8rem] line-clamp-4 leading-normal">{item.description}</p>
 								</div>
 							</article>
 						) )}
@@ -140,7 +179,7 @@ const Skill = () => {
 						{mockLoop.map( ( item, i ) => (
 							<article
 								key={i}
-								className="h-24 p-4 border border-none rounded-lg flex flex-col gap-2 animate-pulse bg-dark-secondary"
+								className="h-28 p-4 border border-none rounded-lg flex flex-col gap-2 animate-pulse bg-dark-secondary"
 							>
 								<div className="h-6 bg-dark-secondary max-w-[10rem]"></div>
 								<div className="h-4 bg-dark-secondary" />

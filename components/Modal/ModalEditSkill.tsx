@@ -15,9 +15,10 @@ import { IApiSkill } from '@/types/api/skill'
 interface Props{
     isOpen: boolean
     setIsOpen: ( value: boolean ) => void
-	params: IPayloadPagination
+	params: IPayloadPagination,
+	detail: IApiSkill
 }
-const ModalAddSkill: FunctionComponent<Props> = ( { isOpen, setIsOpen, params } ) => {
+const ModalEditSkill: FunctionComponent<Props> = ( { isOpen, setIsOpen, params, detail } ) => {
 
 	const axiosAuth = useAxiosAuth()
 	
@@ -26,20 +27,20 @@ const ModalAddSkill: FunctionComponent<Props> = ( { isOpen, setIsOpen, params } 
 	const { mutate, isPending } = useMutation( {
 		mutationKey : ['skill', params.q, params.page],
 		mutationFn  : async( value: Omit<IApiSkill, 'id'> )=> {
-			const data: AxiosResponse<IApi<IApiSkill> & IApiPagination> = await axiosAuth.post(
-				`/v1/skill`, 
+			const data: AxiosResponse<IApi<IApiSkill> & IApiPagination> = await axiosAuth.put(
+				`/v1/skill/${detail.id}`, 
 				value
 			)
-			
+
 			return data.data.data
 		},
 		onSuccess : (  )=> {
 			queryClient.invalidateQueries( { queryKey : ['skill', params.q, params.page] } )
-			toast.success( 'Successfully add new skill!' )
+			toast.success( 'Successfully edit skill!' )
 			setIsOpen( false )
 		},
-		onError : () => {
-			toast.error( 'Cant add skill, please try again latter.' )
+		onError : ( ) => {
+			toast.error( 'Cant edit skill, please try again latter.' )
 		}
 	} )
 
@@ -100,10 +101,6 @@ const ModalAddSkill: FunctionComponent<Props> = ( { isOpen, setIsOpen, params } 
 		},
 		validationSchema : schema,
 		onSubmit         : ( value ) => {
-			// if ( imageBase64 === 'deleteImage' )
-			// 	mutate( { ...value, image : '' } )
-			// else
-			// 	mutate( { ...value, image : imageBase64 } )
 			mutate( { ...value } )
 		},
 	} )
@@ -111,18 +108,24 @@ const ModalAddSkill: FunctionComponent<Props> = ( { isOpen, setIsOpen, params } 
 	const submitRef = useRef<HTMLButtonElement>( null )
 
 	useEffect( ()=>{
-		formik.handleReset( {
-			name        : '',
-			description : '',
-			image       : ''
-		} )
+		if( isOpen ){
+			formik.setFieldValue( 'name', detail?.name )
+			formik.setFieldValue( 'description', detail?.description )
+			formik.setFieldValue( 'image', detail?.image )
+		}
+		if( isOpen === false )
+			formik.handleReset( {
+				name        : '',
+				description : '',
+				image       : ''
+			} )
 	}, [isOpen] )
 	
 	return (
 		<Modal isOpen={isOpen} setIsOpen={setIsOpen}
 			onConfirm={()=>submitRef.current?.click()}
 			onCancel={()=> setIsOpen( false )}
-			title='Add new skill'
+			title='Edit skill'
 			loading={isPending}
 		>
 			<FormikProvider value={formik}>
@@ -148,4 +151,4 @@ const ModalAddSkill: FunctionComponent<Props> = ( { isOpen, setIsOpen, params } 
 	)
 }
 
-export default ModalAddSkill
+export default ModalEditSkill

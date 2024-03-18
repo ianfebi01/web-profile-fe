@@ -1,5 +1,5 @@
 "use client"
-import React, { ChangeEvent, forwardRef, useImperativeHandle, useMemo, useRef, useState } from 'react'
+import React, { ChangeEvent, forwardRef, useImperativeHandle, useMemo, useRef } from 'react'
 import { useField } from 'formik'
 import Image from 'next/image'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -24,25 +24,22 @@ export interface FormikFieldHandler{
 }
 const FormikField = forwardRef <FormikFieldHandler, Props>( function FormikField( props, ref ) {
 
-	const { name, label, placeholder, fieldType='text', defaultImageUrl, required, disabled = false } = props
+	const { name, label, placeholder, fieldType='text', required, disabled = false } = props
 
 	const [field, meta, helpers] = useField( name )
 
 	// handle image
-	const [imageUrl, setImageUrl] = useState<string>( defaultImageUrl || '' );
 	const imageField = useRef<HTMLInputElement>( null )
 
 	const handleImage =  async ( e: ChangeEvent<HTMLInputElement> )=>{
 		if( !e?.target?.files ) return
 		
 		const base64 = await readAsBase64( e.target.files[0] )
-		setImageUrl( base64 )
 		helpers.setValue( base64 )
 	}
 
 	const clearImage= ()=>{
 		helpers.setValue( '' )
-		setImageUrl( '' )
 	}
 
 	const requiredIcon = useMemo( ()=>{
@@ -84,7 +81,7 @@ const FormikField = forwardRef <FormikFieldHandler, Props>( function FormikField
 							accept='image/jpeg,image/png,image/gif,image/webp,image/svg+xml'
 						/> 
 						{
-							imageUrl !== '' ? 
+							field.value !== '' ? 
 								<div className=' aspect-square w-60 relative' >
 									<div className='absolute z-20 right-4 top-4'>
 										<button type='button' className='text-dark w-6 aspect-square border border-none bg-dark-secondary rounded-full'
@@ -92,7 +89,7 @@ const FormikField = forwardRef <FormikFieldHandler, Props>( function FormikField
 											disabled={disabled}
 										><FontAwesomeIcon icon={faXmark}/></button>
 									</div>
-									<Image src={imageUrl as string} alt='Preview image'
+									<Image src={field.value as string} alt='Preview image'
 										fill
 										style={{
 											objectFit : 'contain'

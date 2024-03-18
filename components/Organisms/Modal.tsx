@@ -70,12 +70,14 @@ const Modal: FunctionComponent<Props> = ( props ) => {
 						<div className='p-4 flex justify-end gap-2'>
 							<Button2 type='button'
 								onClick={handleCancel}
+								disabled={loading}
 							>
 								{cancelText}
 							</Button2>
 
 							<Button2 type='button' className='bg-dark-secondary'
 								loading={loading}
+								disabled={loading}
 								onClick={() => onConfirm( )}
 							>{confirmText}</Button2>
 						</div>
