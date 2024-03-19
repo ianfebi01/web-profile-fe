@@ -2,7 +2,7 @@ export interface IDynamicForm {
   name: string
   label: string
   type: string
-  fieldType?: 'text' | 'image' | 'switch'
+  fieldType?: 'text' | 'image' | 'switch' | 'year' | 'date'
   placeholder: string
   options?: Option[]
   validation?: IValidation

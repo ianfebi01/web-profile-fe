@@ -12,7 +12,7 @@ interface Props{
     name: string
     label: string
 	placeholder: string
-	fieldType?: 'text' | 'image' | 'switch'
+	fieldType?: 'text' | 'image' | 'switch' | 'year' | 'date'
 	defaultImageUrl?: string
 	setImageBase64?: ( base64: string ) => void
 	required?: boolean
