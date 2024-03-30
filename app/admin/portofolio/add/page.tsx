@@ -3,7 +3,7 @@ import React from 'react'
 
 export default function AddPortofolioPage() {
 	return (
-		<div className="flex flex-col gap-6 overflow-scroll h-full">
+		<div className="flex flex-col gap-6 h-full">
 			<h1 className="text-2xl font-semibold ">Portofolio</h1>
 			<AddPortofolio/>
 		</div> 

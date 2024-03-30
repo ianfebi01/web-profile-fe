@@ -1,4 +1,5 @@
 import '@/assets/scss/main.scss'
+import '@/assets/css/main.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import { config } from '@fortawesome/fontawesome-svg-core'

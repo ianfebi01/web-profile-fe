@@ -3,7 +3,7 @@ export interface IApiPortofolio {
   name: string
   description: string
   image: string
-  year: number
+  year: Date
   userId: number
   skill?: string[]
 }

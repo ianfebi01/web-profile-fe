@@ -104,7 +104,7 @@ const AddPortofolio = () => {
 			name        : '',
 			description : '',
 			image       : '',
-			year        : date.getFullYear(),
+			year        : date,
 			skill       : []
 		},
 		validationSchema : schema,
@@ -117,7 +117,7 @@ const AddPortofolio = () => {
 	} )
 	
 	return (
-		<section className='overflow-scroll'>
+		<section className=''>
 			<FormikProvider value={formik}>
 				<Form onSubmit={formik.handleSubmit} className='flex flex-col gap-2'>
 					{

@@ -9,3 +9,22 @@
 p{
     @apply text-xs;
 }
+
+// react date picker
+.react-datepicker-wrapper {
+    @apply w-fit;
+}
+
+.react-datepicker__input-container {
+    display: flex !important;
+    align-items: center;
+}
+
+.react-datepicker__calendar-icon {
+    @apply text-white;
+}
+
+.react-datepicker{
+    // background-color: unset !important;
+    @apply bg-black;
+}
