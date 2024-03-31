@@ -15,16 +15,21 @@ import readAsBase64 from '@/lib/readAsBase63'
 import { cn } from '@/lib/utils'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
-
+import Select, { GroupBase, OptionsOrGroups, StylesConfig } from 'react-select'
+import { IOptions } from '@/types/form'
 interface Props {
   name: string
   label: string
   placeholder: string
-  fieldType?: 'text' | 'image' | 'switch' | 'year' | 'date'
+  fieldType?: 'text' | 'image' | 'switch' | 'year' | 'date' | 'select'
   defaultImageUrl?: string
   setImageBase64?: ( base64: string ) => void
   required?: boolean
   disabled?: boolean
+  select?: {
+    isMulti?: boolean
+    options?: OptionsOrGroups<unknown, GroupBase<unknown>> | undefined
+  }
 }
 
 export interface FormikFieldHandler {
@@ -41,6 +46,7 @@ const FormikField = forwardRef<FormikFieldHandler, Props>( function FormikField(
 		fieldType = 'text',
 		required,
 		disabled = false,
+		select,
 	} = props
 
 	const [field, meta, helpers] = useField( name )
@@ -53,6 +59,8 @@ const FormikField = forwardRef<FormikFieldHandler, Props>( function FormikField(
 
 		const base64 = await readAsBase64( e.target.files[0] )
 		helpers.setValue( base64 )
+		await Promise.resolve()
+		setTimeout( () => helpers.setTouched( true ) )
 	}
 
 	const clearImage = () => {
@@ -71,6 +79,111 @@ const FormikField = forwardRef<FormikFieldHandler, Props>( function FormikField(
 			clearImage,
 		}
 	} )
+
+	// React select
+	const handleSelectChange = async ( val: IOptions | IOptions[] ) => {
+		helpers.setValue( val )
+		await Promise.resolve()
+		setTimeout( () => helpers.setTouched( true ) )
+		helpers.setTouched( true )
+	}
+	const color = {
+		dark              : '#222222',
+		'dark-secondary'  : 'rgba(84, 84, 84, 0.46)',
+		orange            : '#F26B50',
+		green             : '#4FAA84',
+		white             : '#FBFBFB',
+		'white-overlay'   : 'rgba(251, 251, 251, 0.40)',
+		'white-overlay-2' : 'rgba(251, 251, 251, 0.20)',
+	}
+	const customStyles: StylesConfig = {
+		control : ( provided: Record<string, unknown>, state: any ) => ( {
+			...provided,
+			color     : '#fff',
+			width     : '100%',
+			minHeight : '36px',
+			padding   : '0 0.5rem',
+			border    : state.isFocused
+				? `1px solid rgb(251 251 251 / 0.5)`
+				: `1px solid rgb(251 251 251 / 0.25)`,
+			outline      : 'none',
+			borderRadius : '8px',
+			transition   : 'all 0.3s ease-in-out',
+			boxShadow    : 'none',
+			'&:hover'    : {
+				border : state.isFocused
+					? `1px solid rgb(251 251 251 / 0.5)`
+					: `1px solid rgb(251 251 251 / 0.25)`,
+			},
+			backgroundColor : 'transparent',
+		} ),
+		option : ( styles, { isDisabled, isFocused, isSelected } ) => ( {
+			...styles,
+			// backgroundColor : 'rgb(34 34 34 / var(--tw-bg-opacity))',
+			backgroundColor : isDisabled
+				? 'transparent'
+				: isSelected
+					? color['dark-secondary']
+					: isFocused
+						? color['dark-secondary']
+						: color['dark'],
+			color : isDisabled
+				? '1px solid rgb(251 251 251 / 0.25)'
+				: isSelected
+					? '1px solid rgb(251 251 251)'
+						? 'white'
+						: 'black'
+					: '1px solid rgb(251 251 251 / 0.25)',
+			cursor    : isDisabled ? 'not-allowed' : 'default',
+			':active' : {
+				...styles[':active'],
+				backgroundColor : !isDisabled
+					? isSelected
+						? color['dark-secondary']
+						: color['dark-secondary']
+					: undefined,
+			},
+		} ),
+		menu : ( base ) => ( {
+			...base,
+			// override border radius to match the box
+			// borderRadius : 0,
+			// kill the gap
+			// marginTop    : 0
+			boxShadow : '0px 1px 4px 1px rgba(34, 34, 34, 0.25)',
+			border    : '1px solid #9A9A9A',
+			overflow  : 'hidden',
+		} ),
+		menuList : ( base ) => ( {
+			...base,
+			// kill the white space on first and last option
+			padding         : 0,
+			backgroundColor : color.dark,
+		} ),
+		singleValue : ( provided ) => ( {
+			...provided,
+			color : 'white',
+		} ),
+		multiValue : ( styles ) => {
+			return {
+				...styles,
+				backgroundColor : color['dark-secondary'],
+			}
+		},
+		multiValueLabel : ( styles ) => ( {
+			...styles,
+			color : 'white',
+		} ),
+		multiValueRemove : ( styles ) => ( {
+			...styles,
+			color      : 'rgb(251 251 251 / 0.25)',
+			transition : 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
+			':hover'   : {
+				//   backgroundColor : color['dark-secondary'],
+				color : 'white',
+			},
+		} ),
+	}
 
 	return (
 		<div className="flex flex-col gap-2 relative">
@@ -200,6 +313,19 @@ const FormikField = forwardRef<FormikFieldHandler, Props>( function FormikField(
 							helpers.setValue( new Date( date as Date ) )
 							helpers.setTouched( true )
 						}}
+					/>
+				</>
+			) : fieldType === 'select' ? (
+				<>
+					<Select
+						options={select?.options}
+						isMulti={select?.isMulti}
+						styles={customStyles}
+						classNames={{
+							control : ( { isFocused } ) =>
+								isFocused ? 'border-white/50' : 'border-white/25',
+						}}
+						onChange={( val: unknown )=>handleSelectChange( val as IOptions | IOptions[] )}
 					/>
 				</>
 			) : (

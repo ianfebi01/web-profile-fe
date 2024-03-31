@@ -12,7 +12,19 @@ export const generateValidationSchema = ( fields: IDynamicForm[] ) => {
 	for ( const field of fields ) {
 		let validations: any = yup
 
-		validations = validations.string()
+		if ( field.fieldType === 'select' && field.select?.isMulti )
+			validations = validations.array().of(
+				validations.object( {
+					label : yup.string(),
+					value : yup.number()
+				} ) )
+		 else if ( field.fieldType === 'select' && !field.select?.isMulti )
+			validations = validations.object( {
+				label : yup.string(),
+				value : yup.number()
+			} ) 
+		else
+			validations = validations.string()
 		if ( field.validation?.required )
 			validations = validations = validations.required()
 		if ( field.type === 'email' ) validations = validations.email()
@@ -31,6 +43,12 @@ export const generateValidationSchema = ( fields: IDynamicForm[] ) => {
 				validations = validations.min( field.validation.charLength.min )
 			if ( field.validation?.charLength.max )
 				validations = validations.max( field.validation.charLength.max )
+		}
+		if ( field.fieldType === 'select'  ) {
+			// if ( field.select?.isMulti )
+			// 	validations = validations.array()
+			// if ( field.validation?.charLength.max )
+			// 	validations = validations.max( field.validation.charLength.max )
 		}
 		if ( field.fieldType === 'image' ) {
 			if ( field.validation?.image?.maxSize ) {

@@ -83,6 +83,33 @@ const AddPortofolio = () => {
 			}
 		},
 		{
+			name        : 'skills',
+			type        : 'select',
+			placeholder : 'Select skills',
+			fieldType   : 'select',
+			label       : 'Skills',
+			select      : {
+				isMulti : false,
+				options : [
+					{
+						label : 'test',
+						value : 1
+					},
+					{
+						label : 'ee',
+						value : 3
+					},
+					{
+						label : 'dd',
+						value : 2
+					}
+				]
+			},
+			validation : {
+				required : true
+			}
+		},
+		{
 			name        : 'year',
 			type        : 'year',
 			placeholder : 'Select year',
@@ -129,10 +156,11 @@ const AddPortofolio = () => {
 								key={item.name}
 								fieldType={item.fieldType}
 								required={item.validation?.required}
+								select={item?.select}
 							/>
 						) )
 					}
-					<Button2 disabled={!formik.isValid || isPending} loading={isPending}
+					<Button2 disabled={ isPending} loading={isPending}
 						type="submit"
 					>Submit</Button2>
 				</Form>
