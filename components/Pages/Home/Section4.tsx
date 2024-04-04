@@ -1,6 +1,6 @@
 'use client'
-import Button from '@/components/Atoms/Button'
-import TextHeader from '@/components/Atoms/TextHeader'
+import Button from '@/components/Buttons/Button'
+import TextHeader from '@/components/Texts/TextHeader'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { FunctionComponent, useState } from 'react'
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons'

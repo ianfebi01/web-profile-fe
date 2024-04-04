@@ -1,11 +1,11 @@
 "use client"
 import { useSession } from 'next-auth/react'
 import React, { FormEvent } from 'react'
-import FormikField from '../Atoms/FormikField'
+import FormikField from '../Inputs/FormikField'
 import { Form, FormikProvider, useFormik } from 'formik'
 import useAxiosAuth from '@/lib/hooks/useAxiosAuth'
 import { useMutation } from '@tanstack/react-query'
-import Button2 from '../Atoms/Button2'
+import Button2 from '../Buttons/Button2'
 import { IDynamicForm } from '@/types/form'
 import { generateValidationSchema } from '@/lib/generateValidationSchema'
 import toast from 'react-hot-toast'

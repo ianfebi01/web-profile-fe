@@ -1,10 +1,10 @@
 "use client"
 import React, { FunctionComponent, useEffect, useRef } from 'react'
-import Modal from '../Organisms/Modal'
+import Modal from './Modal'
 import { generateValidationSchema } from '@/lib/generateValidationSchema'
 import { IDynamicForm } from '@/types/form'
 import { Form, FormikProvider, useFormik } from 'formik'
-import FormikField from '../Atoms/FormikField'
+import FormikField from '../Inputs/FormikField'
 import useAxiosAuth from '@/lib/hooks/useAxiosAuth'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import {  AxiosResponse } from 'axios'

@@ -1,4 +1,4 @@
-import Skill from '@/components/Organisms/Skill'
+import Skill from '@/components/Pages/Skill'
 import React from 'react'
 
 export default function PositionPage() {

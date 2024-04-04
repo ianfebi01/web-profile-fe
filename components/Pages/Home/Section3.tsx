@@ -1,6 +1,6 @@
-import Button from '@/components/Atoms/Button'
-import TextHeader from '@/components/Atoms/TextHeader'
-import CardPortofolio from '@/components/Molecules/CardPortofolio'
+import Button from '@/components/Buttons/Button'
+import TextHeader from '@/components/Texts/TextHeader'
+import CardPortofolio from '@/components/Cards/CardPortofolio'
 import React from 'react'
 
 const portofolio = [

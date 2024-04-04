@@ -1,6 +1,6 @@
 'use client' // Error components must be Client Components
 
-import Button from '@/components/Atoms/Button'
+import Button from '@/components/Buttons/Button'
 import Image from 'next/image'
 
 export default function Error( {

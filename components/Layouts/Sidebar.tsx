@@ -2,9 +2,9 @@
 import { faBusinessTime, faCode, faPenRuler, faUser } from '@fortawesome/free-solid-svg-icons'
 import Image from 'next/image'
 import React from 'react'
-import ButtonSignOut from '../Atoms/ButtonSignOut'
+import ButtonSignOut from '../Buttons/ButtonSignOut'
 import { useSession } from 'next-auth/react'
-import ButtonSidebar from '../Atoms/ButtonSidebar'
+import ButtonSidebar from '../Buttons/ButtonSidebar'
 
 const Sidebar = () => {
 

@@ -3,7 +3,7 @@ import Image from 'next/image'
 import React, { FunctionComponent, useEffect, useRef } from 'react'
 import { sanitize } from 'isomorphic-dompurify'
 import { useInView, useAnimation } from 'framer-motion'
-import AnimationProvider from './AnimationProvider'
+import AnimationProvider from '@/components/Context/AnimationProvider'
 // import MacbookMockup from '../Atoms/MacbookMockup'
 
 interface Props {

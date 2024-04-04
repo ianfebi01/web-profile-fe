@@ -1,4 +1,4 @@
-import Position from '@/components/Organisms/Position'
+import Position from '@/components/Pages/Position'
 import { PositionProvider } from '@/context/PositionContext'
 import React from 'react'
 

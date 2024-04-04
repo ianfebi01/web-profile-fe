@@ -1,5 +1,5 @@
 import React, { FunctionComponent, ReactNode } from 'react'
-import Spinner from './Spinner'
+import Spinner from '../Icons/Spinner'
 import { cn } from '@/lib/utils'
 
 interface Props{

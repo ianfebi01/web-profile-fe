@@ -1,7 +1,7 @@
-import PersonImage from '@/components/Atoms/PersonImage'
-import Shape from '@/components/Atoms/Shape'
-import TextBackground from '@/components/Atoms/TextBackground'
-import TextSide from '@/components/Atoms/TextSide'
+import PersonImage from '@/components/PersonImage'
+import Shape from '@/components/Shape'
+import TextBackground from '@/components/Texts/TextBackground'
+import TextSide from '@/components/Texts/TextSide'
 import { IApiProfile } from '@/types/api/profile'
 import React, { FunctionComponent } from 'react'
 

@@ -1,4 +1,4 @@
-import TextQuote from '@/components/Atoms/TextQuote'
+import TextQuote from '@/components/Texts/TextQuote'
 import Image from 'next/image'
 import React, { FunctionComponent } from 'react'
 

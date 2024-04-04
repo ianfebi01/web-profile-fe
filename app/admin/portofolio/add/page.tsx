@@ -1,4 +1,4 @@
-import AddPortofolio from '@/components/Organisms/AddPortofolio'
+import AddPortofolio from '@/components/Pages/AddPortofolio'
 import React from 'react'
 
 export default function AddPortofolioPage() {

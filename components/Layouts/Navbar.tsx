@@ -1,6 +1,6 @@
 'use client'
 import React, { FunctionComponent, useState } from 'react'
-import Button from '../Atoms/Button'
+import Button from '../Buttons/Button'
 import {
 	motion,
 	useScroll,

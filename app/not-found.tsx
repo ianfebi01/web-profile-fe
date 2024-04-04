@@ -1,5 +1,5 @@
 "use client"
-import Button from '@/components/Atoms/Button'
+import Button from '@/components/Buttons/Button'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 export default function NotFound() {

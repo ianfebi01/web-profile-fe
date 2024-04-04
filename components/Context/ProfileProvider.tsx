@@ -7,7 +7,7 @@ import { useQuery } from '@tanstack/react-query'
 import { AxiosResponse } from 'axios'
 import { useSession } from 'next-auth/react'
 import { ReactNode } from 'react'
-import Spinner from '../Atoms/Spinner'
+import Spinner from '../Icons/Spinner'
 
 export default function ProfileProvider( {
 	children,

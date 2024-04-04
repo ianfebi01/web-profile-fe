@@ -1,4 +1,4 @@
-import Portofolio from "@/components/Organisms/Portofolio";
+import Portofolio from "@/components/Pages/Portofolio";
 import { PortofolioProvider } from "@/context/PortofolioContext";
 
 export default function PortofolioPage() {

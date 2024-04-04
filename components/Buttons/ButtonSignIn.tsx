@@ -1,7 +1,7 @@
 'use client'
 import { signIn } from 'next-auth/react'
 import React from 'react'
-import GithubIcon from './GithubIcon'
+import GithubIcon from '../Icons/GithubIcon'
 
 const ButtonSignIn = () => {
 	return (

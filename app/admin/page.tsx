@@ -1,4 +1,4 @@
-import Profile from "@/components/Organisms/Profile";
+import Profile from "@/components/Pages/Profile";
 
 export default async function Admin() {
 
