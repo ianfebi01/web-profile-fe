@@ -5,5 +5,5 @@ export interface IApiPortofolio {
   image: string
   year: Date
   userId: number
-  skill?: string[]
+  skills?: string[]
 }

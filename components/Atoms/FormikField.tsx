@@ -15,7 +15,7 @@ import readAsBase64 from '@/lib/readAsBase63'
 import { cn } from '@/lib/utils'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
-import Select, { GroupBase, OptionsOrGroups, StylesConfig } from 'react-select'
+import Select, { Options, StylesConfig } from 'react-select'
 import { IOptions } from '@/types/form'
 interface Props {
   name: string
@@ -28,8 +28,9 @@ interface Props {
   disabled?: boolean
   select?: {
     isMulti?: boolean
-    options?: OptionsOrGroups<unknown, GroupBase<unknown>> | undefined
-  }
+}
+loading?: boolean
+options?: Options<IOptions>
 }
 
 export interface FormikFieldHandler {
@@ -47,6 +48,8 @@ const FormikField = forwardRef<FormikFieldHandler, Props>( function FormikField(
 		required,
 		disabled = false,
 		select,
+		loading,
+		options
 	} = props
 
 	const [field, meta, helpers] = useField( name )
@@ -319,9 +322,10 @@ const FormikField = forwardRef<FormikFieldHandler, Props>( function FormikField(
 			) : fieldType === 'select' ? (
 				<>
 					<Select
-						options={select?.options}
+						options={options}
 						isMulti={select?.isMulti}
 						styles={customStyles}
+						isLoading={loading}
 						classNames={{
 							control : ( { isFocused } ) =>
 								isFocused ? 'border-white/50' : 'border-white/25',

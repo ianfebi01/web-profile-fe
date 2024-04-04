@@ -1,5 +1,3 @@
-import { GroupBase, OptionsOrGroups } from "react-select"
-
 export interface IDynamicForm {
   name: string
   label: string
@@ -11,7 +9,6 @@ export interface IDynamicForm {
   disabled?: boolean
   defaultImageUrl?: string
   select?: {
-    options?: OptionsOrGroups<unknown, GroupBase<unknown>> | undefined,
     isMulti?: boolean
   }
 }
@@ -38,4 +35,9 @@ interface IValidation {
 
 interface IImageValidation {
   maxSize?: number
+}
+
+export interface IOptions{
+  value: string | number
+  label: string
 }
