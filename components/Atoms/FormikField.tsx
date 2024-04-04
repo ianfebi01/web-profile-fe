@@ -197,11 +197,12 @@ const FormikField = forwardRef<FormikFieldHandler, Props>( function FormikField(
 					type="text"
 					placeholder={placeholder}
 					{...field}
-					className={`text-white p-2 border rounded-lg bg-transparent ring-0 focus:ring-0 shadow-none focus:outline-none  transition-default ${
-						meta.touched && meta.error
-							? 'focus:border-red-500 border-red-500'
-							: 'focus:border-white/50 border-white/25'
-					}`}
+					className={cn(
+						'text-white p-2 border rounded-lg bg-transparent ring-0 focus:ring-0 shadow-none focus:outline-none  transition-default',
+						// field validation
+						['focus:border-white/50 border-white/25',
+							meta.touched && meta.error && 'focus:border-red-500 border-red-500']
+					)}
 					disabled={disabled}
 				/>
 			) : fieldType === 'image' ? (
@@ -243,14 +244,12 @@ const FormikField = forwardRef<FormikFieldHandler, Props>( function FormikField(
 							type="button"
 							className={cn(
 								'bg-dark-secondary aspect-square w-60 border border-dashed border-white/25',
-								meta.touched &&
-                  meta.error &&
-                  'focus:border-red-500 border-red-500'
+								meta.touched && meta.error && 'focus:border-red-500 border-red-500'
 							)}
 							onClick={() => imageField.current?.click()}
 							disabled={disabled}
 						>
-              Select Image
+							Select Image
 						</button>
 					)}
 				</>
@@ -264,16 +263,18 @@ const FormikField = forwardRef<FormikFieldHandler, Props>( function FormikField(
 							helpers.setTouched( true )
 						}}
 						value={field.value}
-						className={`${
-							field.value ? 'bg-orange' : 'bg-dark-secondary'
-						} relative inline-flex h-6 w-11 items-center rounded-full border border-transparent transition-default bg-dark hover:border-white/25`}
+						className={cn(
+							'relative inline-flex h-6 w-11 items-center rounded-full border border-transparent transition-default bg-dark hover:border-white/25',
+							['bg-dark-secondary', field.value && 'bg-orange'],
+						)}
 						disabled={disabled}
 					>
 						<span className="sr-only">Enable notifications</span>
 						<span
-							className={`${
-								field.value ? 'translate-x-6' : 'translate-x-1'
-							} inline-block h-4 w-4 transform rounded-full bg-white transition`}
+							className={cn(
+								'inline-block h-4 w-4 transform rounded-full bg-white transition',
+								['translate-x-1', field.value && 'translate-x-6']
+							)}
 						/>
 					</Switch>
 				</>
@@ -283,11 +284,11 @@ const FormikField = forwardRef<FormikFieldHandler, Props>( function FormikField(
 						showIcon
 						selected={field.value}
 						value={field.value}
-						className={`text-white !py-2 border rounded-lg bg-transparent ring-0 focus:ring-0 shadow-none focus:outline-none  transition-default ${
-							meta.touched && meta.error
-								? 'focus:border-red-500 border-red-500'
-								: 'focus:border-white/50 border-white/25'
-						}`}
+						className={cn(
+							'text-white !py-2 border rounded-lg bg-transparent ring-0 focus:ring-0 shadow-none focus:outline-none  transition-default',
+							['focus:border-white/50 border-white/25', 
+								meta.touched && meta.error && 'focus:border-red-500 border-red-500']
+						)}
 						icon={<FontAwesomeIcon icon={faCalendar} />}
 						onChange={( date ) => {
 							helpers.setValue( new Date( date as Date ) )
@@ -303,11 +304,11 @@ const FormikField = forwardRef<FormikFieldHandler, Props>( function FormikField(
 						showYearPicker
 						dateFormat="yyyy"
 						value={field.value}
-						className={`text-white !py-2 border rounded-lg bg-transparent ring-0 focus:ring-0 shadow-none focus:outline-none  transition-default ${
-							meta.touched && meta.error
-								? 'focus:border-red-500 border-red-500'
-								: 'focus:border-white/50 border-white/25'
-						}`}
+						className={cn(
+							'text-white !py-2 border rounded-lg bg-transparent ring-0 focus:ring-0 shadow-none focus:outline-none  transition-default',
+							['focus:border-white/50 border-white/25',
+								meta.touched && meta.error && 'focus:border-red-500 border-red-500']
+						)}
 						icon={<FontAwesomeIcon icon={faCalendar} />}
 						onChange={( date ) => {
 							helpers.setValue( new Date( date as Date ) )
@@ -333,11 +334,11 @@ const FormikField = forwardRef<FormikFieldHandler, Props>( function FormikField(
 			)}
 			<p className="invisible">sdfsfss</p>
 			<p
-				className={`absolute bottom-0 text-[0.7rem] text-red-500 transition-default delay-100 ${
-					meta.error && meta.touched
-						? 'translate-y-0 opacity-100'
-						: '-translate-y-2 opacity-0'
-				}`}
+				className={cn(
+					'absolute bottom-0 text-[0.7rem] text-red-500 transition-default delay-100',
+					['-translate-y-2 opacity-0',
+						meta.error && meta.touched && 'translate-y-0 opacity-100']
+				)}
 			>
 				{meta.error}
 			</p>
