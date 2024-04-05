@@ -1,39 +1,38 @@
 "use client"
 import useAxiosAuth from '@/lib/hooks/useAxiosAuth'
-import { IApi, IApiPagination, IPayloadPagination } from '@/types/api'
+import { IApi, IApiPagination } from '@/types/api'
 import { useQuery } from '@tanstack/react-query'
 import { AxiosResponse } from 'axios'
-import React, { useContext, useState } from 'react'
+import React from 'react'
 import SearchInput from '../Inputs/SearchInput'
 import StyledPagination from '../Layouts/StyledPagination'
 import NoDataFound from '../NoDataFound'
 import Button2 from '../Buttons/Button2'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
-import { PortofolioContext } from '@/context/PortofolioContext'
 import { IApiPortofolio } from '@/types/api/portofolio'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
 const Portofolio = () => {
 
 	const router = useRouter()
-
-	// Portofolio Context
-	const { state, dispatch } = useContext( PortofolioContext )
+	const pathname = usePathname()
+	const searchParams = useSearchParams()
+	const page = searchParams.get( 'page' )
+	const limit = searchParams.get( 'limit' )
+	const q = searchParams.get( 'q' )
 
 	const axiosAuth = useAxiosAuth()
-    
-	const [params, setParams] = useState<IPayloadPagination>( {
-		page  : 1,
-		limit : 12,
-		q     : ''
-	} );
 
 	const{ data, isLoading } = useQuery<IApi<IApiPortofolio[]> & IApiPagination>( {
-		queryKey : ['portofolio', params.page, params.q],
+		queryKey : ['portofolio', searchParams.get( 'page' ), searchParams.get( 'q' )],
 		queryFn  : async ()=> {
 			const data: AxiosResponse<IApi<IApiPortofolio[]> & IApiPagination>  = await axiosAuth.get( '/v1/portofolio', {
-				params : params
+				params : {
+					page  : page || 1,
+					limit : limit || 12,
+					q     : q || '',
+				}
 			} )
 			
 			return data?.data
@@ -41,36 +40,47 @@ const Portofolio = () => {
 	} )
     
 	const handlePageChange = ( page: number )=>{
-		setParams( {
-			...params,
-			page : page + 1
-		} )
+		const selectedPage = page + 1
 
-		dispatch( {
-			type    : 'set_paginator',
-			payload : {
-				...state.paginator,
-				page : page + 1
-			}
-		} )
+		setSearchParams( 'page', selectedPage.toString() )
 	}
 
-	// router
+	// @ NOTE router
+
 	const goToAdd = () => {
-		router.push( '/admin/portofolio/add' )
+		const queryParams = new URLSearchParams( searchParams.toString() )
+		
+		router.push( '/admin/portofolio/add' + '?'+ queryParams.toString() )
 	}
 
-	const mockLoop = new Array( params.limit ).fill( 0 )
+	const setSearchParams = ( key: string, val: string )=> {
+		const current = new URLSearchParams( Array.from( searchParams.entries() ) )
+		// update as necessary
+		const value = val.trim();
+
+		if ( !value ) {
+			current.delete( key );
+		} else {
+			current.set( key, val );
+		}
+
+		// cast to string
+		const search = current.toString();
+		// or const query = `${'?'.repeat(search.length && 1)}${search}`;
+		const query = search ? `?${search}` : "";
+
+		router.push( `${pathname}${query}` );
+	}
+
+	// @ NOTE fake look
+	const mockLoop = new Array( parseInt( limit as string || '0' ) ).fill( 0 )
 	
 	return (
 		<>
 			<div className='flex flex-col gap-8 h-full'>
 				<div className='flex gap-4 justify-between'>
 					<SearchInput placeholder='Search portofolio' type='text'
-						value={params.q} setValue={( value: string )=> setParams( {
-							...params,
-							q : value
-						} )}
+						value={q as string} setValue={( value: string )=> setSearchParams( 'q', value )}
 					/>
 
 					<Button2 type='button' className='gap-2 flex'
@@ -121,7 +131,7 @@ const Portofolio = () => {
 				{data && data?.data?.length && !isLoading ? (
 					<StyledPagination 
 						setCurrentPage={handlePageChange} 
-						currentPage={state.paginator.page}
+						currentPage={parseInt( page as string || '1' )}
 						totalPages={data?.totalPage as number}
 						hasNextPage={data?.hasNextPage as boolean}
 					/>
