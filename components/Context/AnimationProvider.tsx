@@ -7,21 +7,26 @@ import { motion, useInView, useAnimation, easeOut } from 'framer-motion'
 interface Props {
   children: ReactNode
   className?: string
+  once?: boolean
 }
 
 const AnimationProvider: FunctionComponent<Props> = ( {
 	children,
 	className,
+	once = true
 } ) => {
 	const ref = useRef( null )
 	const isInView = useInView( ref, {
-		once : true,
+		once,
 	} )
 	const animationControl = useAnimation()
 	
 	const startAnimation = useCallback( ()=>{
 		if ( isInView ) {
 			animationControl.start( 'visible' )
+		}
+		if ( !isInView ) {
+			animationControl.start( 'hidden' )
 		}
 	}, [isInView, animationControl] )
 

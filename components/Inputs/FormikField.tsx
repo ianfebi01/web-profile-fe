@@ -15,7 +15,7 @@ import readAsBase64 from '@/lib/readAsBase63'
 import { cn } from '@/lib/utils'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
-import Select, { Options, StylesConfig } from 'react-select'
+import Select, { Options, StylesConfig, components } from 'react-select'
 import { IOptions } from '@/types/form'
 interface Props {
   name: string
@@ -107,16 +107,16 @@ const FormikField = forwardRef<FormikFieldHandler, Props>( function FormikField(
 			minHeight : '36px',
 			padding   : '0 0.5rem',
 			border    : state.isFocused
-				? `1px solid rgb(251 251 251 / 0.5)`
-				: `1px solid rgb(251 251 251 / 0.25)`,
+				? meta.touched && meta.error ? '1px solid rgb(239 68 68 / 1)' : `1px solid rgb(251 251 251 / 0.5)`
+				: meta.touched && meta.error ? '1px solid rgb(239 68 68 / 1)' : `1px solid rgb(251 251 251 / 0.25)`,
 			outline      : 'none',
 			borderRadius : '8px',
 			transition   : 'all 0.3s ease-in-out',
 			boxShadow    : 'none',
 			'&:hover'    : {
 				border : state.isFocused
-					? `1px solid rgb(251 251 251 / 0.5)`
-					: `1px solid rgb(251 251 251 / 0.25)`,
+					? meta.touched && meta.error ? '1px solid rgb(239 68 68 / 1)' : `1px solid rgb(251 251 251 / 0.5)`
+					: meta.touched && meta.error ? '1px solid rgb(239 68 68 / 1)' : `1px solid rgb(251 251 251 / 0.25)`,
 			},
 			backgroundColor : 'transparent',
 		} ),
@@ -322,14 +322,19 @@ const FormikField = forwardRef<FormikFieldHandler, Props>( function FormikField(
 			) : fieldType === 'select' ? (
 				<>
 					<Select
+						instanceId={name}
+						name={name}
 						options={options}
 						isMulti={select?.isMulti}
 						styles={customStyles}
 						isLoading={loading}
-						classNames={{
-							control : ( { isFocused } ) =>
-								isFocused ? 'border-white/50' : 'border-white/25',
+						value={field.value}
+						components={{
+							Input : ( props ) => (
+								<components.Input {...props} aria-activedescendant={undefined} />
+							),
 						}}
+
 						onChange={( val: unknown )=>handleSelectChange( val as IOptions | IOptions[] )}
 					/>
 				</>

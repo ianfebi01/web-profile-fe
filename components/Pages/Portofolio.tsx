@@ -12,6 +12,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { IApiPortofolio } from '@/types/api/portofolio'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import CardPortofolio from '../Cards/CardPortofolio'
 
 const Portofolio = () => {
 
@@ -80,7 +81,7 @@ const Portofolio = () => {
 			<div className='flex flex-col gap-8 h-full'>
 				<div className='flex gap-4 justify-between'>
 					<SearchInput placeholder='Search portofolio' type='text'
-						value={q as string} setValue={( value: string )=> setSearchParams( 'q', value )}
+						value={q as string || ''} setValue={( value: string )=> setSearchParams( 'q', value )}
 					/>
 
 					<Button2 type='button' className='gap-2 flex'
@@ -94,17 +95,21 @@ const Portofolio = () => {
 				
 				{
 					data?.data?.length && !isLoading ?
-						<div className='grid grid-cols-2 lg:grid-cols-3 gap-4'>
+						<div className='grid grid-cols-2 gap-4'>
 							{data?.data?.map( ( item: IApiPortofolio, i )=>(
                     
-								<article key={i} className='h-24 bg-dark p-4 border border-none rounded-lg flex flex-col gap-2'>
-									<h2 className='text-xl font-bold line-clamp-1 leading-none'>
-										{item.name}
-									</h2>
-									<p className='text-[0.8rem] line-clamp-2'>
-										{item.description}
-									</p>
-								</article>
+								<CardPortofolio
+									key={item.id}
+									index={i}
+									color={
+										i === 1
+											? 'bg-white'
+											: i === 2
+												? 'bg-green'
+												: 'bg-dark-secondary'
+									}
+									data={item}
+								/>
 
 							) )}
 						</div>

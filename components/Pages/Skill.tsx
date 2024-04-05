@@ -143,7 +143,7 @@ const Skill = () => {
 						{data?.data?.map( ( item: IApiSkill, i ) => (
 							<article
 								key={i}
-								className=" bg-dark p-4 border border-none rounded-lg flex gap-4 items-start hover:scale-105 transition-default"
+								className=" bg-dark p-4 border border-none rounded-lg flex gap-4 items-start md:hover:scale-105 transition-default"
 							>
 
 								<Image src={item.image} alt={item.name}

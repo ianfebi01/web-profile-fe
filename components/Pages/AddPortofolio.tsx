@@ -8,16 +8,27 @@ import { IDynamicForm, IOptions } from '@/types/form'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { AxiosResponse } from 'axios'
 import { Form, FormikProvider, useFormik } from 'formik'
-import React from 'react'
+import React, { useState } from 'react'
 import toast from 'react-hot-toast'
 import FormikField from '../Inputs/FormikField'
 import Button2 from '../Buttons/Button2'
 import { useSession } from 'next-auth/react'
 import { Options } from 'react-select'
+import Modal from '../Modal/Modal'
+import {  useRouter, useSearchParams } from 'next/navigation'
 
 const AddPortofolio = () => {
 	const axiosAuth = useAxiosAuth()
 	const { data: session } = useSession()
+	const router = useRouter()
+	const searchParams = useSearchParams()
+
+	// @ NOTE ROuter
+	const back = () =>{
+		const url = new URLSearchParams( searchParams.toString() )
+
+		router.push( '/admin/portofolio?' + url.toString() )
+	}
 	
 	// React Query
 	const queryClient = useQueryClient()
@@ -33,6 +44,9 @@ const AddPortofolio = () => {
 		},
 		onSuccess : (  )=> {
 			queryClient.invalidateQueries( { queryKey : ['portofolio', '', 1] } )
+			setSubmitWarningAlert( false )
+			formik.resetForm()
+			back()
 			toast.success( 'Successfully add new portofolio!' )
 		},
 		onError : () => {
@@ -108,11 +122,14 @@ const AddPortofolio = () => {
 		},
 	]
 
-	// Form
+	// @ NOTE Form
 	const schema = generateValidationSchema( fields )
 
-	// Formik
+	// @ NOTE Formik
 	const date = new Date
+
+	// submited form value
+	const [submitedValue, setSubmitedValue] = useState<Omit<IApiPortofolio, 'id'>>( );
 
 	interface IInitialValues extends Omit<IApiPortofolio, 'id' | 'skills' | 'userId'>{
 		skills: Options<IOptions>
@@ -128,11 +145,13 @@ const AddPortofolio = () => {
 		initialValues    : initialValues,
 		validationSchema : schema,
 		onSubmit         : ( value ) => {
-			mutate( {
+			setSubmitedValue( {
 				...value,
 				userId : session?.user.id,
 				skills : value.skills?.map( ( item ) => item.value )
-			} as Omit<IApiPortofolio, 'id'> )
+			} as Omit<IApiPortofolio, 'id' | 'skills'> )
+
+			setSubmitWarningAlert( true )
 		},
 	} )
 
@@ -166,11 +185,21 @@ const AddPortofolio = () => {
 		default: return []
 		}
 	}
+
+	// @ NOTE warning alert
+	const [submitWarningAlert, setSubmitWarningAlert] = useState<boolean>( false );
+	const onSubmitOk = () => {
+		mutate( {
+			...submitedValue
+		} as Omit<IApiPortofolio, 'id'> )
+	}
 	
 	return (
 		<section className=''>
 			<FormikProvider value={formik}>
-				<Form onSubmit={formik.handleSubmit} className='flex flex-col gap-2'>
+				<Form onSubmit={formik.handleSubmit}
+					className='flex flex-col gap-2'
+				>
 					{
 						fields.map( ( item: IDynamicForm )=>(
 							<FormikField    
@@ -186,11 +215,22 @@ const AddPortofolio = () => {
 							/>
 						) )
 					}
-					<Button2 disabled={ isPending} loading={isPending}
+					<Button2 disabled={ isPending}
 						type="submit"
 					>Submit</Button2>
 				</Form>
 			</FormikProvider>
+
+			<Modal isOpen={submitWarningAlert} setIsOpen={setSubmitWarningAlert}
+				onConfirm={()=>onSubmitOk()}
+				onCancel={()=> setSubmitWarningAlert( false )}
+				variant='warning'
+				title='Are you sure?'
+				desciption='Are you sure want to add new portofolio?'
+				confirmText='Confirm'
+				loading={isPending}
+			>
+			</Modal>
 		</section>
 
 	)

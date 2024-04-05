@@ -4,24 +4,24 @@ import React, { FunctionComponent, useEffect, useRef } from 'react'
 import { sanitize } from 'isomorphic-dompurify'
 import { useInView, useAnimation } from 'framer-motion'
 import AnimationProvider from '@/components/Context/AnimationProvider'
+import { cn } from '@/lib/utils'
+import { IApiPortofolio } from '@/types/api/portofolio'
+import Button from '../Buttons/Button'
+import { format } from 'date-fns'
 // import MacbookMockup from '../Atoms/MacbookMockup'
 
 interface Props {
   color?: 'bg-dark-secondary' | 'bg-green' | 'bg-white'
-  title?: string
-  subtitle?: string
-  skill?: string[]
-  image?: string
-  imageDevice?: string
+  data: IApiPortofolio
+  index: number
+  once?: boolean
 }
 const CardPortofolio: FunctionComponent<Props> = ( props ) => {
 	const {
 		color = 'dark-secondary',
-		title = 'Gendut Grosir',
-		subtitle = 'subtitle',
-		skill = ['ts', 'react', 'tailwind'],
-		image,
-		imageDevice = 'mobile',
+		index,
+		data,
+		once = true
 	} = props
 
 	const cardRef = useRef( null )
@@ -37,72 +37,79 @@ const CardPortofolio: FunctionComponent<Props> = ( props ) => {
 	}, [isInView] )
 
 	return (
-		<AnimationProvider
-			className={`${color} ${
-				color === 'bg-white' && 'text-dark'
-			} border border-none rounded-lg w-full sm:h-64 md:h-64 p-6 grid grid-rows-1 grid-cols-5 items-center relative cursor-pointer hover:scale-90`}
+		<div
+			className="hover:scale-95 transition-default relative group overflow-hidden"
 		>
-			{/* @ NOTE Text */}
-			<div
-				className={`flex flex-col gap-2 sm:gap-6 ${
-					image ? 'col-span-3' : 'col-span-5'
-				}`}
+			<div className="flex gap-2 absolute top-0 w-full opacity-0 -translate-y-6 group-hover:opacity-100 group-hover:translate-y-0 group-hover:delay-300 delay-300  transition-default px-4 py-2 z-10">
+				<Button theme={index === 1 ? 'light' : 'dark'}>{data.name}</Button>
+				<Button theme={index === 1 ? 'light' : 'dark'}>{format( new Date( data.year ), 'yyyy' )}</Button>
+			</div>
+			<AnimationProvider
+				className={cn(
+					'border border-none rounded-lg w-full overflow-hidden sm:h-64 md:h-64 items-center relative cursor-pointer hover:scale-90',
+					'flex flex-row gap-2',
+					color,
+					color === 'bg-white' && 'text-dark',
+				)}
+				once={once}
 			>
-				<div className="flex flex-col gap-2">
-					<h3 className="text-base font-bold">{title}</h3>
-					<p
-						className="text-xs"
-						dangerouslySetInnerHTML={{ __html : sanitize( subtitle ) }}
-					></p>
+				{/* @ NOTE Text */}
+				<div
+					className={cn(
+						'flex flex-col basis-1/2 gap-2 py-6 pl-3 sm:gap-6',
+					)}
+				>
+					<div className="flex flex-col gap-2">
+						<h3 className="text-base font-bold">{data.name}</h3>
+						<p
+							className="text-xs"
+							dangerouslySetInnerHTML={{ __html : sanitize( data.description ) }}
+						></p>
+					</div>
+					<div className="grow-[1]" />
+					<div className="flex gap-1">
+						{data.skills?.map( ( item, i ) => (
+							<div
+								className={`w-4 h-4  border border-none rounded-sm relative overflow-hidden ${
+									color === 'bg-white' && 'shadow-skill'
+								}`}
+								key={i}
+							>
+								<Image
+									src={item.image}
+									fill
+									style={{
+										objectFit : 'contain',
+									}}
+									sizes='auto'
+									alt="Icon"
+								/>
+							</div>
+						) )}
+					</div>
 				</div>
-				<div className="grow-[1]" />
-				<div className="flex gap-1">
-					{skill?.map( ( item, i ) => (
+				{data.image && (
+					<div className='basis-1/2 h-full'>
 						<div
-							className={`w-4 h-4  border border-none rounded-sm relative overflow-hidden ${
-								color === 'bg-white' && 'shadow-skill'
-							}`}
-							key={i}
+							className={cn(
+								'w-full h-full relative',
+							)}
 						>
 							<Image
-								src={`/${item}.svg`}
+								src={data.image}
+								alt="Project Image"
 								fill
+								priority
+								sizes='auto'
 								style={{
 									objectFit : 'contain',
 								}}
-								sizes='auto'
-								alt="Icon"
 							/>
 						</div>
-					) )}
-				</div>
-			</div>
-			{image && (
-				<div>
-					<div
-						className={`w-48 lg:w-56 absolute inset-y-0 my-auto ${
-							imageDevice === 'desktop'
-								? '-right-16'
-								: imageDevice === 'mobile'
-									? '-bottom-32 h-[120%] sm:h-[90%] -right-6 sm:-right-4 lg:-right-10'
-									: ''
-						}`}
-					>
-						{/* <MacbookMockup image={image} /> */}
-						<Image
-							src={image}
-							alt="Project Image"
-							fill
-							priority
-							sizes='auto'
-							style={{
-								objectFit : 'contain',
-							}}
-						/>
 					</div>
-				</div>
-			)}
-		</AnimationProvider>
+				)}
+			</AnimationProvider>
+		</div>
 	)
 }
 

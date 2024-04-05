@@ -25,8 +25,12 @@ export const generateValidationSchema = ( fields: IDynamicForm[] ) => {
 			} ) 
 		else
 			validations = validations.string()
-		if ( field.validation?.required )
-			validations = validations = validations.required()
+		if ( field.validation?.required ) {
+			if( field.fieldType === 'select' && field.select?.isMulti )
+				validations = validations = validations.min( 1, ( { label }: { label: string } ) => `${label} is a required field` )
+			else
+				validations = validations = validations.required()
+		}
 		if ( field.type === 'email' ) validations = validations.email()
 		if ( field.validation?.numeric )
 			validations = validations.matches(

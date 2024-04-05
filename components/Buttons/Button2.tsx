@@ -9,7 +9,7 @@ interface Props{
     type: 'submit' | 'button' | 'reset'
 	className?: string
 	loading?: boolean
-	variant?: 'primary' | 'secondary' | 'icon' | 'iconOnly' | 'link'
+	variant?: 'primary' | 'secondary' | 'icon' | 'iconOnly' | 'link' | 'error'
 }
 
 const Button2: FunctionComponent<Props> = ( props ) => {
@@ -25,6 +25,9 @@ const Button2: FunctionComponent<Props> = ( props ) => {
 				[
 					variant === 'primary' && [
 						'bg-dark text-white'
+					],
+					variant === 'error' && [
+						'text-white border hover:border-red-400 border-red-500 bg-transparent'
 					],
 					variant === 'secondary' && [
 						'bg-dark-secondary text-white'

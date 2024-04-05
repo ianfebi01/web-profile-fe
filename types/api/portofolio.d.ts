@@ -1,3 +1,5 @@
+import { IApiSkill } from "./skill"
+
 export interface IApiPortofolio {
   id: number
   name: string
@@ -5,5 +7,5 @@ export interface IApiPortofolio {
   image: string
   year: Date
   userId: number
-  skills?: string[]
+  skills?: IApiSkill[]
 }

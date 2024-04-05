@@ -1,13 +1,13 @@
 'use client'
 
-import useAxiosAuth from '@/lib/hooks/useAxiosAuth'
-import { IApi } from '@/types/api'
-import { IApiProfile } from '@/types/api/profile'
-import { useQuery } from '@tanstack/react-query'
-import { AxiosResponse } from 'axios'
-import { useSession } from 'next-auth/react'
+// import useAxiosAuth from '@/lib/hooks/useAxiosAuth'
+// import { IApi } from '@/types/api'
+// import { IApiProfile } from '@/types/api/profile'
+// import { useQuery } from '@tanstack/react-query'
+// import { AxiosResponse } from 'axios'
+// import { useSession } from 'next-auth/react'
+// import Spinner from '../Icons/Spinner'
 import { ReactNode } from 'react'
-import Spinner from '../Icons/Spinner'
 
 export default function ProfileProvider( {
 	children,
@@ -15,55 +15,36 @@ export default function ProfileProvider( {
 }: {
   children: ReactNode
 } ) {
-	const { data: session, update } = useSession()
+	// const { data: session, update } = useSession()
 
-	const axiosAuth = useAxiosAuth()
+	// const axiosAuth = useAxiosAuth()
 
-	const { isLoading } = useQuery<AxiosResponse<IApi<IApiProfile>>>( {
-		queryKey : ['profile'],
-		queryFn  : async()=> {
-			const data = await axiosAuth.get(
-				`/v1/profile`
-			)
+	// const { isLoading } = useQuery<AxiosResponse<IApi<IApiProfile>>>( {
+	// 	queryKey : ['profile'],
+	// 	queryFn  : async()=> {
+	// 		const data = await axiosAuth.get(
+	// 			`/v1/profile`
+	// 		)
 
-			await update( {
-				...session,
-				user : {
-					...session?.user,
-					...data?.data.data
-				}
-			} )
+	// 		await update( {
+	// 			...session,
+	// 			user : {
+	// 				...session?.user,
+	// 				...data?.data.data
+	// 			}
+	// 		} )
 			
-			return data
-		}
-	} )
+	// 		return data
+	// 	}
+	// } )
 
-	// const getProfile = async () => {
-	// 	const userProfile: AxiosResponse<IApi<IApiProfile>> = await axiosAuth.get(
-	// 		`/v1/profile`
-	// 	)
+	// return isLoading ? 
+	// 	<div className='w-full grow-[1] h-full flex justify-center items-center'>
 
-	// 	await update( {
-	// 		...session,
-	// 		user : {
-	// 			...session?.user,
-	// 			...userProfile?.data.data
-	// 		}
-	// 	} )
+	// 		<Spinner classes='!w-10 !h-10'/>
 
-	// }
-
-	// useEffect( () => {
-	// 	getProfile()
-	// }, [] )
-
-	return isLoading ? 
-		<div className='w-full grow-[1] h-full flex justify-center items-center'>
-
-			<Spinner classes='!w-10 !h-10'/>
-
-		</div> 
-		: <>{ children }</>
+	// 	</div> 
+	// 	: <>{ children }</>
 	
-	// return  <>{ children }</>
+	return  <>{ children }</>
 }
