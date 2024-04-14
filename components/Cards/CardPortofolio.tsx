@@ -8,6 +8,8 @@ import { cn } from '@/lib/utils'
 import { IApiPortofolio } from '@/types/api/portofolio'
 import Button from '../Buttons/Button'
 import { format } from 'date-fns'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons'
 // import MacbookMockup from '../Atoms/MacbookMockup'
 
 interface Props {
@@ -15,13 +17,24 @@ interface Props {
   data: IApiPortofolio
   index: number
   once?: boolean
+  loading?: boolean
+  onClickEdit?: () => void
+  onClickDelete?: () => void
+  disabled?: boolean
+  showEditButton?: boolean
+  showDeleteButton?: boolean
 }
 const CardPortofolio: FunctionComponent<Props> = ( props ) => {
 	const {
 		color = 'dark-secondary',
-		index,
 		data,
-		once = true
+		once = true,
+		loading = false,
+		onClickEdit = () => null,
+		onClickDelete = () => null,
+		disabled = false,
+		showEditButton = false,
+		showDeleteButton = false,
 	} = props
 
 	const cardRef = useRef( null )
@@ -37,28 +50,53 @@ const CardPortofolio: FunctionComponent<Props> = ( props ) => {
 	}, [isInView] )
 
 	return (
-		<div
-			className="hover:scale-95 transition-default relative group overflow-hidden"
-		>
+		<div className="hover:scale-95 transition-default relative group overflow-hidden">
 			<div className="flex gap-2 absolute top-0 w-full opacity-0 -translate-y-6 group-hover:opacity-100 group-hover:translate-y-0 group-hover:delay-300 delay-300  transition-default px-4 py-2 z-10">
-				<Button theme={index === 1 ? 'light' : 'dark'}>{data.name}</Button>
-				<Button theme={index === 1 ? 'light' : 'dark'}>{format( new Date( data.year ), 'yyyy' )}</Button>
+				<Button disabled theme={color === 'bg-white' ? 'light' : 'dark'}
+					className='backdrop-blur-md shadow-sm'
+				>{data.name}</Button>
+				<Button disabled theme={color === 'bg-white' ? 'light' : 'dark'}
+					className='backdrop-blur-md shadow-sm'
+				>
+					{format( new Date( data.year ), 'yyyy' )}
+				</Button>
+				<div className="flex items-center justify-center gap-2 ml-auto">
+					{showEditButton ? (
+						<Button variant="icon" theme={color === 'bg-white' ? 'light' : 'dark'}
+							className='backdrop-blur-md shadow-sm'
+							disabled={disabled || loading}
+							onClick={() => onClickEdit()}
+						>
+							<FontAwesomeIcon icon={faPen} size="sm"/>
+						</Button>
+					) : (
+						''
+					)}
+					{showDeleteButton ? (
+						<Button variant="icon" theme={color === 'bg-white' ? 'light' : 'dark'}
+							className='backdrop-blur-md shadow-sm'
+							disabled={disabled || loading}
+							onClick={() => onClickDelete()}
+						>
+							<FontAwesomeIcon icon={faTrash} size="sm" />
+						</Button>
+					) : (
+						''
+					)}
+				</div>
 			</div>
 			<AnimationProvider
 				className={cn(
 					'border border-none rounded-lg w-full overflow-hidden sm:h-64 md:h-64 items-center relative cursor-pointer hover:scale-90',
 					'flex flex-row gap-2',
 					color,
-					color === 'bg-white' && 'text-dark',
+					color === 'bg-white' && 'text-dark'
 				)}
 				once={once}
+				
 			>
 				{/* @ NOTE Text */}
-				<div
-					className={cn(
-						'flex flex-col basis-1/2 gap-2 py-6 pl-3 sm:gap-6',
-					)}
-				>
+				<div className={cn( 'flex flex-col basis-1/2 gap-2 py-6 pl-3 sm:gap-6' )}>
 					<div className="flex flex-col gap-2">
 						<h3 className="text-base font-bold">{data.name}</h3>
 						<p
@@ -81,7 +119,7 @@ const CardPortofolio: FunctionComponent<Props> = ( props ) => {
 									style={{
 										objectFit : 'contain',
 									}}
-									sizes='auto'
+									sizes="auto"
 									alt="Icon"
 								/>
 							</div>
@@ -89,18 +127,14 @@ const CardPortofolio: FunctionComponent<Props> = ( props ) => {
 					</div>
 				</div>
 				{data.image && (
-					<div className='basis-1/2 h-full'>
-						<div
-							className={cn(
-								'w-full h-full relative',
-							)}
-						>
+					<div className="basis-1/2 h-full">
+						<div className={cn( 'w-full h-full relative' )}>
 							<Image
 								src={data.image}
 								alt="Project Image"
 								fill
 								priority
-								sizes='auto'
+								sizes="auto"
 								style={{
 									objectFit : 'contain',
 								}}

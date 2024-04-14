@@ -51,7 +51,7 @@ const Skill = () => {
 	// Modal
 	const [isOpen, setIsOpen] = useState<boolean>( false )
 
-	// @NOTE handle delete
+	// @ NOTE handle delete
 	const [id, setId] = useState<number | null>( null )
 	const queryClient = useQueryClient()
 	const { mutate, isPending } = useMutation( {
@@ -79,7 +79,7 @@ const Skill = () => {
 		mutate( id )
 	}
 
-	// @NOTE handleEdit
+	// @ NOTE handleEdit
 	const [detailDataId, setDetailDataId] = useState<number>(  );
 	const [isEditOpen, setIsEditOpen] = useState<boolean>( false );
 	const [detailData, setDetailData] = useState<IApiSkill>(  );
@@ -143,7 +143,7 @@ const Skill = () => {
 						{data?.data?.map( ( item: IApiSkill, i ) => (
 							<article
 								key={i}
-								className=" bg-dark p-4 border border-none rounded-lg flex gap-4 items-start md:hover:scale-105 transition-default"
+								className=" bg-dark p-4 border border-none rounded-lg flex gap-4 items-start md:hover:scale-95 transition-default"
 							>
 
 								<Image src={item.image} alt={item.name}

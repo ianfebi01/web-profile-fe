@@ -77,7 +77,9 @@ const Navbar: FunctionComponent<Props> = () => {
 				}}
 			>
 				{menus.map( ( item ) => (
-					<Link href={`#${item.id}`} key={item.id} onClick={handleScroll}>
+					<Link href={`#${item.id}`} key={item.id}
+						onClick={handleScroll}
+					>
 						<Button variant={'link'} onClick={() => setActiveMenu( item.id )}>
 							{activeMenu === item.id && (
 								<motion.span

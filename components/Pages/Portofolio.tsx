@@ -1,9 +1,9 @@
 "use client"
 import useAxiosAuth from '@/lib/hooks/useAxiosAuth'
 import { IApi, IApiPagination } from '@/types/api'
-import { useQuery } from '@tanstack/react-query'
-import { AxiosResponse } from 'axios'
-import React from 'react'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { AxiosError, AxiosResponse } from 'axios'
+import React, { useState } from 'react'
 import SearchInput from '../Inputs/SearchInput'
 import StyledPagination from '../Layouts/StyledPagination'
 import NoDataFound from '../NoDataFound'
@@ -13,20 +13,22 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { IApiPortofolio } from '@/types/api/portofolio'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import CardPortofolio from '../Cards/CardPortofolio'
+import toast from 'react-hot-toast'
+import Modal from '../Modal/Modal'
 
 const Portofolio = () => {
 
 	const router = useRouter()
 	const pathname = usePathname()
 	const searchParams = useSearchParams()
-	const page = searchParams.get( 'page' )
-	const limit = searchParams.get( 'limit' )
-	const q = searchParams.get( 'q' )
+	const page =parseInt( searchParams.get( 'page' ) || '1' )
+	const limit = parseInt( searchParams.get( 'limit' ) || '12' )
+	const q = searchParams.get( 'q' ) || ''
 
 	const axiosAuth = useAxiosAuth()
 
-	const{ data, isLoading } = useQuery<IApi<IApiPortofolio[]> & IApiPagination>( {
-		queryKey : ['portofolio', searchParams.get( 'page' ), searchParams.get( 'q' )],
+	const{ data, refetch, isFetching } = useQuery<IApi<IApiPortofolio[]> & IApiPagination>( {
+		queryKey : ['portofolio', page, q],
 		queryFn  : async ()=> {
 			const data: AxiosResponse<IApi<IApiPortofolio[]> & IApiPagination>  = await axiosAuth.get( '/v1/portofolio', {
 				params : {
@@ -74,7 +76,58 @@ const Portofolio = () => {
 	}
 
 	// @ NOTE fake look
-	const mockLoop = new Array( parseInt( limit as string || '0' ) ).fill( 0 )
+	const mockLoop = new Array( limit ).fill( 0 )
+
+	// color
+	const getColor =( index: number )=>{
+		const num = index + 1
+		
+		if ( num % 4 === 0 ) 
+			return 'bg-dark-secondary'
+		else if( num % 3 === 0 )
+			return 'bg-green'
+		else if( num % 2 === 0 )
+			return 'bg-white'
+		else 
+			return 'bg-dark-secondary'
+
+	}
+
+	// @ NOTE handle delete
+	const [deleteWarningAlert, setDeleteWarningAlert] = useState<boolean>( false );
+	const [id, setId] = useState<number | null>( null )
+	const queryClient = useQueryClient()
+	const { mutate, isPending } = useMutation( {
+		mutationKey : ['skill', 'delete'],
+		mutationFn  : async ( id: number ) => {
+			const data: AxiosResponse<IApi<IApiPortofolio> & IApiPagination> =
+        await axiosAuth.delete( `/v1/portofolio/${id}` )
+
+			return data.data.data
+		},
+		onSuccess : () => {
+			// queryClient.invalidateQueries( {
+			// 	queryKey : ['portofolio', page, q],
+			// } )
+			refetch()
+			toast.success( 'Successfully delete portofolio!' )
+			setDeleteWarningAlert( false )
+
+		},
+		onError : ( error: AxiosError<IApi> ) => {
+			toast.error( error.response?.data?.message as string )
+		},
+	} )
+
+	const handleDelete = ( id: number ) => {
+		setId( id )
+		setDeleteWarningAlert( true )
+	}
+
+	const onDeleteOk = () => {
+		if( id )
+			mutate( id )
+	}
 	
 	return (
 		<>
@@ -94,35 +147,36 @@ const Portofolio = () => {
 				</div>
 				
 				{
-					data?.data?.length && !isLoading ?
-						<div className='grid grid-cols-2 gap-4'>
+					data?.data?.length && !isFetching ?
+						<div className='grid grid-cols-1 lg:grid-cols-2 gap-4'>
 							{data?.data?.map( ( item: IApiPortofolio, i )=>(
-                    
 								<CardPortofolio
 									key={item.id}
 									index={i}
 									color={
-										i === 1
-											? 'bg-white'
-											: i === 2
-												? 'bg-green'
-												: 'bg-dark-secondary'
+										getColor( i )
 									}
 									data={item}
+									showDeleteButton
+									showEditButton
+									onClickDelete={()=> handleDelete( item.id )}
 								/>
 
 							) )}
 						</div>
-						: isLoading ? 
-							<div className='grid grid-cols-2 lg:grid-cols-3 gap-4'>
+						: isFetching ? 
+							<div className='grid grid-cols-1 lg:grid-cols-2 gap-4'>
 								{
 									mockLoop.map( ( item, i )=>(
-										<article key={i} className='h-24 p-4 border border-none rounded-lg flex flex-col gap-2 animate-pulse bg-dark-secondary'>
-											<div className='h-6 bg-dark-secondary max-w-[10rem]'>
-		
+										<article key={i} className='h-64 md:h-64 p-4 border border-none rounded-lg flex gap-2 animate-pulse bg-dark-secondary'>
+											<div className='basis-1/2 w-full flex flex-col justify-center gap-2'>
+												<div className='h-6 bg-dark-secondary max-w-[10rem]'/>
+												<div className='h-4 bg-dark-secondary'/>
+												<div className='h-4 bg-dark-secondary max-w-[13rem]'/>
 											</div>
-											<div className='h-4 bg-dark-secondary'/>
-											<div className='h-4 bg-dark-secondary max-w-[13rem]'/>
+											<div className='basis-1/2 w-full'>
+												<div className='h-full w-full bg-dark-secondary'></div>
+											</div>
 										</article>
 									) )
 								}
@@ -133,10 +187,10 @@ const Portofolio = () => {
 				}
 
 				{/* Pagination */}
-				{data && data?.data?.length && !isLoading ? (
+				{data && data?.data?.length && !isFetching ? (
 					<StyledPagination 
 						setCurrentPage={handlePageChange} 
-						currentPage={parseInt( page as string || '1' )}
+						currentPage={page}
 						totalPages={data?.totalPage as number}
 						hasNextPage={data?.hasNextPage as boolean}
 					/>
@@ -145,6 +199,16 @@ const Portofolio = () => {
 		
 				}
 			</div>
+			<Modal isOpen={deleteWarningAlert} setIsOpen={setDeleteWarningAlert}
+				onConfirm={()=>onDeleteOk()}
+				onCancel={()=> setDeleteWarningAlert( false )}
+				variant='warning'
+				title='Are you sure?'
+				desciption='Are you sure want to delete portofolio?'
+				confirmText='Confirm'
+				loading={isPending}
+			>
+			</Modal>
 		</>
 	)
 }
