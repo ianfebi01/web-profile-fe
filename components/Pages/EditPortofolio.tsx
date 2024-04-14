@@ -38,7 +38,7 @@ const EditPortofolio: FunctionComponent<Props> = ( { id } ) => {
 	// React Query
 	const queryClient = useQueryClient()
 
-	const{ isFetching } = useQuery<IApi<IApiPortofolio>>( {
+	const{ data, isFetching } = useQuery<IApi<IApiPortofolio>>( {
 		queryKey : ['portofolio', id],
 		queryFn  : async ()=> {
 			const data: AxiosResponse<IApi<IApiPortofolio>>  = await axiosAuth.get( '/v1/portofolio/' + id )
@@ -65,10 +65,10 @@ const EditPortofolio: FunctionComponent<Props> = ( { id } ) => {
 		},
 	} )
 	const { mutate, isPending } = useMutation( {
-		mutationKey : ['portofolio', 'edit'],
+		mutationKey : ['portofolio', 'edit', id],
 		mutationFn  : async( value: Omit<IApiPortofolio, 'id'> )=> {
 			const data: AxiosResponse<IApi<IApiSkill>> = await axiosAuth.put(
-				`/v1/portofolio`, 
+				`/v1/portofolio/${id}`, 
 				value
 			)
 			
@@ -76,6 +76,7 @@ const EditPortofolio: FunctionComponent<Props> = ( { id } ) => {
 		},
 		onSuccess : (  )=> {
 			queryClient.invalidateQueries( { queryKey : ['portofolio', page, q] } )
+			queryClient.invalidateQueries( { queryKey : ['portofolio', 'edit', id] } )
 			setSubmitWarningAlert( false )
 			formik.resetForm()
 			back()
@@ -167,11 +168,14 @@ const EditPortofolio: FunctionComponent<Props> = ( { id } ) => {
 		skills: Options<IOptions>
 	}
 	const initialValues: IInitialValues= {
-		name        : '',
-		description : '',
-		image       : '',
-		year        : date,
-		skills      : []
+		name        : data?.data?.name ||'',
+		description : data?.data?.description  || '',
+		image       : data?.data?.image||'',
+		year        : data?.data?.year ? new Date( data?.data?.year as Date ) : date,
+		skills      : data?.data?.skills?.map( ( item )=> ( {
+			label : item.name,
+			value : item.id
+		} ) ) || []
 	}
 	const formik = useFormik( {
 		initialValues    : initialValues,
@@ -258,7 +262,7 @@ const EditPortofolio: FunctionComponent<Props> = ( { id } ) => {
 				onCancel={()=> setSubmitWarningAlert( false )}
 				variant='warning'
 				title='Are you sure?'
-				desciption='Are you sure want to add new portofolio?'
+				desciption='Are you sure want to edit portofolio?'
 				confirmText='Confirm'
 				loading={isPending}
 			>

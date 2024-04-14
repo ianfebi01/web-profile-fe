@@ -1,3 +1,4 @@
+'use client'
 import { cn } from '@/lib/utils'
 import React, { FunctionComponent } from 'react'
 import Spinner from '../Icons/Spinner'
