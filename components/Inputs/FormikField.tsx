@@ -195,66 +195,84 @@ const FormikField = forwardRef<FormikFieldHandler, Props>( function FormikField(
 				{requiredIcon}
 			</label>
 			{fieldType === 'text' ? (
-				<input
-					id={name}
-					type="text"
-					placeholder={placeholder}
-					{...field}
-					className={cn(
-						'text-white p-2 border rounded-lg bg-transparent ring-0 focus:ring-0 shadow-none focus:outline-none  transition-default',
-						// field validation
-						['focus:border-white/50 border-white/25',
-							meta.touched && meta.error && 'focus:border-red-500 border-red-500']
-					)}
-					disabled={disabled}
-				/>
+				<>
+					{loading ? 
+						<div className='h-8 p-2 w-full border border-white/25 rounded-lg'>
+							<div className='h-full max-w-sm bg-dark-secondary animate-pulse'></div>
+						</div>
+						:(
+							<input
+								id={name}
+								type="text"
+								placeholder={placeholder}
+								{...field}
+								className={cn(
+									'text-white p-2 border rounded-lg bg-transparent ring-0 focus:ring-0 shadow-none focus:outline-none  transition-default',
+									// field validation
+									['focus:border-white/50 border-white/25',
+										meta.touched && meta.error && 'focus:border-red-500 border-red-500']
+								)}
+								disabled={disabled}
+							/>
+						) }
+					
+				</>
 			) : fieldType === 'image' ? (
 				<>
-					<input
-						id={name}
-						ref={imageField}
-						type="file"
-						placeholder={placeholder}
-						className="hidden"
-						onChange={handleImage}
-						disabled={disabled}
-						accept="image/jpeg,image/png,image/gif,image/webp,image/svg+xml"
-					/>
-					{field.value !== '' ? (
-						<div className=" aspect-square w-60 relative">
-							<div className="absolute z-20 right-4 top-4">
-								<button
-									type="button"
-									className="text-dark w-6 aspect-square border border-none bg-dark-secondary rounded-full"
-									onClick={() => clearImage()}
-									disabled={disabled}
-								>
-									<FontAwesomeIcon icon={faXmark} />
-								</button>
-							</div>
-							<Image
-								src={field.value as string}
-								alt="Preview image"
-								fill
-								style={{
-									objectFit : 'contain',
-								}}
-								className="z-0"
-							/>
+					{loading ?
+						<div className='bg-dark-secondary aspect-square w-60  flex items-center justify-center animate-pulse'>
+							Loading...
 						</div>
-					) : (
-						<button
-							type="button"
-							className={cn(
-								'bg-dark-secondary aspect-square w-60 border border-dashed border-white/25',
-								meta.touched && meta.error && 'focus:border-red-500 border-red-500'
-							)}
-							onClick={() => imageField.current?.click()}
-							disabled={disabled}
-						>
+						: (
+							<>
+								<input
+									id={name}
+									ref={imageField}
+									type="file"
+									placeholder={placeholder}
+									className="hidden"
+									onChange={handleImage}
+									disabled={disabled}
+									accept="image/jpeg,image/png,image/gif,image/webp,image/svg+xml"
+								/>
+								{field.value !== '' ? (
+									<div className=" aspect-square w-60 relative">
+										<div className="absolute z-20 right-4 top-4">
+											<button
+												type="button"
+												className="text-dark w-6 aspect-square border border-none bg-dark-secondary rounded-full"
+												onClick={() => clearImage()}
+												disabled={disabled}
+											>
+												<FontAwesomeIcon icon={faXmark} />
+											</button>
+										</div>
+										<Image
+											src={field.value as string}
+											alt="Preview image"
+											fill
+											style={{
+												objectFit : 'contain',
+											}}
+											className="z-0"
+										/>
+									</div>
+								) : (
+									<button
+										type="button"
+										className={cn(
+											'bg-dark-secondary aspect-square w-60 border border-dashed border-white/25',
+											meta.touched && meta.error && 'focus:border-red-500 border-red-500'
+										)}
+										onClick={() => imageField.current?.click()}
+										disabled={disabled}
+									>
 							Select Image
-						</button>
-					)}
+									</button>
+								)}
+							</>
+						)}
+					
 				</>
 			) : fieldType === 'switch' ? (
 				<>
@@ -301,23 +319,28 @@ const FormikField = forwardRef<FormikFieldHandler, Props>( function FormikField(
 				</>
 			) : fieldType === 'year' ? (
 				<>
-					<DatePicker
-						showIcon
-						selected={field.value}
-						showYearPicker
-						dateFormat="yyyy"
-						value={field.value}
-						className={cn(
-							'text-white !py-2 border rounded-lg bg-transparent ring-0 focus:ring-0 shadow-none focus:outline-none  transition-default',
-							['focus:border-white/50 border-white/25',
-								meta.touched && meta.error && 'focus:border-red-500 border-red-500']
-						)}
-						icon={<FontAwesomeIcon icon={faCalendar} />}
-						onChange={( date ) => {
-							helpers.setValue( new Date( date as Date ) )
-							helpers.setTouched( true )
-						}}
-					/>
+					{loading ? 
+						<div className='h-8 p-2 max-w-[10rem] border border-white/25 rounded-lg'>
+							<div className='h-full max-w-[4rem] bg-dark-secondary animate-pulse'></div>
+						</div> : (
+							<DatePicker
+								showIcon
+								selected={field.value}
+								showYearPicker
+								dateFormat="yyyy"
+								className={cn(
+									'text-white !py-2 border rounded-lg bg-transparent ring-0 focus:ring-0 shadow-none focus:outline-none  transition-default',
+									['focus:border-white/50 border-white/25',
+										meta.touched && meta.error && 'focus:border-red-500 border-red-500']
+								)}
+								icon={<FontAwesomeIcon icon={faCalendar} />}
+								onChange={( date ) => {
+									helpers.setValue( new Date( date as Date ) )
+									helpers.setTouched( true )
+								}}
+							/>
+						) }
+					
 				</>
 			) : fieldType === 'select' ? (
 				<>

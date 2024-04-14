@@ -1,7 +1,7 @@
 "use client"
 import useAxiosAuth from '@/lib/hooks/useAxiosAuth'
 import { IApi, IApiPagination } from '@/types/api'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { AxiosError, AxiosResponse } from 'axios'
 import React, { useState } from 'react'
 import SearchInput from '../Inputs/SearchInput'
@@ -56,6 +56,12 @@ const Portofolio = () => {
 		router.push( '/admin/portofolio/add' + '?'+ queryParams.toString() )
 	}
 
+	const goToEdit = ( id: number ) => {
+		const queryParams = new URLSearchParams( searchParams.toString() )
+		
+		router.push( '/admin/portofolio/edit/' + id.toString() + '?'+ queryParams.toString() )
+	}
+
 	const setSearchParams = ( key: string, val: string )=> {
 		const current = new URLSearchParams( Array.from( searchParams.entries() ) )
 		// update as necessary
@@ -96,7 +102,7 @@ const Portofolio = () => {
 	// @ NOTE handle delete
 	const [deleteWarningAlert, setDeleteWarningAlert] = useState<boolean>( false );
 	const [id, setId] = useState<number | null>( null )
-	const queryClient = useQueryClient()
+	// const queryClient = useQueryClient()
 	const { mutate, isPending } = useMutation( {
 		mutationKey : ['skill', 'delete'],
 		mutationFn  : async ( id: number ) => {
@@ -160,6 +166,7 @@ const Portofolio = () => {
 									showDeleteButton
 									showEditButton
 									onClickDelete={()=> handleDelete( item.id )}
+									onClickEdit={()=>goToEdit( item.id )}
 								/>
 
 							) )}
