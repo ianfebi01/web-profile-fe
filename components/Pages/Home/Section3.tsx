@@ -5,6 +5,7 @@ import React from 'react'
 import axios, { AxiosResponse } from 'axios'
 import { IApiPortofolio } from '@/types/api/portofolio'
 import { IApi, IApiPagination } from '@/types/api'
+import Link from 'next/link'
 
 const Section3 = async () => {
 	const data: AxiosResponse<IApi<IApiPortofolio[]> & IApiPagination> = await axios.get( `${process.env.BASE_URL}/v1/portofolio`, {
@@ -39,7 +40,9 @@ const Section3 = async () => {
 					) )}
 
 				</div>
-				<Button className="w-fit">Show more</Button>
+				<Link href={'/portofolio'}>
+					<Button className="w-fit">Show more</Button>
+				</Link>
 			</div>
 		</section>
 	)

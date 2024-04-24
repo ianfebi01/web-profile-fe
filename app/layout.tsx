@@ -3,6 +3,8 @@ import type { Metadata } from 'next'
 import { Outfit } from 'next/font/google'
 import { config } from '@fortawesome/fontawesome-svg-core'
 import '@fortawesome/fontawesome-svg-core/styles.css'
+import { LandingProvider } from '@/context/LandingContext'
+import Navbar from '@/components/Layouts/Navbar'
 const outfit = Outfit( { subsets : ['latin'] } )
 
 config.autoAddCss = false
@@ -20,9 +22,12 @@ export default function RootLayout( {
 } ) {
 	return (
 		<html lang="en">
-			<body className={outfit.className} suppressHydrationWarning={true}>
-				{children}
-			</body>
+			<LandingProvider>
+				<body className={outfit.className} suppressHydrationWarning={true}>
+					<Navbar />
+					{children}
+				</body>
+			</LandingProvider>
 		</html>
 	)
 }
