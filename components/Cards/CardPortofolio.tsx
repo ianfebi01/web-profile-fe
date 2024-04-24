@@ -87,7 +87,7 @@ const CardPortofolio: FunctionComponent<Props> = ( props ) => {
 			</div>
 			<AnimationProvider
 				className={cn(
-					'border border-none rounded-lg w-full overflow-hidden sm:h-64 md:h-64 items-center relative cursor-pointer hover:scale-90',
+					'border border-none rounded-lg w-full overflow-hidden h-52 sm:h-64 md:h-64 items-center relative cursor-pointer hover:scale-90',
 					'flex flex-row gap-2',
 					color,
 					color === 'bg-white' && 'text-dark'

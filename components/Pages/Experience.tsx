@@ -1,6 +1,6 @@
 'use client'
 import useAxiosAuth from '@/lib/hooks/useAxiosAuth'
-import { IApi, IApiPagination, IPayloadPagination } from '@/types/api'
+import { IApi, IApiPagination } from '@/types/api'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { AxiosError, AxiosResponse } from 'axios'
 import React, { useState } from 'react'
@@ -10,43 +10,67 @@ import NoDataFound from '../NoDataFound'
 import Button2 from '../Buttons/Button2'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
-import ModalAddSkill from '../Modal/ModalAddSkill'
 import { IApiSkill } from '@/types/api/skill'
 import toast from 'react-hot-toast'
 import DeleteButton from '../Buttons/DeleteButton'
 import Image from 'next/image'
 import EditButton from '../Buttons/EditButton'
-import ModalEditSkill from '../Modal/ModalEditSkill'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import ModalAddExperience from '../Modal/ModalAddExperience'
+import ModalEditExperience from '../Modal/ModalEditExperience'
 
-const Skill = () => {
+const Experience = () => {
 	const axiosAuth = useAxiosAuth()
 
-	const [params, setParams] = useState<IPayloadPagination>( {
-		page  : 1,
-		limit : 12,
-		q     : '',
-	} )
+	const router = useRouter()
+	const pathname = usePathname()
+	const searchParams = useSearchParams()
+	const page =parseInt( searchParams.get( 'page' ) || '1' )
+	const limit = parseInt( searchParams.get( 'limit' ) || '12' )
+	const q = searchParams.get( 'q' ) || ''
 
 	const { data, isLoading } = useQuery<IApi<IApiSkill[]> & IApiPagination>( {
-		queryKey : ['skill', params.q, params.page],
+		queryKey : ['experience', q, page],
 		queryFn  : async () => {
 			const data: AxiosResponse<IApi<IApiSkill[]> & IApiPagination> =
-        await axiosAuth.get( '/v1/skill', {
-        	params : params,
+        await axiosAuth.get( '/v1/experience', {
+        	params : {
+        		page  : page || 1,
+        		limit : limit || 12,
+        		q     : q || '',
+        	}
         } )
 
 			return data?.data
 		},
 	} )
 
-	const handlePageChange = ( page: number ) => {
-		setParams( {
-			...params,
-			page : page + 1,
-		} )
+	const handlePageChange = ( page: number )=>{
+		const selectedPage = page + 1
+
+		setSearchParams( 'page', selectedPage.toString() )
 	}
 
-	const mockLoop = new Array( params.limit ).fill( 0 )
+	const setSearchParams = ( key: string, val: string )=> {
+		const current = new URLSearchParams( Array.from( searchParams.entries() ) )
+		// update as necessary
+		const value = val.trim();
+
+		if ( !value ) {
+			current.delete( key );
+		} else {
+			current.set( key, val );
+		}
+
+		// cast to string
+		const search = current.toString();
+		// or const query = `${'?'.repeat(search.length && 1)}${search}`;
+		const query = search ? `?${search}` : "";
+
+		router.push( `${pathname}${query}` );
+	}
+
+	const mockLoop = new Array( limit ).fill( 0 )
 
 	// Modal
 	const [isOpen, setIsOpen] = useState<boolean>( false )
@@ -55,7 +79,7 @@ const Skill = () => {
 	const [id, setId] = useState<number | null>( null )
 	const queryClient = useQueryClient()
 	const { mutate, isPending } = useMutation( {
-		mutationKey : ['skill', 'delete'],
+		mutationKey : ['experience', 'delete'],
 		mutationFn  : async ( id: number ) => {
 			const data: AxiosResponse<IApi<IApiSkill> & IApiPagination> =
         await axiosAuth.delete( `/v1/skill/${id}` )
@@ -64,7 +88,7 @@ const Skill = () => {
 		},
 		onSuccess : () => {
 			queryClient.invalidateQueries( {
-				queryKey : ['skill', params.q, params.page],
+				queryKey : ['experience', q, page],
 			} )
 			toast.success( 'Successfully delete skill!' )
 			setIsOpen( false )
@@ -108,24 +132,15 @@ const Skill = () => {
 	return (
 		<>
 			<div className="flex flex-col gap-8 h-full">
-				<ModalAddSkill isOpen={isOpen} setIsOpen={setIsOpen}
-					params={params}
-				/>
-				<ModalEditSkill isOpen={isEditOpen} setIsOpen={setIsEditOpen}
-					params={params}
+				<ModalAddExperience isOpen={isOpen} setIsOpen={setIsOpen}/>
+				<ModalEditExperience isOpen={isEditOpen} setIsOpen={setIsEditOpen}
 					detail={detailData as IApiSkill}
 				/>
 				<div className="flex gap-4 justify-between">
 					<SearchInput
 						placeholder="Search position"
 						type="text"
-						value={params.q}
-						setValue={( value: string ) =>
-							setParams( {
-								...params,
-								q : value,
-							} )
-						}
+						value={q as string || ''} setValue={( value: string )=> setSearchParams( 'q', value )}
 					/>
 
 					<Button2
@@ -134,7 +149,7 @@ const Skill = () => {
 						onClick={() => setIsOpen( true )}
 					>
 						<FontAwesomeIcon icon={faPlus} />
-            			Add Position
+            			Add Experience
 					</Button2>
 				</div>
 
@@ -207,4 +222,4 @@ const Skill = () => {
 	)
 }
 
-export default Skill
+export default Experience

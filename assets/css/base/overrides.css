@@ -55,9 +55,11 @@
 .react-datepicker__year-wrapper {
   @apply !max-w-[200px];
 }
-.react-datepicker__year-text {
+.react-datepicker__year-text,
+.react-datepicker__month-text {
   @apply border border-none !text-white/75 !m-0 p-2 !w-[unset] min-w-[4rem] basis-1/2 hover:!bg-dark-secondary hover:!border-white/25 hover:!rounded-none transition-all duration-500 ease-in-out;
 }
-.react-datepicker__year-text--selected {
+.react-datepicker__year-text--selected,
+.react-datepicker__month-text--selected {
   @apply !text-white !bg-dark-secondary !rounded-sm;
 }

@@ -13,7 +13,7 @@ import { faCalendar, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { Switch } from '@headlessui/react'
 import readAsBase64 from '@/lib/readAsBase63'
 import { cn } from '@/lib/utils'
-import DatePicker from 'react-datepicker'
+import DatePicker, { CalendarContainer } from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import Select, { Options, StylesConfig, components } from 'react-select'
 import { IOptions } from '@/types/form'
@@ -21,7 +21,7 @@ interface Props {
   name: string
   label: string
   placeholder: string
-  fieldType?: 'text' | 'image' | 'switch' | 'year' | 'date' | 'select'
+  fieldType?: 'text' | 'image' | 'switch' | 'year' | 'date' | 'select' | 'month-year'
   defaultImageUrl?: string
   setImageBase64?: ( base64: string ) => void
   required?: boolean
@@ -188,6 +188,16 @@ const FormikField = forwardRef<FormikFieldHandler, Props>( function FormikField(
 		} ),
 	}
 
+	const MyContainer = ( { className, children } ) => {
+		return (
+		  <div style={{ padding : "16px", background : "#216ba5", color : "#fff", zIndex : '99999999999' }}>
+				<CalendarContainer className={className}>
+			  <div style={{ position : "relative" }}>{children}</div>
+				</CalendarContainer>
+		  </div>
+		);
+	}
+	
 	return (
 		<div className="flex flex-col gap-2 relative">
 			<label htmlFor={name}>
@@ -317,6 +327,32 @@ const FormikField = forwardRef<FormikFieldHandler, Props>( function FormikField(
 						}}
 					/>
 				</>
+			) : fieldType === 'month-year' ? (
+				<>
+					{loading ? 
+						<div className='h-8 p-2 max-w-[10rem] border border-white/25 rounded-lg'>
+							<div className='h-full max-w-[4rem] bg-dark-secondary animate-pulse'></div>
+						</div> : (
+							<DatePicker
+								popperPlacement='top-end'
+								showIcon
+								selected={field.value}
+								dateFormat="MM/yyyy"
+								showMonthYearPicker
+								className={cn(
+									'text-white !py-2 border rounded-lg bg-transparent ring-0 focus:ring-0 shadow-none focus:outline-none  transition-default',
+									['focus:border-white/50 border-white/25',
+										meta.touched && meta.error && 'focus:border-red-500 border-red-500']
+								)}
+								icon={<FontAwesomeIcon icon={faCalendar} />}
+								onChange={( date ) => {
+									helpers.setValue( new Date( date as Date ) )
+									helpers.setTouched( true )
+								}}
+							/>
+						) }
+					
+				</>
 			) : fieldType === 'year' ? (
 				<>
 					{loading ? 
@@ -324,6 +360,7 @@ const FormikField = forwardRef<FormikFieldHandler, Props>( function FormikField(
 							<div className='h-full max-w-[4rem] bg-dark-secondary animate-pulse'></div>
 						</div> : (
 							<DatePicker
+								popperPlacement='top-end'
 								showIcon
 								selected={field.value}
 								showYearPicker
