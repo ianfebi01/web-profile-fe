@@ -30,7 +30,7 @@ const SearchInput: FunctionComponent<Props> = ( props ) => {
 			<input placeholder={placeholder} type={type}
 				value={inputValue}
 				onChange={( e ) => handleChange( e.target.value )}
-				className='w-full bg-transparent ring-0 focus:ring-0 shadow-none focus:outline-none '
+				className='w-full bg-transparent ring-0 focus:ring-0 shadow-none focus:outline-none text-base'
 			/>
 		</div>
 	)
