@@ -20,7 +20,7 @@ const Section3 = async () => {
 		<section id="portofolio" className="main__section h-fit bg-dark">
 			<div className="main__container my-8 flex flex-col gap-4">
 				<TextHeader title="Portofolio" subtitle="See what i’ve been build" />
-				<div className="grid grid-cols-1 md:grid-cols-2 w-full h-full gap-8">
+				<div className="grid grid-cols-1 md:grid-cols-2 w-full gap-8">
 					{/* @ NOTE  CARD*/}
 
 					{data.data?.data?.map( ( item: IApiPortofolio, i: number ) => (

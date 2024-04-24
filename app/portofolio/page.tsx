@@ -33,7 +33,7 @@ export default async function PortofoliosPage( {
 	return (
 		<main className="main">
 			<section id="portofolio" className="main__section h-fit bg-dark">
-				<div className="main__container mt-20 sm:mt-6 flex flex-col gap-4">
+				<div className="main__container mt-20 sm:mt-20 flex flex-col gap-4">
 					<Header text="Portofolio" link={backLink} />
 					<HydrationBoundary state={dehydratedState}>
 						<Portofolio/>
