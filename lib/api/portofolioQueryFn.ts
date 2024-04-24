@@ -1,8 +1,11 @@
 
 import { IApi, IApiPagination, IPayloadPagination } from "@/types/api"
 import { IApiPortofolio } from "@/types/api/portofolio"
+import getConfig from "next/config"
 
 export const getPortofolioQueryFn = async ( data: IPayloadPagination ): Promise<IApi<IApiPortofolio[]> & IApiPagination> =>{
+	const { serverRuntimeConfig } = getConfig()
+	const baseUrl = typeof window === 'undefined' ?   serverRuntimeConfig.baseUrl : '/api-web'
 
 	const param = new URLSearchParams( {
 		page  : data.page.toString(),
@@ -10,7 +13,7 @@ export const getPortofolioQueryFn = async ( data: IPayloadPagination ): Promise<
 		q     : data.q.toString()
 	} )
 	
-	return fetch( `http://localhost:8000/v1/portofolio?${param}`, {
+	return fetch( `${baseUrl}/v1/portofolio?${param}`, {
 		method : 'GET'
 	} ).then( res => res.json() )
 }
