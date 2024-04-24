@@ -13,7 +13,7 @@ import { faCalendar, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { Switch } from '@headlessui/react'
 import readAsBase64 from '@/lib/readAsBase63'
 import { cn } from '@/lib/utils'
-import DatePicker, { CalendarContainer } from 'react-datepicker'
+import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import Select, { Options, StylesConfig, components } from 'react-select'
 import { IOptions } from '@/types/form'
@@ -186,16 +186,6 @@ const FormikField = forwardRef<FormikFieldHandler, Props>( function FormikField(
 				color : 'white',
 			},
 		} ),
-	}
-
-	const MyContainer = ( { className, children } ) => {
-		return (
-		  <div style={{ padding : "16px", background : "#216ba5", color : "#fff", zIndex : '99999999999' }}>
-				<CalendarContainer className={className}>
-			  <div style={{ position : "relative" }}>{children}</div>
-				</CalendarContainer>
-		  </div>
-		);
 	}
 	
 	return (
