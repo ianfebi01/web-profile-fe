@@ -2,7 +2,9 @@ export const queryClientOptions = {
 	defaultOptions : {
 		queries : {
 			refetchOnWindowFocus : false,
-			staleTime            : 60 * 1000,
+			staleTime            : 1000 * 60 * 60,
+			cacheTime            : 1000 * 60 * 60,
+	
 		},
 	},
 };

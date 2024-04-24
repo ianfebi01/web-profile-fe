@@ -5,6 +5,7 @@ import { config } from '@fortawesome/fontawesome-svg-core'
 import '@fortawesome/fontawesome-svg-core/styles.css'
 import { LandingProvider } from '@/context/LandingContext'
 import Navbar from '@/components/Layouts/Navbar'
+import ReactQueryProvider from '@/components/Context/ReactQueryProvider'
 const outfit = Outfit( { subsets : ['latin'] } )
 
 config.autoAddCss = false
@@ -22,12 +23,14 @@ export default function RootLayout( {
 } ) {
 	return (
 		<html lang="en">
-			<LandingProvider>
-				<body className={outfit.className} suppressHydrationWarning={true}>
-					<Navbar />
-					{children}
-				</body>
-			</LandingProvider>
+			<ReactQueryProvider>
+				<LandingProvider>
+					<body className={outfit.className} suppressHydrationWarning={true}>
+						<Navbar />
+						{children}
+					</body>
+				</LandingProvider>
+			</ReactQueryProvider>
 		</html>
 	)
 }
