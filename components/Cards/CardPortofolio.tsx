@@ -23,6 +23,8 @@ interface Props {
   disabled?: boolean
   showEditButton?: boolean
   showDeleteButton?: boolean
+  transitionIn?: boolean
+  transitionHover?: boolean
 }
 const CardPortofolio: FunctionComponent<Props> = ( props ) => {
 	const {
@@ -35,6 +37,8 @@ const CardPortofolio: FunctionComponent<Props> = ( props ) => {
 		disabled = false,
 		showEditButton = false,
 		showDeleteButton = false,
+		transitionIn = false,
+		transitionHover = false
 	} = props
 
 	const cardRef = useRef( null )
@@ -50,7 +54,11 @@ const CardPortofolio: FunctionComponent<Props> = ( props ) => {
 	}, [isInView] )
 
 	return (
-		<div className="hover:scale-95 transition-default relative group overflow-hidden">
+		<div className={cn(
+			'relative group overflow-hidden',
+			transitionHover && 'hover:scale-95 transition-default'
+		)}
+		>
 			<div className="flex gap-2 absolute top-0 w-full opacity-0 -translate-y-6 group-hover:opacity-100 group-hover:translate-y-0 group-hover:delay-300 delay-300  transition-default px-4 py-2 z-10">
 				<Button disabled theme={color === 'bg-white' ? 'light' : 'dark'}
 					className='backdrop-blur-md shadow-sm'
@@ -85,64 +93,123 @@ const CardPortofolio: FunctionComponent<Props> = ( props ) => {
 					)}
 				</div>
 			</div>
-			<AnimationProvider
-				className={cn(
-					'border border-none rounded-lg w-full overflow-hidden h-52 sm:h-64 md:h-64 items-center relative cursor-pointer hover:scale-90',
-					'flex flex-row gap-2',
-					color,
-					color === 'bg-white' && 'text-dark'
-				)}
-				once={once}
-				
-			>
-				{/* @ NOTE Text */}
-				<div className={cn( 'flex flex-col basis-1/2 gap-2 py-6 pl-3 sm:gap-6' )}>
-					<div className="flex flex-col gap-2">
-						<h3 className="text-base font-bold">{data.name}</h3>
-						<p
-							className="text-xs"
-							dangerouslySetInnerHTML={{ __html : sanitize( data.description ) }}
-						></p>
+			{transitionIn ? (
+				<AnimationProvider
+					className={cn(
+						'border border-none rounded-lg w-full overflow-hidden h-52 sm:h-64 md:h-64 items-center relative cursor-pointer',
+						'flex flex-row gap-2',
+						color,
+						color === 'bg-white' && 'text-dark'
+					)}
+					once={once}
+				>
+					{/* @ NOTE Text */}
+					<div className={cn( 'flex flex-col basis-1/2 gap-2 py-6 pl-3 sm:gap-6' )}>
+						<div className="flex flex-col gap-2">
+							<h3 className="text-base font-bold">{data.name}</h3>
+							<p
+								className="text-xs"
+								dangerouslySetInnerHTML={{ __html : sanitize( data.description ) }}
+							></p>
+						</div>
+						<div className="grow-[1]" />
+						<div className="flex gap-1">
+							{data.skills?.map( ( item, i ) => (
+								<div
+									className={`w-4 h-4  border border-none rounded-sm relative overflow-hidden ${
+										color === 'bg-white' && 'shadow-skill'
+									}`}
+									key={i}
+								>
+									<Image
+										src={item.image}
+										fill
+										style={{
+											objectFit : 'contain',
+										}}
+										sizes="auto"
+										alt="Icon"
+									/>
+								</div>
+							) )}
+						</div>
 					</div>
-					<div className="grow-[1]" />
-					<div className="flex gap-1">
-						{data.skills?.map( ( item, i ) => (
-							<div
-								className={`w-4 h-4  border border-none rounded-sm relative overflow-hidden ${
-									color === 'bg-white' && 'shadow-skill'
-								}`}
-								key={i}
-							>
+					{data.image && (
+						<div className="basis-1/2 h-full">
+							<div className={cn( 'w-full h-full relative' )}>
 								<Image
-									src={item.image}
+									src={data.image}
+									alt="Project Image"
 									fill
+									priority
+									sizes="auto"
 									style={{
 										objectFit : 'contain',
 									}}
-									sizes="auto"
-									alt="Icon"
 								/>
 							</div>
-						) )}
-					</div>
-				</div>
-				{data.image && (
-					<div className="basis-1/2 h-full">
-						<div className={cn( 'w-full h-full relative' )}>
-							<Image
-								src={data.image}
-								alt="Project Image"
-								fill
-								priority
-								sizes="auto"
-								style={{
-									objectFit : 'contain',
-								}}
-							/>
+						</div>
+					)}
+				</AnimationProvider>
+			) : (
+				<div
+					className={cn(
+						'border border-none rounded-lg w-full overflow-hidden h-52 sm:h-64 md:h-64 items-center relative cursor-pointer transition-default',
+						'flex flex-row gap-2',
+						color,
+						color === 'bg-white' && 'text-dark'
+					)}
+				>
+					{/* @ NOTE Text */}
+					<div className={cn( 'flex flex-col basis-1/2 gap-2 py-6 pl-3 sm:gap-6' )}>
+						<div className="flex flex-col gap-2">
+							<h3 className="text-base font-bold">{data.name}</h3>
+							<p
+								className="text-xs"
+								dangerouslySetInnerHTML={{ __html : sanitize( data.description ) }}
+							></p>
+						</div>
+						<div className="grow-[1]" />
+						<div className="flex gap-1">
+							{data.skills?.map( ( item, i ) => (
+								<div
+									className={`w-4 h-4  border border-none rounded-sm relative overflow-hidden ${
+										color === 'bg-white' && 'shadow-skill'
+									}`}
+									key={i}
+								>
+									<Image
+										src={item.image}
+										fill
+										style={{
+											objectFit : 'contain',
+										}}
+										sizes="auto"
+										alt="Icon"
+									/>
+								</div>
+							) )}
 						</div>
 					</div>
-				)}
-			</AnimationProvider>
+					{data.image && (
+						<div className="basis-1/2 h-full">
+							<div className={cn( 'w-full h-full relative' )}>
+								<Image
+									src={data.image}
+									alt="Project Image"
+									fill
+									priority
+									sizes="auto"
+									style={{
+										objectFit : 'contain',
+									}}
+								/>
+							</div>
+						</div>
+					)}
+				</div>
+			)}
+			
 		</div>
 	)
 }

@@ -35,6 +35,8 @@ const Section3 = async () => {
 										: 'bg-dark-secondary'
 							}
 							data={item}
+							transitionIn
+							transitionHover
 						/>
 						
 					) )}
