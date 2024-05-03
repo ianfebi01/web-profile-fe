@@ -15,13 +15,13 @@ const Header: FunctionComponent<Props> = ( props ) => {
 	return (
 		<div className='flex flex-row items-center gap-4'>
 			{link ? (
-				<Button2 type='button' variant='icon'
-					className='gap-2 flex'
-				>
-					<Link href={link}>
+				<Link href={link}>
+					<Button2 type='button' variant='icon'
+						className='gap-2 flex'
+					>
 						<FontAwesomeIcon icon={faChevronLeft} size='xl'/>
-					</Link>
-				</Button2>
+					</Button2>
+				</Link>
 			) : ''}
 			
 			<h1 className="text-2xl font-semibold ">{text}</h1>
