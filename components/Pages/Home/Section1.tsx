@@ -1,12 +1,10 @@
-import PersonImage from '@/components/PersonImage'
 import Shape from '@/components/Shape'
-import TextBackground from '@/components/Texts/TextBackground'
-import TextSide from '@/components/Texts/TextSide'
 import { IApiProfile } from '@/types/api/profile'
-import React, { FunctionComponent } from 'react'
+import Image from 'next/image'
+import { FunctionComponent } from 'react'
 
-interface Props{
-	profile: IApiProfile
+interface Props {
+  profile: IApiProfile
 }
 
 const Section1: FunctionComponent<Props> = ( props ) => {
@@ -15,21 +13,30 @@ const Section1: FunctionComponent<Props> = ( props ) => {
   return (
     <section
       id="home"
-      className="main__section h-[650px] md:h-[487px] transition-default bg-dark relative"
+      className="main__section transition-default bg-dark relative  mt-24 sm:mt-20"
     >
       <Shape />
-      <div className="main__container mt-20 sm:mt-6 relative overflow-hidden">
-        <div className="text-center sm:text-left transition-default">
-          <p>{profile?.name}</p>
-          <a href="mailto:ianfebi01@gmail.com"
-            className="text-white-overlay"
-          >
-            {profile.email}
-          </a>
+      <div className="flex w-full h-48 relative">
+        <div className="aspect-square w-48 border rounded-full overflow-hidden inset-x-0 mx-auto absolute -bottom-24">
+          <Image
+            src={profile.personImage as string}
+            alt="Profile image"
+            fill
+            priority
+            sizes="auto"
+            objectFit="cover"
+          />
         </div>
-        <TextBackground textBg={profile?.textBg as string}/>
-        <PersonImage image={profile?.personImage as string} />
-        <TextSide openToWork={profile?.openToWork as boolean} />
+      </div>
+      <div className="w-full grow-[1] max-w-4xl relative overflow-hidden mt-28 mb-8">
+        <p className="text-center text-display-xs-medium">
+              A frontend developer with pixel-perfect mindset, I am committed to
+              creating software that is simple, robust, and easy to maintain at a
+              fast pace. I have a proven track record of reducing complexity and
+              improving the clarity of codebases. With an open mind and unbiased
+              approach, I excel in brainstorming sessions, mentoring, and code
+              reviews. I take pleasure in hands-on problem-solving.
+        </p>
       </div>
     </section>
   )

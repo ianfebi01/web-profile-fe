@@ -1,12 +1,12 @@
 import '@/assets/scss/main.scss'
 import type { Metadata } from 'next'
-import { Outfit } from 'next/font/google'
+// import { Outfit } from 'next/font/google'
 import { config } from '@fortawesome/fontawesome-svg-core'
 import '@fortawesome/fontawesome-svg-core/styles.css'
 import { LandingProvider } from '@/context/LandingContext'
 import ReactQueryProvider from '@/components/Context/ReactQueryProvider'
 import NavbarV2 from '@/components/Layouts/NavbarV2'
-const outfit = Outfit( { subsets : ['latin'] } )
+// const outfit = Outfit( { subsets : ['latin'] } )
 
 config.autoAddCss = false
 
@@ -25,7 +25,7 @@ export default function RootLayout( {
     <html lang="en">
       <ReactQueryProvider>
         <LandingProvider>
-          <body className={outfit.className}
+          <body 
             suppressHydrationWarning={true}
           >
             <NavbarV2 />
