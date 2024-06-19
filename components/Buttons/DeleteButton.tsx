@@ -9,24 +9,26 @@ type Props = {
   onClick?: () => void
 }
 const DeleteButton: FunctionComponent<Props> = ( props ) => {
-	const { loading = false, disabled = false, onClick } = props
+  const { loading = false, disabled = false, onClick } = props
 
-	const handleOnClick = () =>{
-		if ( onClick === undefined ) return
-		onClick()
-	}
+  const handleOnClick = () =>{
+    if ( onClick === undefined ) return
+    onClick()
+  }
 
-	return (
-		<Button2
-			type="button"
-			loading={loading}
-			disabled={disabled}
-			variant="iconOnly"
-			onClick={() => handleOnClick()}
-		>
-			<FontAwesomeIcon icon={faTrash} size="sm" />
-		</Button2>
-	)
+  return (
+    <Button2
+      type="button"
+      loading={loading}
+      disabled={disabled}
+      variant="iconOnly"
+      onClick={() => handleOnClick()}
+    >
+      <FontAwesomeIcon icon={faTrash}
+        size="sm"
+      />
+    </Button2>
+  )
 }
 
 export default DeleteButton

@@ -10,41 +10,41 @@
 import { ReactNode } from 'react'
 
 export default function ProfileProvider( {
-	children,
+  children,
 
 }: {
   children: ReactNode
 } ) {
-	// const { data: session, update } = useSession()
+  // const { data: session, update } = useSession()
 
-	// const axiosAuth = useAxiosAuth()
+  // const axiosAuth = useAxiosAuth()
 
-	// const { isLoading } = useQuery<AxiosResponse<IApi<IApiProfile>>>( {
-	// 	queryKey : ['profile'],
-	// 	queryFn  : async()=> {
-	// 		const data = await axiosAuth.get(
-	// 			`/v1/profile`
-	// 		)
+  // const { isLoading } = useQuery<AxiosResponse<IApi<IApiProfile>>>( {
+  // 	queryKey : ['profile'],
+  // 	queryFn  : async()=> {
+  // 		const data = await axiosAuth.get(
+  // 			`/v1/profile`
+  // 		)
 
-	// 		await update( {
-	// 			...session,
-	// 			user : {
-	// 				...session?.user,
-	// 				...data?.data.data
-	// 			}
-	// 		} )
+  // 		await update( {
+  // 			...session,
+  // 			user : {
+  // 				...session?.user,
+  // 				...data?.data.data
+  // 			}
+  // 		} )
 			
-	// 		return data
-	// 	}
-	// } )
+  // 		return data
+  // 	}
+  // } )
 
-	// return isLoading ? 
-	// 	<div className='w-full grow-[1] h-full flex justify-center items-center'>
+  // return isLoading ? 
+  // 	<div className='w-full grow-[1] h-full flex justify-center items-center'>
 
-	// 		<Spinner classes='!w-10 !h-10'/>
+  // 		<Spinner classes='!w-10 !h-10'/>
 
-	// 	</div> 
-	// 	: <>{ children }</>
+  // 	</div> 
+  // 	: <>{ children }</>
 	
-	return  <>{ children }</>
+  return  <>{ children }</>
 }

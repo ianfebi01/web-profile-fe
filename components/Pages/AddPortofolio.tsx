@@ -18,220 +18,221 @@ import Modal from '../Modal/Modal'
 import {  useRouter, useSearchParams } from 'next/navigation'
 
 const AddPortofolio = () => {
-	const axiosAuth = useAxiosAuth()
-	const { data: session } = useSession()
-	const router = useRouter()
-	const searchParams = useSearchParams()
+  const axiosAuth = useAxiosAuth()
+  const { data: session } = useSession()
+  const router = useRouter()
+  const searchParams = useSearchParams()
 
-	// @ NOTE ROuter
-	const back = () =>{
-		const url = new URLSearchParams( searchParams.toString() )
+  // @ NOTE ROuter
+  const back = () =>{
+    const url = new URLSearchParams( searchParams.toString() )
 
-		router.push( '/admin/portofolio?' + url.toString() )
-	}
+    router.push( '/admin/portofolio?' + url.toString() )
+  }
 	
-	// React Query
-	const queryClient = useQueryClient()
-	const { mutate, isPending } = useMutation( {
-		mutationKey : ['portofolio', 'add'],
-		mutationFn  : async( value: Omit<IApiPortofolio, 'id'> )=> {
-			const data: AxiosResponse<IApi<IApiSkill>> = await axiosAuth.post(
-				`/v1/portofolio`, 
-				value
-			)
+  // React Query
+  const queryClient = useQueryClient()
+  const { mutate, isPending } = useMutation( {
+    mutationKey : ['portofolio', 'add'],
+    mutationFn  : async( value: Omit<IApiPortofolio, 'id'> )=> {
+      const data: AxiosResponse<IApi<IApiSkill>> = await axiosAuth.post(
+        `/v1/portofolio`, 
+        value
+      )
 			
-			return data.data.data
-		},
-		onSuccess : (  )=> {
-			queryClient.invalidateQueries( { queryKey : ['portofolio', '', 1] } )
-			setSubmitWarningAlert( false )
-			formik.resetForm()
-			back()
-			toast.success( 'Successfully add new portofolio!' )
-		},
-		onError : () => {
-			toast.error( 'Cant add portofolio, please try again latter.' )
-		}
-	} )
+      return data.data.data
+    },
+    onSuccess : (  )=> {
+      queryClient.invalidateQueries( { queryKey : ['portofolio', '', 1] } )
+      setSubmitWarningAlert( false )
+      formik.resetForm()
+      back()
+      toast.success( 'Successfully add new portofolio!' )
+    },
+    onError : () => {
+      toast.error( 'Cant add portofolio, please try again latter.' )
+    }
+  } )
 
-	// Dynamic fields
-	const fields: IDynamicForm[] = [
-		{
-			name        : 'name',
-			type        : 'text',
-			placeholder : 'eg. Frontend Developer',
-			fieldType   : 'text',
-			label       : 'Name',
-			validation  : {
-				charLength : {
-					min : 3,
-					max : 30
-				},
-				required : true
-			}
-		},
-		{
-			name        : 'description',
-			type        : 'text',
-			placeholder : 'eg. Create user interface based on figma',
-			fieldType   : 'text',
-			label       : 'Description',
-			validation  : {
-				charLength : {
-					min : 3,
-					max : 300
-				},
-				required : true
-			}
-		},
-		{
-			name        : 'image',
-			type        : 'image',
-			placeholder : 'Upload image',
-			fieldType   : 'image',
-			label       : 'Icon',
-			validation  : {
-				required : true,
-				image    : {
-					maxSize : 1000
-				}
-			}
-		},
-		{
-			name        : 'skills',
-			type        : 'select',
-			placeholder : 'Select skills',
-			fieldType   : 'select',
-			label       : 'Skills',
-			select      : {
-				isMulti : true,
-			},
-			validation : {
-				required : true
-			}
-		},
-		{
-			name        : 'year',
-			type        : 'year',
-			placeholder : 'Select year',
-			fieldType   : 'year',
-			label       : 'Year',
-			validation  : {
-				required : true
-			}
-		},
-	]
+  // Dynamic fields
+  const fields: IDynamicForm[] = [
+    {
+      name        : 'name',
+      type        : 'text',
+      placeholder : 'eg. Frontend Developer',
+      fieldType   : 'text',
+      label       : 'Name',
+      validation  : {
+        charLength : {
+          min : 3,
+          max : 30
+        },
+        required : true
+      }
+    },
+    {
+      name        : 'description',
+      type        : 'text',
+      placeholder : 'eg. Create user interface based on figma',
+      fieldType   : 'text',
+      label       : 'Description',
+      validation  : {
+        charLength : {
+          min : 3,
+          max : 300
+        },
+        required : true
+      }
+    },
+    {
+      name        : 'image',
+      type        : 'image',
+      placeholder : 'Upload image',
+      fieldType   : 'image',
+      label       : 'Icon',
+      validation  : {
+        required : true,
+        image    : {
+          maxSize : 1000
+        }
+      }
+    },
+    {
+      name        : 'skills',
+      type        : 'select',
+      placeholder : 'Select skills',
+      fieldType   : 'select',
+      label       : 'Skills',
+      select      : {
+        isMulti : true,
+      },
+      validation : {
+        required : true
+      }
+    },
+    {
+      name        : 'year',
+      type        : 'year',
+      placeholder : 'Select year',
+      fieldType   : 'year',
+      label       : 'Year',
+      validation  : {
+        required : true
+      }
+    },
+  ]
 
-	// @ NOTE Form
-	const schema = generateValidationSchema( fields )
+  // @ NOTE Form
+  const schema = generateValidationSchema( fields )
 
-	// @ NOTE Formik
-	const date = new Date
+  // @ NOTE Formik
+  const date = new Date
 
-	// submited form value
-	const [submitedValue, setSubmitedValue] = useState<Omit<IApiPortofolio, 'id'>>( );
+  // submited form value
+  const [submitedValue, setSubmitedValue] = useState<Omit<IApiPortofolio, 'id'>>( );
 
 	interface IInitialValues extends Omit<IApiPortofolio, 'id' | 'skills' | 'userId'>{
 		skills: Options<IOptions>
 	}
 	const initialValues: IInitialValues= {
-		name        : '',
-		description : '',
-		image       : '',
-		year        : date,
-		skills      : []
+	  name        : '',
+	  description : '',
+	  image       : '',
+	  year        : date,
+	  skills      : []
 	}
 	const formik = useFormik( {
-		initialValues    : initialValues,
-		validationSchema : schema,
-		onSubmit         : ( value ) => {
-			setSubmitedValue( {
-				...value,
-				userId : session?.user.id,
-				skills : value.skills?.map( ( item ) => item.value )
-			} as Omit<IApiPortofolio, 'id' | 'skills'> )
+	  initialValues    : initialValues,
+	  validationSchema : schema,
+	  onSubmit         : ( value ) => {
+	    setSubmitedValue( {
+	      ...value,
+	      userId : session?.user.id,
+	      skills : value.skills?.map( ( item ) => item.value )
+	    } as Omit<IApiPortofolio, 'id' | 'skills'> )
 
-			setSubmitWarningAlert( true )
-		},
+	    setSubmitWarningAlert( true )
+	  },
 	} )
 
 	// @ NOTE get skill list
 	
 	const{ data: skillListData, isLoading: isSkillListLoading } = useQuery<IApi<Pick<IApiSkill, 'name' | 'id'>[]>>( {
-		queryKey : ['skill-list'],
-		queryFn  : async ()=> {
-			const data: AxiosResponse<IApi<Pick<IApiSkill, 'name' | 'id'>[]>>  = await axiosAuth.get( '/v1/skill-list' )
+	  queryKey : ['skill-list'],
+	  queryFn  : async ()=> {
+	    const data: AxiosResponse<IApi<Pick<IApiSkill, 'name' | 'id'>[]>>  = await axiosAuth.get( '/v1/skill-list' )
 			
-			return data?.data
-		},
+	    return data?.data
+	  },
 	} )
 
 	// @ NOTE loading
 	const getLoading = ( fieldType: string | undefined )=>{
-		switch( fieldType ){
-		case 'select':
-			return isSkillListLoading
-		default: return false
-		}
+	  switch( fieldType ){
+	  case 'select':
+	    return isSkillListLoading
+	  default: return false
+	  }
 	}
 	// @ NOTE options
 	const getOptions = ( name: string | undefined )=>{
-		switch( name ){
-		case 'skills':
-			return skillListData?.data?.map( ( item: Pick<IApiSkill, "id" | "name"> )=> ( {
-				label : item.name,
-				value : item.id
-			} ) )
-		default: return []
-		}
+	  switch( name ){
+	  case 'skills':
+	    return skillListData?.data?.map( ( item: Pick<IApiSkill, "id" | "name"> )=> ( {
+	      label : item.name,
+	      value : item.id
+	    } ) )
+	  default: return []
+	  }
 	}
 
 	// @ NOTE warning alert
 	const [submitWarningAlert, setSubmitWarningAlert] = useState<boolean>( false );
 	const onSubmitOk = () => {
-		mutate( {
-			...submitedValue
-		} as Omit<IApiPortofolio, 'id'> )
+	  mutate( {
+	    ...submitedValue
+	  } as Omit<IApiPortofolio, 'id'> )
 	}
 	
 	return (
-		<section className=''>
-			<FormikProvider value={formik}>
-				<Form onSubmit={formik.handleSubmit}
-					className='flex flex-col gap-2'
-				>
-					{
-						fields.map( ( item: IDynamicForm )=>(
-							<FormikField    
-								label={item.label}
-								name={item.name}
-								placeholder={item.placeholder}
-								key={item.name}
-								fieldType={item.fieldType}
-								required={item.validation?.required}
-								select={item?.select}
-								options={getOptions( item.name )}
-								loading={getLoading( item.fieldType ) }
-							/>
-						) )
-					}
-					<Button2 disabled={ isPending}
-						type="submit"
-					>Submit</Button2>
-				</Form>
-			</FormikProvider>
+	  <section className=''>
+	    <FormikProvider value={formik}>
+	      <Form onSubmit={formik.handleSubmit}
+	        className='flex flex-col gap-2'
+	      >
+	        {
+	          fields.map( ( item: IDynamicForm )=>(
+	            <FormikField    
+	              label={item.label}
+	              name={item.name}
+	              placeholder={item.placeholder}
+	              key={item.name}
+	              fieldType={item.fieldType}
+	              required={item.validation?.required}
+	              select={item?.select}
+	              options={getOptions( item.name )}
+	              loading={getLoading( item.fieldType ) }
+	            />
+	          ) )
+	        }
+	        <Button2 disabled={ isPending}
+	          type="submit"
+	        >Submit</Button2>
+	      </Form>
+	    </FormikProvider>
 
-			<Modal isOpen={submitWarningAlert} setIsOpen={setSubmitWarningAlert}
-				onConfirm={()=>onSubmitOk()}
-				onCancel={()=> setSubmitWarningAlert( false )}
-				variant='warning'
-				title='Are you sure?'
-				desciption='Are you sure want to add new portofolio?'
-				confirmText='Confirm'
-				loading={isPending}
-			>
-			</Modal>
-		</section>
+	    <Modal isOpen={submitWarningAlert}
+	      setIsOpen={setSubmitWarningAlert}
+	      onConfirm={()=>onSubmitOk()}
+	      onCancel={()=> setSubmitWarningAlert( false )}
+	      variant='warning'
+	      title='Are you sure?'
+	      desciption='Are you sure want to add new portofolio?'
+	      confirmText='Confirm'
+	      loading={isPending}
+	    >
+	    </Modal>
+	  </section>
 
 	)
 }

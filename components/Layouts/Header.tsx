@@ -10,23 +10,26 @@ interface Props{
     link?: Url
 }
 const Header: FunctionComponent<Props> = ( props ) => {
-	const { text, link } = props
+  const { text, link } = props
 	
-	return (
-		<div className='flex flex-row items-center gap-4'>
-			{link ? (
-				<Link href={link}>
-					<Button2 type='button' variant='icon'
-						className='gap-2 flex'
-					>
-						<FontAwesomeIcon icon={faChevronLeft} size='xl'/>
-					</Button2>
-				</Link>
-			) : ''}
+  return (
+    <div className='flex flex-row items-center gap-4'>
+      {link ? (
+        <Link href={link}>
+          <Button2 type='button'
+            variant='icon'
+            className='gap-2 flex'
+          >
+            <FontAwesomeIcon icon={faChevronLeft}
+              size='xl'
+            />
+          </Button2>
+        </Link>
+      ) : ''}
 			
-			<h1 className="text-2xl font-semibold ">{text}</h1>
-		</div>
-	)
+      <h1 className="text-2xl font-semibold ">{text}</h1>
+    </div>
+  )
 }
 
 export default Header

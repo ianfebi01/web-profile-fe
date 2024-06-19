@@ -11,26 +11,28 @@ const outfit = Outfit( { subsets : ['latin'] } )
 config.autoAddCss = false
 
 export const metadata: Metadata = {
-	title : 'Ian Febi S',
-	description :
+  title : 'Ian Febi S',
+  description :
     'Front End Web Developer with 1+ year of experience. Expert on React js and Vue js',
 }
 
 export default function RootLayout( {
-	children,
+  children,
 }: {
   children: React.ReactNode
 } ) {
-	return (
-		<html lang="en">
-			<ReactQueryProvider>
-				<LandingProvider>
-					<body className={outfit.className} suppressHydrationWarning={true}>
-						<NavbarV2 />
-						{children}
-					</body>
-				</LandingProvider>
-			</ReactQueryProvider>
-		</html>
-	)
+  return (
+    <html lang="en">
+      <ReactQueryProvider>
+        <LandingProvider>
+          <body className={outfit.className}
+            suppressHydrationWarning={true}
+          >
+            <NavbarV2 />
+            {children}
+          </body>
+        </LandingProvider>
+      </ReactQueryProvider>
+    </html>
+  )
 }

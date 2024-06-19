@@ -7,39 +7,43 @@ import { Url } from 'next/dist/shared/lib/router/router'
 import React from 'react'
 
 export default async function PortofoliosPage( {
-	searchParams,
+  searchParams,
 }: {
   searchParams: IPaginationParams
 } ) {
-	const backLink: Url = {
-		pathname : '/',
-		query    : {
-			...searchParams,
-		},
-	}
+  const backLink: Url = {
+    pathname : '/',
+    query    : {
+      ...searchParams,
+    },
+  }
 
-	const queryClient = new QueryClient()
-	await queryClient.prefetchQuery( {
-		queryKey : ['portofolio', 1, ''],
-		queryFn  : () => getPortofolioQueryFn( {
-			page  : 1,
-			q     : '',
-			limit : 12,
-		} )
-	} )
+  const queryClient = new QueryClient()
+  await queryClient.prefetchQuery( {
+    queryKey : ['portofolio', 1, ''],
+    queryFn  : () => getPortofolioQueryFn( {
+      page  : 1,
+      q     : '',
+      limit : 12,
+    } )
+  } )
 
-	const dehydratedState = dehydrate( queryClient );
+  const dehydratedState = dehydrate( queryClient );
 	
-	return (
-		<main className="main">
-			<section id="portofolio" className="main__section h-fit bg-dark">
-				<div className="main__container mt-20 sm:mt-20 flex flex-col gap-4">
-					<Header text="Portofolio" link={backLink} />
-					<HydrationBoundary state={dehydratedState}>
-						<Portofolio/>
-					</HydrationBoundary>
-				</div>
-			</section>
-		</main>
-	)
+  return (
+    <main className="main">
+      <section id="portofolio"
+        className="main__section h-fit bg-dark"
+      >
+        <div className="main__container mt-20 sm:mt-20 flex flex-col gap-4">
+          <Header text="Portofolio"
+            link={backLink}
+          />
+          <HydrationBoundary state={dehydratedState}>
+            <Portofolio/>
+          </HydrationBoundary>
+        </div>
+      </section>
+    </main>
+  )
 }

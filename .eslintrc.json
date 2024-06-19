@@ -7,16 +7,19 @@
   ],
   "env": {},
   "rules": {
+    /**
+     *  Comment
+     */
     // "key-spacing": ["error", { "align": "colon" }],
+    // "no-tabs": ["error", { "allowIndentationTabs": true, "ignoreComments": true  }],
     "@typescript-eslint/no-unused-vars": "error",
     "@typescript-eslint/no-explicit-any": "warn",
-    // "no-tabs": ["error", { "allowIndentationTabs": true, "ignoreComments": true  }],
     "key-spacing": [
       "error",
-      { "align": "colon",  "beforeColon": true, "afterColon": true}
+      { "align": "colon", "beforeColon": true, "afterColon": true }
     ],
     "brace-style": "error",
-    "indent": ["error", "tab"],
+    "indent": ["error", 2],
     "comma-spacing": ["error", { "before": false, "after": true }],
     "space-in-parens": ["error", "always"],
     "padding-line-between-statements": [
@@ -27,18 +30,18 @@
     "object-curly-spacing": ["error", "always"],
     "no-console": "error",
     "no-multiple-empty-lines": ["error", { "max": 1, "maxEOF": 0 }],
-    
-    // typescript-eslint
-    "@typescript-eslint/type-annotation-spacing": "error",
 
-    // React
+    /**
+     * typescript-eslint
+     */
+    "@typescript-eslint/type-annotation-spacing": "error",
+    /**
+     * React
+     */
     "react/react-in-jsx-scope": "off",
-    "react/jsx-max-props-per-line": [1, { "maximum": 2 }],
+    "react/jsx-max-props-per-line": [1, { "maximum": 1 }],
     "react/jsx-closing-bracket-location": 1
     // "react/jsx-tag-spacing":[{ "closingSlash": "never" }]
-
-
-    
   },
   "parserOptions": {
     "ecmaFeatures": {},
