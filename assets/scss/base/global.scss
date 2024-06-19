@@ -2,6 +2,10 @@
     @apply transition-all duration-500 ease-in-out;
 }
 
+a{
+    @apply underline cursor-pointer;
+}
+
 // button
 .btn-admin-default{
     @apply bg-dark-secondary border transition-default border-white/25 hover:border-transparent hover:bg-dark;

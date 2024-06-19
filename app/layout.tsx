@@ -6,6 +6,7 @@ import '@fortawesome/fontawesome-svg-core/styles.css'
 import { LandingProvider } from '@/context/LandingContext'
 import ReactQueryProvider from '@/components/Context/ReactQueryProvider'
 import NavbarV2 from '@/components/Layouts/NavbarV2'
+import { Toaster } from 'react-hot-toast'
 // const outfit = Outfit( { subsets : ['latin'] } )
 
 config.autoAddCss = false
@@ -25,9 +26,22 @@ export default function RootLayout( {
     <html lang="en">
       <ReactQueryProvider>
         <LandingProvider>
-          <body 
-            suppressHydrationWarning={true}
-          >
+          <body suppressHydrationWarning={true}>
+            <Toaster
+              toastOptions={{
+                // icon : (
+                // 	<div className="text-20" data-cy="modal-information-icon">
+                // 		<ModalInformationIcon />
+                // 	</div>
+                // ),
+                position  : 'top-right',
+                className : 'bg-white text-dark text-md',
+                style     : {
+                  boxShadow : '0px 4px 10px rgba(0, 0, 0, 0.1)',
+                  height    : '44px',
+                },
+              }}
+            />
             <NavbarV2 />
             {children}
           </body>
