@@ -42,7 +42,7 @@ const Section1: FunctionComponent<Props> = ( props ) => {
           approach, I excel in brainstorming sessions, mentoring, and code
           reviews. I take pleasure in hands-on problem-solving.
         </p>
-        <div className="text-lg flex gap-4 text-center w-full justify-center">
+        <div className="text-lg flex gap-4 text-center w-full justify-center flex-wrap">
           <LinkOpenNewTab
             url={'https://www.instagram.com/ianfebi01/'}
             label={'Instagram'}
