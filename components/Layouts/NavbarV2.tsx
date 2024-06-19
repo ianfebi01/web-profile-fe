@@ -42,7 +42,7 @@ const NavbarV2 = () => {
       }}
       initial="visible"
       animate={visibilityControl}
-      transition={{ ease : [0.1, 0.25, 0.3, 1], duration : 0.6 }}
+      transition={{ ease : [0.1, 0.25, 0.3, 1], duration : 0.3 }}
       className=" fixed top-0 w-full h-16 z-30 bg-dark"
     >
       <div className="inset-x-0 mx-auto max-w-5xl  h-full flex gap-2 items-center">
