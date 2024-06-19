@@ -2,7 +2,7 @@ import { cn } from '@/lib/utils'
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Popover, Transition } from '@headlessui/react'
-import { Fragment } from 'react'
+import { Fragment, useState } from 'react'
 
 const solutions = [
 	{
@@ -26,17 +26,23 @@ const solutions = [
 ]
 
 export default function MenuItem() {
+	const [show, setShow] = useState<boolean>( false )
+
 	return (
 		<div className="relative">
-			<Popover className="relative">
-				{( { open } ) => (
+			<Popover
+				className="relative"
+				onMouseEnter={() => setShow( true )}
+				onMouseLeave={() => setShow( false )}
+			>
+				{() => (
 					<>
 						<Popover.Button
 							className={cn(
 								'py-2 px-4 text-xs flex items-center gap-2 transition-default w-fit rounded-lg border border-transparent',
 								' hover:border-white/25',
 								'ring-0 focus:ring-0 outline-none',
-								open ? 'text-white border-white/25' : 'text-white/50'
+								show ? 'text-white border-white/25' : 'text-white/50'
 							)}
 						>
 							<span>Solutions</span>
@@ -44,21 +50,23 @@ export default function MenuItem() {
 								icon={faChevronDown}
 								className={cn(
 									'transition-default group-hover:text-orange-300/80',
-									open ? 'text-white transform -rotate-180' : 'text-white/50'
+									show ? 'text-white transform -rotate-180' : 'text-white/50'
 								)}
-								aria-hidden="true"
 							/>
 						</Popover.Button>
 						<Transition
-							as={Fragment}
 							enter="transition ease-out duration-200"
 							enterFrom="opacity-0 translate-y-1"
 							enterTo="opacity-100 translate-y-0"
 							leave="transition ease-in duration-150"
 							leaveFrom="opacity-100 translate-y-0"
 							leaveTo="opacity-0 translate-y-1"
+							show={show}
 						>
-							<Popover.Panel className="absolute left-0 z-10 mt-3 w-screen max-w-xs px-4 sm:px-0">
+							<Popover.Panel
+								static
+								className="absolute left-0 z-10 pt-3 w-screen max-w-xs px-4 sm:px-0"
+							>
 								<div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black/5">
 									<div className="relative grid gap-8 bg-dark-secondary p-7">
 										{solutions.map( ( item ) => (
@@ -88,11 +96,11 @@ export default function MenuItem() {
 										>
 											<span className="flex items-center">
 												<span className="text-sm font-medium text-white">
-                                                    Documentation
+                          Documentation
 												</span>
 											</span>
 											<span className="block text-sm text-white/50">
-                                                Start integrating products and tools
+                        Start integrating products and tools
 											</span>
 										</a>
 									</div>
