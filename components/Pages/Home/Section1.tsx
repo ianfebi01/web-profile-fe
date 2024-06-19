@@ -17,7 +17,7 @@ const Section1: FunctionComponent<Props> = ( props ) => {
   return (
     <section
       id="home"
-      className="main__section transition-default bg-dark relative"
+      className="main__section !px-0 sm:px-0 md:px-0 transition-default bg-dark relative"
     >
       <Shape />
       <div className="flex w-full h-56 relative bg-[url('/rock-bg.jpg')] bg-cover bg-center bg-no-repeat">
@@ -32,7 +32,7 @@ const Section1: FunctionComponent<Props> = ( props ) => {
           />
         </div>
       </div>
-      <div className="w-full grow-[1] max-w-3xl relative overflow-hidden mt-32 mb-8 flex flex-col gap-4">
+      <div className="w-full grow-[1] max-w-3xl relative overflow-hidden mt-32 mb-8 flex flex-col gap-4 sm:px-4 px-4 md:px-4 lg:px-0 xl:px-0 2xl:px-0">
         <p className="text-center text-display-md-medium">{profile.name}</p>
         <p className="text-center text-md text-white/75">
           A frontend developer with pixel-perfect mindset, I am committed to
