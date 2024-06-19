@@ -34,6 +34,8 @@ export default function MenuItem() {
         className="relative"
         onMouseEnter={() => setShow( true )}
         onMouseLeave={() => setShow( false )}
+        onTouchStart={() => setShow( !show )}
+
       >
         {() => (
           <>
