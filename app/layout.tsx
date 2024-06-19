@@ -4,8 +4,8 @@ import { Outfit } from 'next/font/google'
 import { config } from '@fortawesome/fontawesome-svg-core'
 import '@fortawesome/fontawesome-svg-core/styles.css'
 import { LandingProvider } from '@/context/LandingContext'
-import Navbar from '@/components/Layouts/Navbar'
 import ReactQueryProvider from '@/components/Context/ReactQueryProvider'
+import NavbarV2 from '@/components/Layouts/NavbarV2'
 const outfit = Outfit( { subsets : ['latin'] } )
 
 config.autoAddCss = false
@@ -26,7 +26,7 @@ export default function RootLayout( {
 			<ReactQueryProvider>
 				<LandingProvider>
 					<body className={outfit.className} suppressHydrationWarning={true}>
-						<Navbar />
+						<NavbarV2 />
 						{children}
 					</body>
 				</LandingProvider>

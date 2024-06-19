@@ -17,7 +17,7 @@ const config: Config = {
 			},
 			colors : {
 				dark              : '#222222',
-				'dark-secondary'  : 'rgba(84, 84, 84, 0.46)',
+				'dark-secondary'  : '#393939',
 				orange            : '#F26B50',
 				green             : '#4FAA84',
 				white             : '#FBFBFB',
