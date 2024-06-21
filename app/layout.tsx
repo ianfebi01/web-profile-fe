@@ -7,6 +7,7 @@ import { LandingProvider } from '@/context/LandingContext'
 import ReactQueryProvider from '@/components/Context/ReactQueryProvider'
 import NavbarV2 from '@/components/Layouts/NavbarV2'
 import { Toaster } from 'react-hot-toast'
+import GoogleAnalytics from '@/components/GoogleAnalytics'
 // const outfit = Outfit( { subsets : ['latin'] } )
 
 config.autoAddCss = false
@@ -24,6 +25,7 @@ export default function RootLayout( {
 } ) {
   return (
     <html lang="en">
+      <GoogleAnalytics/>
       <ReactQueryProvider>
         <LandingProvider>
           <body suppressHydrationWarning={true}>
