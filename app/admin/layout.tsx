@@ -10,7 +10,6 @@ import ReactQueryProvider from '@/components/Context/ReactQueryProvider'
 import { Session, getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import ProfileProvider from '@/components/Context/ProfileProvider'
-import { Toaster } from "react-hot-toast";
 const inter = Inter( { subsets : ['latin'] } )
 
 config.autoAddCss = false
@@ -26,26 +25,10 @@ export default async function AdminLayout( {
   children: React.ReactNode
 } ) {
   const session = await getServerSession( authOptions )
-	
+
   return (
     <main className={`h-screen overflow-scroll ${inter.className}`}>
-      <Toaster
-        toastOptions={{
-          // icon : (
-          // 	<div className="text-20" data-cy="modal-information-icon">
-          // 		<ModalInformationIcon />
-          // 	</div>
-          // ),
-          position  : "top-right",
-          className : "bg-white text-dark",
-          style     : {
-            boxShadow : "0px 4px 10px rgba(0, 0, 0, 0.1)",
-            height    : "44px",
-          },
-        }}
-      />
       <NextAuthProvider session={session as Session}>
-				
         <ReactQueryProvider>
           <ProfileProvider>
             <Sidebar />
