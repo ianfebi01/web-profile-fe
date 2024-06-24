@@ -21,7 +21,7 @@ const Section1: FunctionComponent<Props> = ( props ) => {
     >
       <Shape />
       <div className="flex w-full h-56 relative bg-[url('/rock-bg.jpg')] bg-cover bg-center bg-no-repeat">
-        <div className="aspect-square w-48 border rounded-full overflow-hidden inset-x-0 mx-auto absolute -bottom-24">
+        <div className="aspect-square w-48 border border-none rounded-full overflow-hidden inset-x-0 mx-auto absolute -bottom-24">
           <Image
             src={profile.personImage as string}
             alt="Profile image"
