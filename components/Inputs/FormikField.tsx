@@ -436,7 +436,7 @@ const FormikField = forwardRef<FormikFieldHandler, Props>( function FormikField(
       ) : (
         ''
       )}
-      <p className="invisible">sdfsfss</p>
+      <p className="invisible">space for error message</p>
       <p
         className={cn(
           'absolute bottom-0 text-[0.7rem] text-red-500 transition-default delay-100',

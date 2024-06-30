@@ -1,16 +1,16 @@
 'use client'
 import { useRef, useMemo } from 'react'
-import JoditEditor, { Jodit } from 'jodit-react'
+import JoditEditor from 'jodit-react'
 
-type DeepPartial<T> = T extends object
-  ? {
-      [P in keyof T]?: DeepPartial<T[P]>
-    }
-  : T
+// type DeepPartial<T> = T extends object
+//   ? {
+//       [P in keyof T]?: DeepPartial<T[P]>
+//     }
+//   : T
 
-interface Props extends DeepPartial<Jodit['options']> {
+interface Props {
   value: string
-  placeholder?: string
+  placeholder: string
   setValue: ( val: string ) => void
 }
 const ITextEditor = ( {
@@ -21,7 +21,7 @@ const ITextEditor = ( {
 }: Props ) => {
   const editor = useRef( null )
 
-  const config = useMemo<DeepPartial<Jodit['options']>>( () => {
+  const config = useMemo( () => {
     return {
       readonly    : false, // all options from https://xdsoft.net/jodit/docs/,
       tabIndex    : 1,
