@@ -17,6 +17,7 @@ import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import Select, { Options, StylesConfig, components } from 'react-select'
 import { IOptions } from '@/types/form'
+import ITextEditor from './ITextEditor'
 interface Props {
   name: string
   label: string
@@ -423,6 +424,15 @@ const FormikField = forwardRef<FormikFieldHandler, Props>( function FormikField(
             }
           />
         </>
+      ) : fieldType === 'text-editor' ? (
+        <ITextEditor
+          placeholder={'Type here'}
+          value={field.value}
+          setValue={( val ) => {
+            helpers.setValue( val )
+            helpers.setTouched( true )
+          }}
+        />
       ) : (
         ''
       )}
