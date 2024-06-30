@@ -1,5 +1,5 @@
 'use client'
-import { useRef, useMemo } from 'react';
+import { useRef, useMemo } from 'react'
 import JoditEditor from 'jodit-react'
 
 // type DeepPartial<T> = T extends object
@@ -29,7 +29,7 @@ const ITextEditor = ( {
       placeholder : placeholder,
       ...props,
     }
-  }, [props] )
+  }, [] )
 
   return (
     <JoditEditor
@@ -38,8 +38,8 @@ const ITextEditor = ( {
       value={value}
       config={config}
       // tabIndex={1} // tabIndex of textarea
-      onBlur={( newContent ) => setValue( newContent )} // preferred to use only this option to update the content for performance reasons
-      onChange={() => {}}
+      // onBlur={( newContent ) => setValue( newContent )} // preferred to use only this option to update the content for performance reasons
+      onChange={( newContent ) => setValue( newContent )}
     />
   )
 }

@@ -63,6 +63,17 @@ const FormikField = forwardRef<FormikFieldHandler, Props>( function FormikField(
 
   const [field, meta, helpers] = useField( name )
 
+  /**
+   *  text editor handle value
+   */
+  const handleTextEditor = async ( val: string ) => {
+    if ( val === '<p><br></p>' ) {
+      helpers.setValue( '' )
+    } else {
+      helpers.setValue( val )
+    }
+    setTimeout( () => helpers.setTouched( true ) )
+  }
   // handle image
   const imageField = useRef<HTMLInputElement>( null )
 
@@ -426,14 +437,11 @@ const FormikField = forwardRef<FormikFieldHandler, Props>( function FormikField(
           />
         </>
       ) : fieldType === 'text-editor' ? (
-        <div className='text-dark'>
+        <div className="text-dark">
           <ITextEditor
             placeholder={'Type here'}
             value={field.value}
-            setValue={( val ) => {
-              helpers.setValue( val )
-              helpers.setTouched( true )
-            }}
+            setValue={( val ) => handleTextEditor( val )}
           />
         </div>
       ) : (
