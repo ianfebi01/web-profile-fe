@@ -1,153 +1,115 @@
-"use client"
-import React, { FunctionComponent, useEffect, useRef } from 'react'
+'use client';;
+import { FunctionComponent, useEffect, useRef } from 'react';
 import Modal from './Modal'
 import { generateValidationSchema } from '@/lib/generateValidationSchema'
 import { IDynamicForm } from '@/types/form'
 import { Form, FormikProvider, useFormik } from 'formik'
 import FormikField from '../Inputs/FormikField'
-import useAxiosAuth from '@/lib/hooks/useAxiosAuth'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import {  AxiosResponse } from 'axios'
-import { IApi, IApiPagination, IPayloadPagination } from '@/types/api'
-import toast from 'react-hot-toast'
-import { IApiSkill } from '@/types/api/skill'
+import { IPayloadPagination } from '@/types/api';
+import { useEdit, useGetDetail } from '@/lib/hooks/api/skill'
+import { EditForm } from '@/lib/constan/form/skill'
 
-interface Props{
-    isOpen: boolean
-    setIsOpen: ( value: boolean ) => void
-	params: IPayloadPagination,
-	detail: IApiSkill
+interface Props {
+  isOpen: boolean
+  setIsOpen: ( value: boolean ) => void
+  params: IPayloadPagination
+  detailDataId: number
 }
-const ModalEditSkill: FunctionComponent<Props> = ( { isOpen, setIsOpen, params, detail } ) => {
+const ModalEditSkill: FunctionComponent<Props> = ( {
+  isOpen,
+  setIsOpen,
+  detailDataId,
+} ) => {
 
-  const axiosAuth = useAxiosAuth()
-	
-  // React Query
-  const queryClient = useQueryClient()
-  const { mutate, isPending } = useMutation( {
-    mutationKey : ['skill', params.q, params.page],
-    mutationFn  : async( value: Omit<IApiSkill, 'id'> )=> {
-      const data: AxiosResponse<IApi<IApiSkill> & IApiPagination> = await axiosAuth.put(
-        `/v1/skill/${detail.id}`, 
-        value
-      )
+  /**
+   *  Get detail
+   */
+  const {
+    data: detail,
+    isSuccess: isDetailSuccess,
+    isStale: isDetailStale,
+    isFetching: isDetailPending,
+    refetch,
+  } = useGetDetail( detailDataId, false )
 
-      return data.data.data
-    },
-    onSuccess : (  )=> {
-      queryClient.invalidateQueries( { queryKey : ['skill', params.q, params.page] } )
-      toast.success( 'Successfully edit skill!' )
-      setIsOpen( false )
-    },
-    onError : ( ) => {
-      toast.error( 'Cant edit skill, please try again latter.' )
+  useEffect( () => {
+    if ( isOpen ) {
+      refetch()
     }
-  } )
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpen] )
 
-  // Dynamic fields
-  const fields: IDynamicForm[] = [
-    {
-      name        : 'name',
-      type        : 'text',
-      placeholder : 'eg. Frontend Developer',
-      fieldType   : 'text',
-      label       : 'Name',
-      validation  : {
-        charLength : {
-          min : 3,
-          max : 30
-        },
-        required : true
-      }
-    },
-    {
-      name        : 'description',
-      type        : 'text',
-      placeholder : 'eg. Create user interface based on figma',
-      fieldType   : 'text',
-      label       : 'Description',
-      validation  : {
-        charLength : {
-          min : 3,
-          max : 300
-        },
-        required : true
-      }
-    },
-    {
-      name        : 'image',
-      type        : 'image',
-      placeholder : 'Upload image',
-      fieldType   : 'image',
-      label       : 'Icon',
-      validation  : {
-        required : true,
-        image    : {
-          maxSize : 1000
-        }
-      }
-    },
-  ]
+  /**
+   *  Edit
+   */
+  const onEditSuccess = () => {
+    setIsOpen( false )
+  }
+  const { mutate, isPending } = useEdit( { onSuccess : onEditSuccess } )
 
-  // Form
-  const schema = generateValidationSchema( fields )
+  /**
+   *  Form
+   */
+  const schema = generateValidationSchema( EditForm )
 
-  // Formik
+  /**
+   *  Formik
+   */
   const formik = useFormik( {
     initialValues : {
       name        : '',
       description : '',
-      image       : ''
+      image       : '',
     },
     validationSchema : schema,
     onSubmit         : ( value ) => {
-      mutate( { ...value } )
+      mutate( { ...value, id : detailDataId } )
     },
   } )
 
   const submitRef = useRef<HTMLButtonElement>( null )
 
-  useEffect( ()=>{
-    if( isOpen ){
-      formik.setFieldValue( 'name', detail?.name )
-      formik.setFieldValue( 'description', detail?.description )
-      formik.setFieldValue( 'image', detail?.image )
+  useEffect( () => {
+    if ( isOpen ) {
+      formik.setFieldValue( 'name', detail?.data?.name )
+      formik.setFieldValue( 'description', detail?.data?.description )
+      formik.setFieldValue( 'image', detail?.data?.image )
     }
-    if( isOpen === false )
+    if ( isOpen === false )
       formik.handleReset( {
         name        : '',
         description : '',
-        image       : ''
+        image       : '',
       } )
-  }, [isOpen] )
-	
+  }, [isDetailSuccess, isDetailStale] )
+
   return (
-    <Modal isOpen={isOpen}
+    <Modal
+      isOpen={isOpen}
       setIsOpen={setIsOpen}
-      onConfirm={()=>submitRef.current?.click()}
-      onCancel={()=> setIsOpen( false )}
-      title='Edit skill'
+      onConfirm={() => submitRef.current?.click()}
+      onCancel={() => setIsOpen( false )}
+      title="Edit skill"
       loading={isPending}
     >
       <FormikProvider value={formik}>
         <Form onSubmit={formik.handleSubmit}
-          className='flex flex-col gap-2'
+          className="flex flex-col gap-2"
         >
-          {
-            fields.map( ( item: IDynamicForm )=>(
-              <FormikField     
-                label={item.label}
-                name={item.name}
-                placeholder={item.placeholder}
-                key={item.name}
-                fieldType={item.fieldType}
-                required={item.validation?.required}
-              />
-            ) )
-          }
+          {EditForm.map( ( item: IDynamicForm ) => (
+            <FormikField
+              label={item.label}
+              name={item.name}
+              placeholder={item.placeholder}
+              key={item.name}
+              fieldType={item.fieldType}
+              required={item.validation?.required}
+              loading={isDetailPending}
+            />
+          ) )}
           <button ref={submitRef}
-            type='submit'
-            className='hidden'
+            type="submit"
+            className="hidden"
           ></button>
         </Form>
       </FormikProvider>

@@ -271,7 +271,7 @@ const FormikField = forwardRef<FormikFieldHandler, Props>( function FormikField(
                   <div className="absolute z-20 right-4 top-4">
                     <button
                       type="button"
-                      className="text-dark w-6 aspect-square border border-none bg-dark-secondary rounded-full"
+                      className="text-white w-6 aspect-square border border-none bg-dark-secondary rounded-full"
                       onClick={() => clearImage()}
                       disabled={disabled}
                     >

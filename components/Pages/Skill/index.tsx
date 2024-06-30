@@ -1,9 +1,6 @@
 'use client'
-import useAxiosAuth from '@/lib/hooks/useAxiosAuth'
-import { IApi, IApiPagination, IPayloadPagination } from '@/types/api'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { AxiosError, AxiosResponse } from 'axios'
-import React, { useState } from 'react'
+import { IPayloadPagination } from '@/types/api'
+import { useState } from 'react';
 import SearchInput from '@/components/Inputs/SearchInput'
 import StyledPagination from '@/components/Layouts/StyledPagination'
 import NoDataFound from '@/components/NoDataFound'
@@ -17,27 +14,22 @@ import DeleteButton from '@/components/Buttons/DeleteButton'
 import Image from 'next/image'
 import EditButton from '@/components/Buttons/EditButton'
 import ModalEditSkill from '@/components/Modal/ModalEditSkill'
+import { useDelete, useGetData } from '@/lib/hooks/api/skill';
 
 const Skill = () => {
-  const axiosAuth = useAxiosAuth()
-
+  /**
+   *  Params
+   */
   const [params, setParams] = useState<IPayloadPagination>( {
     page  : 1,
     limit : 12,
     q     : '',
   } )
 
-  const { data, isLoading } = useQuery<IApi<IApiSkill[]> & IApiPagination>( {
-    queryKey : ['skill', params.q, params.page],
-    queryFn  : async () => {
-      const data: AxiosResponse<IApi<IApiSkill[]> & IApiPagination> =
-        await axiosAuth.get( '/v1/skill', {
-        	params : params,
-        } )
-
-      return data?.data
-    },
-  } )
+  /**
+   *  Get data
+   */
+  const { data, isLoading } = useGetData( params )
 
   const handlePageChange = ( page: number ) => {
     setParams( {
@@ -46,63 +38,41 @@ const Skill = () => {
     } )
   }
 
+  /**
+   *  Mock array for looping skeleton loading
+   */
   const mockLoop = new Array( params.limit ).fill( 0 )
 
-  // Modal
+  /**
+   *  Modal
+   */
   const [isOpen, setIsOpen] = useState<boolean>( false )
 
-  // @ NOTE handle delete
+  /**
+   *  Delete
+   */
   const [id, setId] = useState<number | null>( null )
-  const queryClient = useQueryClient()
-  const { mutate, isPending } = useMutation( {
-    mutationKey : ['skill', 'delete'],
-    mutationFn  : async ( id: number ) => {
-      const data: AxiosResponse<IApi<IApiSkill> & IApiPagination> =
-        await axiosAuth.delete( `/v1/skill/${id}` )
 
-      return data.data.data
-    },
-    onSuccess : () => {
-      queryClient.invalidateQueries( {
-        queryKey : ['skill', params.q, params.page],
-      } )
-      toast.success( 'Successfully delete skill!' )
-      setIsOpen( false )
-    },
-    onError : ( error: AxiosError<IApi> ) => {
-      toast.error( error.response?.data?.message as string )
-    },
-  } )
+  const onDeleteSuccess = () => {
+    toast.success( 'Successfully delete skill!' )
+    setIsOpen( false )
+  }
+  const { mutate, isPending } = useDelete( { onSuccess : onDeleteSuccess } )
 
   const handleDelete = ( id: number ) => {
     setId( id )
     mutate( id )
   }
 
-  // @ NOTE handleEdit
-  const [detailDataId, setDetailDataId] = useState<number>(  );
-  const [isEditOpen, setIsEditOpen] = useState<boolean>( false );
-  const [detailData, setDetailData] = useState<IApiSkill>(  );
-
-  const { mutate: detailMutate, isPending: isDetailPending } = useMutation( {
-    mutationKey : ['skill', 'detail', detailDataId],
-    mutationFn  : async ( id: number ) => {
-      const data: AxiosResponse<IApi<IApiSkill>> = await axiosAuth.get( `/v1/skill/${id}` )
-		
-      return data.data.data
-    },
-    onSuccess : ( data ) => {
-      setDetailData( data )
-      setIsEditOpen( true )
-    },
-    onError : ( error: AxiosError<IApi> ) => {
-      toast.error( error.response?.data?.message as string )
-    },
-  } )
+  /**
+   *  Edit
+   */
+  const [detailDataId, setDetailDataId] = useState<number>( 0 )
+  const [isEditOpen, setIsEditOpen] = useState<boolean>( false )
 
   const handleEdit = ( id: number ) => {
     setDetailDataId( id )
-    detailMutate( id )
+    setIsEditOpen( true )
   }
 
   return (
@@ -112,10 +82,11 @@ const Skill = () => {
           setIsOpen={setIsOpen}
           params={params}
         />
-        <ModalEditSkill isOpen={isEditOpen}
+        <ModalEditSkill
+          isOpen={isEditOpen}
           setIsOpen={setIsEditOpen}
           params={params}
-          detail={detailData as IApiSkill}
+          detailDataId={detailDataId}
         />
         <div className="flex gap-4 justify-between">
           <SearchInput
@@ -136,7 +107,7 @@ const Skill = () => {
             onClick={() => setIsOpen( true )}
           >
             <FontAwesomeIcon icon={faPlus} />
-            			Add Position
+            Add Skill
           </Button2>
         </div>
 
@@ -147,23 +118,21 @@ const Skill = () => {
                 key={i}
                 className=" bg-dark p-4 border border-none rounded-lg flex gap-4 items-start transition-default"
               >
-
-                <Image src={item.image}
+                <Image
+                  src={item.image}
                   alt={item.name}
                   width={40}
                   height={40}
-                  className='flex-shrink-0'
+                  className="flex-shrink-0"
                 />
 
-                <div className='flex flex-col gap-2 grow-[1]'>
+                <div className="flex flex-col gap-2 grow-[1]">
                   <div className="flex gap-4 justify-between">
                     <p className="text-xl font-bold line-clamp-1 leading-none text-ellipsis">
                       {item.name}
                     </p>
-                    <div className='flex items-center justify-center gap-4'>
+                    <div className="flex items-center justify-center gap-4">
                       <EditButton
-                        loading={isDetailPending && detailDataId === item.id}
-                        disabled={isDetailPending}
                         onClick={() => handleEdit( item.id as number )}
                       />
                       <DeleteButton
@@ -173,7 +142,9 @@ const Skill = () => {
                       />
                     </div>
                   </div>
-                  <p className="text-[0.8rem] line-clamp-4 leading-normal">{item.description}</p>
+                  <p className="text-[0.75rem] line-clamp-4 leading-normal">
+                    {item.description}
+                  </p>
                 </div>
               </article>
             ) )}
