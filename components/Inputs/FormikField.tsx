@@ -30,6 +30,7 @@ interface Props {
     | 'date'
     | 'select'
     | 'month-year'
+    | 'text-editor'
   defaultImageUrl?: string
   setImageBase64?: ( base64: string ) => void
   required?: boolean
@@ -425,14 +426,16 @@ const FormikField = forwardRef<FormikFieldHandler, Props>( function FormikField(
           />
         </>
       ) : fieldType === 'text-editor' ? (
-        <ITextEditor
-          placeholder={'Type here'}
-          value={field.value}
-          setValue={( val ) => {
-            helpers.setValue( val )
-            helpers.setTouched( true )
-          }}
-        />
+        <div className='text-dark'>
+          <ITextEditor
+            placeholder={'Type here'}
+            value={field.value}
+            setValue={( val ) => {
+              helpers.setValue( val )
+              helpers.setTouched( true )
+            }}
+          />
+        </div>
       ) : (
         ''
       )}

@@ -72,9 +72,9 @@ const AddPortofolio = () => {
     },
     {
       name        : 'description',
-      type        : 'text',
+      type        : 'text-editor',
       placeholder : 'eg. Create user interface based on figma',
-      fieldType   : 'text',
+      fieldType   : 'text-editor',
       label       : 'Description',
       validation  : {
         charLength : {
@@ -164,6 +164,7 @@ const AddPortofolio = () => {
 			
 	    return data?.data
 	  },
+	  retry : false
 	} )
 
 	// @ NOTE loading

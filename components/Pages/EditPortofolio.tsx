@@ -107,7 +107,7 @@ const EditPortofolio: FunctionComponent<Props> = ( { id } ) => {
       name        : 'description',
       type        : 'text',
       placeholder : 'eg. Create user interface based on figma',
-      fieldType   : 'text',
+      fieldType   : 'text-editor',
       label       : 'Description',
       validation  : {
         charLength : {
