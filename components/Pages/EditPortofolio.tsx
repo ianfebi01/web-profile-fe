@@ -112,7 +112,6 @@ const EditPortofolio: FunctionComponent<Props> = ( { id } ) => {
       validation  : {
         charLength : {
           min : 3,
-          max : 300
         },
         required : true
       }

@@ -38,7 +38,7 @@ const CardPortofolio: FunctionComponent<Props> = ( props ) => {
     showEditButton = false,
     showDeleteButton = false,
     transitionIn = false,
-    transitionHover = false
+    transitionHover = false,
   } = props
 
   const cardRef = useRef( null )
@@ -54,27 +54,33 @@ const CardPortofolio: FunctionComponent<Props> = ( props ) => {
   }, [isInView] )
 
   return (
-    <div className={cn(
-      'relative group overflow-hidden',
-      transitionHover && 'hover:scale-95 transition-default'
-    )}
+    <div
+      className={cn(
+        'relative group overflow-hidden',
+        transitionHover && 'hover:scale-95 transition-default'
+      )}
     >
       <div className="flex gap-2 absolute top-0 w-full opacity-0 -translate-y-6 group-hover:opacity-100 group-hover:translate-y-0 group-hover:delay-300 delay-300  transition-default px-4 py-2 z-10">
-        <Button disabled
+        <Button
+          disabled
           theme={color === 'bg-white' ? 'light' : 'dark'}
-          className='backdrop-blur-md shadow-sm'
-        >{data.name}</Button>
-        <Button disabled
+          className="backdrop-blur-md shadow-sm"
+        >
+          {data.name}
+        </Button>
+        <Button
+          disabled
           theme={color === 'bg-white' ? 'light' : 'dark'}
-          className='backdrop-blur-md shadow-sm'
+          className="backdrop-blur-md shadow-sm"
         >
           {format( new Date( data.year ), 'yyyy' )}
         </Button>
         <div className="flex items-center justify-center gap-2 ml-auto">
           {showEditButton ? (
-            <Button variant="icon"
+            <Button
+              variant="icon"
               theme={color === 'bg-white' ? 'light' : 'dark'}
-              className='backdrop-blur-md shadow-sm'
+              className="backdrop-blur-md shadow-sm"
               disabled={disabled || loading}
               onClick={() => onClickEdit()}
             >
@@ -86,9 +92,10 @@ const CardPortofolio: FunctionComponent<Props> = ( props ) => {
             ''
           )}
           {showDeleteButton ? (
-            <Button variant="icon"
+            <Button
+              variant="icon"
               theme={color === 'bg-white' ? 'light' : 'dark'}
-              className='backdrop-blur-md shadow-sm'
+              className="backdrop-blur-md shadow-sm"
               disabled={disabled || loading}
               onClick={() => onClickDelete()}
             >
@@ -112,13 +119,14 @@ const CardPortofolio: FunctionComponent<Props> = ( props ) => {
           once={once}
         >
           {/* @ NOTE Text */}
-          <div className={cn( 'flex flex-col basis-1/2 gap-2 py-6 pl-3 sm:gap-6' )}>
+          <div
+            className={cn( 'flex flex-col basis-1/2 gap-2 py-6 pl-3 sm:gap-6' )}
+          >
             <div className="flex flex-col gap-2">
               <h3 className="text-base font-bold">{data.name}</h3>
-              <p
-                className="text-xs"
+              <div
                 dangerouslySetInnerHTML={{ __html : sanitize( data.description ) }}
-              ></p>
+              ></div>
             </div>
             <div className="grow-[1]" />
             <div className="flex gap-1">
@@ -169,13 +177,14 @@ const CardPortofolio: FunctionComponent<Props> = ( props ) => {
           )}
         >
           {/* @ NOTE Text */}
-          <div className={cn( 'flex flex-col basis-1/2 gap-2 py-6 pl-3 sm:gap-6' )}>
+          <div
+            className={cn( 'flex flex-col basis-1/2 gap-2 py-6 pl-3 sm:gap-6' )}
+          >
             <div className="flex flex-col gap-2">
               <h3 className="text-base font-bold">{data.name}</h3>
-              <p
-                className="text-xs"
+              <div
                 dangerouslySetInnerHTML={{ __html : sanitize( data.description ) }}
-              ></p>
+              ></div>
             </div>
             <div className="grow-[1]" />
             <div className="flex gap-1">
@@ -217,7 +226,6 @@ const CardPortofolio: FunctionComponent<Props> = ( props ) => {
           )}
         </div>
       )}
-			
     </div>
   )
 }

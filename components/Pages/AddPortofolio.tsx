@@ -79,7 +79,6 @@ const AddPortofolio = () => {
       validation  : {
         charLength : {
           min : 3,
-          max : 300
         },
         required : true
       }
