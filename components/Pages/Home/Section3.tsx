@@ -1,11 +1,10 @@
-import Button from '@/components/Buttons/Button'
 import TextHeader from '@/components/Texts/TextHeader'
 import CardPortofolio from '@/components/Cards/CardPortofolio'
-import React from 'react'
 import axios, { AxiosResponse } from 'axios'
 import { IApiPortofolio } from '@/types/api/portofolio'
 import { IApi, IApiPagination } from '@/types/api'
 import Link from 'next/link'
+import Button2 from '@/components/Buttons/Button2'
 
 const Section3 = async () => {
   const data: AxiosResponse<IApi<IApiPortofolio[]> & IApiPagination> = await axios.get( `${process.env.BASE_URL}/v1/portofolio`, {
@@ -46,8 +45,12 @@ const Section3 = async () => {
           ) )}
 
         </div>
-        <Link href={'/portofolio'}>
-          <Button className="w-fit">Show more</Button>
+        <Link className='no-underline'
+          href={'/portofolio'}
+        >
+          <Button2 variant='secondary'
+            className="w-fit"
+          >Show more</Button2>
         </Link>
       </div>
     </section>

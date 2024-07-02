@@ -10,6 +10,7 @@ import Button from '../Buttons/Button'
 import { format } from 'date-fns'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons'
+import { useRouter } from 'next/navigation'
 // import MacbookMockup from '../Atoms/MacbookMockup'
 
 interface Props {
@@ -25,6 +26,7 @@ interface Props {
   showDeleteButton?: boolean
   transitionIn?: boolean
   transitionHover?: boolean
+  link?: boolean
 }
 const CardPortofolio: FunctionComponent<Props> = ( props ) => {
   const {
@@ -39,8 +41,14 @@ const CardPortofolio: FunctionComponent<Props> = ( props ) => {
     showDeleteButton = false,
     transitionIn = false,
     transitionHover = false,
+    link = false,
   } = props
 
+  const router = useRouter()
+
+  /**
+   *  Animation
+   */
   const cardRef = useRef( null )
   const isInView = useInView( cardRef, {
     once : true,
@@ -59,6 +67,7 @@ const CardPortofolio: FunctionComponent<Props> = ( props ) => {
         'relative group overflow-hidden',
         transitionHover && 'hover:scale-95 transition-default'
       )}
+      onClick={() => ( link ? router.push( `/portofolio/${data.id}` ) : '' )}
     >
       <div className="flex gap-2 absolute top-0 w-full opacity-0 -translate-y-6 group-hover:opacity-100 group-hover:translate-y-0 group-hover:delay-300 delay-300  transition-default px-4 py-2 z-10">
         <Button

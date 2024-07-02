@@ -89,6 +89,7 @@ const Portofolio = () => {
                 index={i}
                 color={getColor( i )}
                 data={item}
+                link
               />
             ) )}
           </div>
