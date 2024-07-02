@@ -11,3 +11,9 @@
         @apply w-full h-full grow-[1] max-w-5xl;
     }
 }
+
+.article{
+    @include element(container){
+        @apply w-full h-full grow-[1] max-w-3xl;
+    }
+}

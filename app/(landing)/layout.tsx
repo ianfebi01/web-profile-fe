@@ -8,10 +8,10 @@ export default function landingLayout( {
   children: React.ReactNode
 } ) {
   return (
-    <>
+    <div className='min-h-screen flex flex-col'>
       <NavbarV2 />
       {children}
       <Footer/>
-    </>
+    </div>
   )
 }
