@@ -1,5 +1,7 @@
 import Detail from '@/components/Pages/Home/Portofolio/Detail'
 import { getDetail } from '@/lib/api/portofolioQueryFn'
+import { IApi } from '@/types/api'
+import { IApiPortofolio } from '@/types/api/portofolio'
 import {
   HydrationBoundary,
   QueryClient,
@@ -15,7 +17,7 @@ export default async function PortofolioPage( {
   const queryClient = new QueryClient()
   await queryClient.prefetchQuery( {
     queryKey : ['portofolio', 'detail', params.slug],
-    queryFn  : () => getDetail( params.slug ),
+    queryFn  : (): Promise<IApi<IApiPortofolio>> => getDetail( params.slug ),
   } )
 
   const dehydratedState = dehydrate( queryClient )
