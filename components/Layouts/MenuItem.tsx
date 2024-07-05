@@ -1,4 +1,4 @@
-import { cn } from '@/lib/utils'
+import { cn, openNewTab } from '@/lib/utils'
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Popover, Transition } from '@headlessui/react'
@@ -76,6 +76,7 @@ export default function MenuItem() {
                     {solutions.map( ( item ) => (
                       <button
                         key={item.name}
+                        onClick={() => openNewTab( item.href )}
                         className="-m-3 flex items-center rounded-lg p-2 transition duration-150 ease-in-out hover:bg-dark focus:outline-none focus-visible:ring focus-visible:ring-orange-500/50"
                       >
                         <div className="flex h-10 w-10 shrink-0 items-center justify-center text-white sm:h-12 sm:w-12">
