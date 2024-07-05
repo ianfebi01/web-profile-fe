@@ -3,7 +3,7 @@ import { IApi, IApiPagination, IPayloadPagination } from '@/types/api'
 import { IApiPortofolio } from '@/types/api/portofolio'
 import { UseQueryResult, useQuery } from '@tanstack/react-query'
 import { AxiosResponse } from 'axios'
-const baseUrl = '/api-web//v1/portofolio'
+const baseUrl = '/v1/portofolio'
 /**
  *  Get Detail
  */
