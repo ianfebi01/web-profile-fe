@@ -15,68 +15,70 @@ import Button2 from '../Buttons/Button2'
 import { useSession } from 'next-auth/react'
 import { Options } from 'react-select'
 import Modal from '../Modal/Modal'
-import {   useRouter, useSearchParams } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 
-interface Props{
-	id: number
+interface Props {
+  id: number
 }
 const EditPortofolio: FunctionComponent<Props> = ( { id } ) => {
   const axiosAuth = useAxiosAuth()
   const { data: session } = useSession()
   const router = useRouter()
   const searchParams = useSearchParams()
-  const page =parseInt( searchParams.get( 'page' ) || '1' )
+  const page = parseInt( searchParams.get( 'page' ) || '1' )
   const q = searchParams.get( 'q' ) || ''
 
   // @ NOTE ROuter
-  const back = () =>{
+  const back = () => {
     const url = new URLSearchParams( searchParams.toString() )
 
     router.push( '/admin/portofolio?' + url.toString() )
   }
-	
+
   // React Query
   const queryClient = useQueryClient()
 
-  const{ data, isFetching } = useQuery<IApi<IApiPortofolio>>( {
+  const { data, isFetching } = useQuery<IApi<IApiPortofolio>>( {
     queryKey : ['portofolio', id],
-    queryFn  : async ()=> {
-      const data: AxiosResponse<IApi<IApiPortofolio>>  = await axiosAuth.get( '/v1/portofolio/' + id )
-      const res= data.data.data
+    queryFn  : async () => {
+      const data: AxiosResponse<IApi<IApiPortofolio>> = await axiosAuth.get(
+        '/v1/portofolio/' + id
+      )
+      const res = data.data.data
 
-      Object.keys( res  as IApiPortofolio ).map( ( key )=>{
-        if ( res ){
+      Object.keys( res as IApiPortofolio ).map( ( key ) => {
+        if ( res ) {
           if ( key === 'skills' ) {
-            const value = ( res[key as keyof IApiPortofolio ] as IApiSkill[] ).map( ( item )=> ( {
-              label : item.name,
-              value : item.id
-            } ) ) 
+            const value = ( res[key as keyof IApiPortofolio] as IApiSkill[] ).map(
+              ( item ) => ( {
+                label : item.name,
+                value : item.id,
+              } )
+            )
             formik.setFieldValue( key, value )
-          } else if
-          ( key === 'year' ){
-            const date =  new Date( res[key as keyof IApiPortofolio ] as Date )
+          } else if ( key === 'year' ) {
+            const date = new Date( res[key as keyof IApiPortofolio] as Date )
             formik.setFieldValue( key, date )
-          }else
-            formik.setFieldValue( key, res[key as keyof IApiPortofolio ] )
+          } else formik.setFieldValue( key, res[key as keyof IApiPortofolio] )
         }
       } )
-			
+
       return data?.data
     },
   } )
   const { mutate, isPending } = useMutation( {
     mutationKey : ['portofolio', 'edit', id],
-    mutationFn  : async( value: Omit<IApiPortofolio, 'id'> )=> {
+    mutationFn  : async ( value: Omit<IApiPortofolio, 'id'> ) => {
       const data: AxiosResponse<IApi<IApiSkill>> = await axiosAuth.put(
-        `/v1/portofolio/${id}`, 
+        `/v1/portofolio/${id}`,
         value
       )
-			
+
       return data.data.data
     },
-    onSuccess : (  )=> {
+    onSuccess : () => {
       queryClient.invalidateQueries( { queryKey : ['portofolio', page, q] } )
-      queryClient.invalidateQueries( { queryKey : ['portofolio', 'edit', id] } )
+      queryClient.invalidateQueries( { queryKey : ['portofolio'] } )
       setSubmitWarningAlert( false )
       formik.resetForm()
       back()
@@ -84,7 +86,7 @@ const EditPortofolio: FunctionComponent<Props> = ( { id } ) => {
     },
     onError : () => {
       toast.error( 'Cant edit portofolio, please try again latter.' )
-    }
+    },
   } )
 
   // Dynamic fields
@@ -98,10 +100,10 @@ const EditPortofolio: FunctionComponent<Props> = ( { id } ) => {
       validation  : {
         charLength : {
           min : 3,
-          max : 30
+          max : 30,
         },
-        required : true
-      }
+        required : true,
+      },
     },
     {
       name        : 'description',
@@ -113,8 +115,8 @@ const EditPortofolio: FunctionComponent<Props> = ( { id } ) => {
         charLength : {
           min : 3,
         },
-        required : true
-      }
+        required : true,
+      },
     },
     {
       name        : 'image',
@@ -125,9 +127,9 @@ const EditPortofolio: FunctionComponent<Props> = ( { id } ) => {
       validation  : {
         required : true,
         image    : {
-          maxSize : 1000
-        }
-      }
+          maxSize : 1000,
+        },
+      },
     },
     {
       name        : 'skills',
@@ -139,8 +141,8 @@ const EditPortofolio: FunctionComponent<Props> = ( { id } ) => {
         isMulti : true,
       },
       validation : {
-        required : true
-      }
+        required : true,
+      },
     },
     {
       name        : 'year',
@@ -149,8 +151,8 @@ const EditPortofolio: FunctionComponent<Props> = ( { id } ) => {
       fieldType   : 'year',
       label       : 'Year',
       validation  : {
-        required : true
-      }
+        required : true,
+      },
     },
   ]
 
@@ -158,118 +160,127 @@ const EditPortofolio: FunctionComponent<Props> = ( { id } ) => {
   const schema = generateValidationSchema( fields )
 
   // @ NOTE Formik
-  const date = new Date
+  const date = new Date()
 
   // submited form value
-  const [submitedValue, setSubmitedValue] = useState<Omit<IApiPortofolio, 'id'>>( );
+  const [submitedValue, setSubmitedValue] =
+    useState<Omit<IApiPortofolio, 'id'>>()
 
-	interface IInitialValues extends Omit<IApiPortofolio, 'id' | 'skills' | 'userId'>{
-		skills: Options<IOptions>
-	}
-	const initialValues: IInitialValues= {
-	  name        : data?.data?.name ||'',
-	  description : data?.data?.description  || '',
-	  image       : data?.data?.image||'',
-	  year        : data?.data?.year ? new Date( data?.data?.year as Date ) : date,
-	  skills      : data?.data?.skills?.map( ( item )=> ( {
-	    label : item.name,
-	    value : item.id
-	  } ) ) || []
-	}
-	const formik = useFormik( {
-	  initialValues    : initialValues,
-	  validationSchema : schema,
-	  onSubmit         : ( value ) => {
-	    setSubmitedValue( {
-	      ...value,
-	      userId : session?.user.id,
-	      skills : value.skills?.map( ( item ) => item.value )
-	    } as Omit<IApiPortofolio, 'id' | 'skills'> )
+  interface IInitialValues
+    extends Omit<IApiPortofolio, 'id' | 'skills' | 'userId'> {
+    skills: Options<IOptions>
+  }
+  const initialValues: IInitialValues = {
+    name        : data?.data?.name || '',
+    description : data?.data?.description || '',
+    image       : data?.data?.image || '',
+    year        : data?.data?.year ? new Date( data?.data?.year as Date ) : date,
+    skills :
+      data?.data?.skills?.map( ( item ) => ( {
+        label : item.name,
+        value : item.id,
+      } ) ) || [],
+  }
+  const formik = useFormik( {
+    initialValues    : initialValues,
+    validationSchema : schema,
+    onSubmit         : ( value ) => {
+      setSubmitedValue( {
+        ...value,
+        userId : session?.user.id,
+        skills : value.skills?.map( ( item ) => item.value ),
+      } as Omit<IApiPortofolio, 'id' | 'skills'> )
 
-	    setSubmitWarningAlert( true )
-	  },
-	} )
+      setSubmitWarningAlert( true )
+    },
+  } )
 
-	// @ NOTE get skill list
-	
-	const{ data: skillListData, isLoading: isSkillListLoading } = useQuery<IApi<Pick<IApiSkill, 'name' | 'id'>[]>>( {
-	  queryKey : ['skill-list'],
-	  queryFn  : async ()=> {
-	    const data: AxiosResponse<IApi<Pick<IApiSkill, 'name' | 'id'>[]>>  = await axiosAuth.get( '/v1/skill-list' )
-			
-	    return data?.data
-	  },
-	} )
+  // @ NOTE get skill list
 
-	// @ NOTE loading
-	const getLoading = ( fieldType: string | undefined )=>{
-	  switch( fieldType ){
-	  case 'select':
-	    return isSkillListLoading
-	  default: return isFetching
-	  }
-	}
-	// @ NOTE options
-	const getOptions = ( name: string | undefined )=>{
-	  switch( name ){
-	  case 'skills':
-	    return skillListData?.data?.map( ( item: Pick<IApiSkill, "id" | "name"> )=> ( {
-	      label : item.name,
-	      value : item.id
-	    } ) )
-	  default: return []
-	  }
-	}
+  const { data: skillListData, isLoading: isSkillListLoading } = useQuery<
+    IApi<Pick<IApiSkill, 'name' | 'id'>[]>
+  >( {
+    queryKey : ['skill-list'],
+    queryFn  : async () => {
+      const data: AxiosResponse<IApi<Pick<IApiSkill, 'name' | 'id'>[]>> =
+        await axiosAuth.get( '/v1/skill-list' )
 
-	// @ NOTE warning alert
-	const [submitWarningAlert, setSubmitWarningAlert] = useState<boolean>( false );
-	const onSubmitOk = () => {
-	  mutate( {
-	    ...submitedValue
-	  } as Omit<IApiPortofolio, 'id'> )
-	}
-	
-	return (
-	  <section className=''>
-	    <FormikProvider value={formik}>
-	      <Form onSubmit={formik.handleSubmit}
-	        className='flex flex-col gap-2'
-	      >
-	        {
-	          fields.map( ( item: IDynamicForm )=>(
-	            <FormikField    
-	              label={item.label}
-	              name={item.name}
-	              placeholder={item.placeholder}
-	              key={item.name}
-	              fieldType={item.fieldType}
-	              required={item.validation?.required}
-	              select={item?.select}
-	              options={getOptions( item.name )}
-	              loading={getLoading( item.fieldType ) }
-	            />
-	          ) )
-	        }
-	        <Button2 disabled={ isPending}
-	          type="submit"
-	        >Submit</Button2>
-	      </Form>
-	    </FormikProvider>
+      return data?.data
+    },
+  } )
 
-	    <Modal isOpen={submitWarningAlert}
-	      setIsOpen={setSubmitWarningAlert}
-	      onConfirm={()=>onSubmitOk()}
-	      onCancel={()=> setSubmitWarningAlert( false )}
-	      variant='warning'
-	      title='Are you sure?'
-	      desciption='Are you sure want to edit portofolio?'
-	      confirmText='Confirm'
-	      loading={isPending}
-	    >
-	    </Modal>
-	  </section>
+  // @ NOTE loading
+  const getLoading = ( fieldType: string | undefined ) => {
+    switch ( fieldType ) {
+    case 'select':
+      return isSkillListLoading
+    default:
+      return isFetching
+    }
+  }
+  // @ NOTE options
+  const getOptions = ( name: string | undefined ) => {
+    switch ( name ) {
+    case 'skills':
+      return skillListData?.data?.map(
+        ( item: Pick<IApiSkill, 'id' | 'name'> ) => ( {
+          label : item.name,
+          value : item.id,
+        } )
+      )
+    default:
+      return []
+    }
+  }
 
-	)
+  // @ NOTE warning alert
+  const [submitWarningAlert, setSubmitWarningAlert] = useState<boolean>( false )
+  const onSubmitOk = () => {
+    mutate( {
+      ...submitedValue,
+    } as Omit<IApiPortofolio, 'id'> )
+  }
+
+  return (
+    <section className="">
+      <FormikProvider value={formik}>
+        <Form onSubmit={formik.handleSubmit}
+          className="flex flex-col gap-2"
+        >
+          {fields.map( ( item: IDynamicForm ) => (
+            <FormikField
+              label={item.label}
+              name={item.name}
+              placeholder={item.placeholder}
+              key={item.name}
+              fieldType={item.fieldType}
+              required={item.validation?.required}
+              select={item?.select}
+              options={getOptions( item.name )}
+              loading={getLoading( item.fieldType )}
+            />
+          ) )}
+          <Button2 disabled={isPending}
+            type="submit"
+          >
+            Submit
+          </Button2>
+        </Form>
+      </FormikProvider>
+
+      <Modal
+        isOpen={submitWarningAlert}
+        setIsOpen={setSubmitWarningAlert}
+        onConfirm={() => onSubmitOk()}
+        onCancel={() => setSubmitWarningAlert( false )}
+        variant="warning"
+        title="Are you sure?"
+        desciption="Are you sure want to edit portofolio?"
+        confirmText="Confirm"
+        loading={isPending}
+      ></Modal>
+    </section>
+  )
 }
 
 export default EditPortofolio

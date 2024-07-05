@@ -1,14 +1,11 @@
-'use client'
-import { IApi, IApiPagination } from '@/types/api'
-import {  useQuery } from '@tanstack/react-query'
-import React from 'react'
+'use client';
 import { IApiPortofolio } from '@/types/api/portofolio'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import SearchInput from '@/components/Inputs/SearchInput'
 import CardPortofolio from '@/components/Cards/CardPortofolio'
 import NoDataFound from '@/components/NoDataFound'
 import StyledPagination from '@/components/Layouts/StyledPagination'
-import { getPortofolioQueryFn } from '@/lib/api/portofolioQueryFn'
+import { useGetPortofolio } from '@/lib/hooks/api/portofolio'
 
 const Portofolio = () => {
   const router = useRouter()
@@ -18,15 +15,10 @@ const Portofolio = () => {
   const limit = parseInt( searchParams.get( 'limit' ) || '12' )
   const q = searchParams.get( 'q' ) || ''
 
-  const { data, isFetching } = useQuery<
-    IApi<IApiPortofolio[]> & IApiPagination
-  >( {
-  	queryKey : ['portofolio', page, q],
-  	queryFn  : () => getPortofolioQueryFn( {
-  		page  : page || 1,
-  		limit : limit || 12,
-  		q     : q || '',
-  	} )
+  const { data, isFetching } = useGetPortofolio( {
+    page,
+    limit,
+    q,
   } )
 
   const handlePageChange = ( page: number ) => {
@@ -95,7 +87,7 @@ const Portofolio = () => {
           </div>
         ) : isFetching ? (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-            {mockLoop.map( ( item, i ) => (
+            {mockLoop.map( ( _item, i ) => (
               <article
                 key={i}
                 className="h-64 md:h-64 p-4 border border-none rounded-lg flex gap-2 animate-pulse bg-dark-secondary"

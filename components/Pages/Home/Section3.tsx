@@ -40,6 +40,7 @@ const Section3 = async () => {
               data={item}
               transitionIn
               transitionHover
+              link
             />
 						
           ) )}

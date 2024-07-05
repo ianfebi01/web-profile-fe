@@ -134,6 +134,7 @@ const CardPortofolio: FunctionComponent<Props> = ( props ) => {
             <div className="flex flex-col gap-2">
               <h3 className="text-base font-bold">{data.name}</h3>
               <div
+                className="line-clamp-3"
                 dangerouslySetInnerHTML={{ __html : sanitize( data.description ) }}
               ></div>
             </div>
@@ -192,6 +193,7 @@ const CardPortofolio: FunctionComponent<Props> = ( props ) => {
             <div className="flex flex-col gap-2">
               <h3 className="text-base font-bold">{data.name}</h3>
               <div
+                className="line-clamp-3"
                 dangerouslySetInnerHTML={{ __html : sanitize( data.description ) }}
               ></div>
             </div>

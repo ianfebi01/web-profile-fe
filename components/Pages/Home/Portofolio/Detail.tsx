@@ -4,6 +4,7 @@ import { useFormatDate } from '@/lib/hooks/useFormatDate'
 import { sanitize } from 'isomorphic-dompurify'
 import Image from 'next/image'
 import SkeletonDetail from './SkeletonDetail'
+import Chip from '@/components/Chip'
 interface Props {
   id: string | number
 }
@@ -21,12 +22,12 @@ const Detail = ( { id }: Props ) => {
       ) : (
         <div className="article__container mt-20 sm:mt-20 mb-8 flex flex-col gap-4">
           <div className="my-4">
-            <h1 className="text-5xl font-bold">{data?.data?.name}</h1>
-            {data?.data?.year ? (
-              <p className="text-md mt-2">{year( data?.data?.year )}</p>
-            ) : (
-              ''
+            {data?.data?.year !== undefined && (
+              <Chip label={year( data?.data?.year )}
+                bg="dark"
+              />
             )}
+            <h1 className="text-5xl font-bold">{data?.data?.name}</h1>
           </div>
           {data?.data?.image !== undefined && (
             <div className="relative aspect-video  overflow-hidden">

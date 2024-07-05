@@ -20,7 +20,7 @@ const config: Config = {
         'dark-secondary'  : '#393939',
         orange            : '#F26B50',
         green             : '#4FAA84',
-        white             : '#FBFBFB',
+        white             : '#f1f1f1',
         'white-overlay'   : 'rgba(251, 251, 251, 0.40)',
         'white-overlay-2' : 'rgba(251, 251, 251, 0.20)',
       },
@@ -29,7 +29,7 @@ const config: Config = {
       },
       fontFamily : {
         sans : [
-          'Manrope',
+          'Inter',
           'Arial',
           '-apple-system',
           'BlinkMacSystemFont',

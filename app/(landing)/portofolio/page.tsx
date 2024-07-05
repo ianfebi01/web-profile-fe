@@ -2,7 +2,11 @@ import Header from '@/components/Layouts/Header'
 import Portofolio from '@/components/Pages/Home/Portofolio'
 import { getPortofolioQueryFn } from '@/lib/api/portofolioQueryFn'
 import { IPaginationParams } from '@/types/params'
-import { HydrationBoundary, QueryClient, dehydrate } from '@tanstack/react-query'
+import {
+  HydrationBoundary,
+  QueryClient,
+  dehydrate,
+} from '@tanstack/react-query'
 import { Url } from 'next/dist/shared/lib/router/router'
 import React from 'react'
 
@@ -20,16 +24,22 @@ export default async function PortofoliosPage( {
 
   const queryClient = new QueryClient()
   await queryClient.prefetchQuery( {
-    queryKey : ['portofolio', 1, ''],
-    queryFn  : () => getPortofolioQueryFn( {
-      page  : 1,
-      q     : '',
-      limit : 12,
-    } )
+    queryKey : [
+      'portofolio',
+      searchParams.page || 1,
+      searchParams.q || '',
+      searchParams.limit || 12,
+    ],
+    queryFn : () =>
+      getPortofolioQueryFn( {
+        page  : searchParams.page || 1,
+        q     : searchParams.q || '',
+        limit : searchParams.limit || 12,
+      } ),
   } )
 
-  const dehydratedState = dehydrate( queryClient );
-	
+  const dehydratedState = dehydrate( queryClient )
+
   return (
     <main className="main">
       <section id="portofolio"
@@ -40,7 +50,7 @@ export default async function PortofoliosPage( {
             link={backLink}
           />
           <HydrationBoundary state={dehydratedState}>
-            <Portofolio/>
+            <Portofolio />
           </HydrationBoundary>
         </div>
       </section>

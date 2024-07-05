@@ -17,15 +17,19 @@ export const getPortofolioQueryFn = async (
 
   return fetch( `${baseUrl}/v1/portofolio?${param}`, {
     method : 'GET',
+    cache  : 'no-store',
   } ).then( ( res ) => res.json() )
 }
 
-export const getDetail = async ( id: string | number ): Promise<IApi<IApiPortofolio>> => {
+export const getDetail = async (
+  id: string | number
+): Promise<IApi<IApiPortofolio>> => {
   const { serverRuntimeConfig } = getConfig()
   const baseUrl =
     typeof window === 'undefined' ? serverRuntimeConfig.baseUrl : '/api-web'
 
   return fetch( `${baseUrl}/v1/portofolio/${id}`, {
     method : 'GET',
+    cache  : 'no-store',
   } ).then( ( res ) => res.json() )
 }
