@@ -45,7 +45,7 @@ const NavbarV2 = () => {
       transition={{ ease : [0.1, 0.25, 0.3, 1], duration : 0.3 }}
       className=" fixed top-0 w-full h-16 z-30 bg-dark"
     >
-      <div className="inset-x-0 mx-auto max-w-5xl  h-full flex gap-2 items-center">
+      <div className="inset-x-0 mx-auto max-w-5xl px-4 lg:px-0  h-full flex gap-2 items-center">
         <MenuItem />
       </div>
     </motion.nav>
