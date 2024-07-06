@@ -4,6 +4,7 @@ const nextConfig = {
     // Will be available on both server and client
     baseUrl : process.env.BASE_URL,
   },
+  output              : 'standalone',
   serverRuntimeConfig : {
     // Will only be available on the server side
     baseUrl : process.env.BASE_URL, // Pass through env variables
