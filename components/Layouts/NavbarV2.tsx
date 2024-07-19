@@ -8,6 +8,7 @@ import {
   useScroll,
   motion,
 } from 'framer-motion'
+import Hamburger from '../Icons/Hamburger'
 
 const NavbarV2 = () => {
   const { scrollY } = useScroll()
@@ -45,8 +46,11 @@ const NavbarV2 = () => {
       transition={{ ease : [0.1, 0.25, 0.3, 1], duration : 0.3 }}
       className=" fixed top-0 w-full h-16 z-30 bg-dark"
     >
-      <div className="inset-x-0 mx-auto max-w-5xl px-4 lg:px-0  h-full flex gap-2 items-center">
+      <div className="inset-x-0 mx-auto max-w-5xl px-4 lg:px-0 h-full hidden md:flex gap-2 items-center">
         <MenuItem />
+      </div>
+      <div className='inset-x-0 mx-auto max-w-5xl px-4 lg:px-0 h-full flex md:hidden gap-2 items-center'>
+        <Hamburger/>
       </div>
     </motion.nav>
   )
