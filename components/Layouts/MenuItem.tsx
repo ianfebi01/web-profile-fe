@@ -26,14 +26,17 @@ export default function MenuItem() {
                 show ? 'text-white border-white/25' : 'text-white/50'
               )}
             >
-              <span>About Me</span>
-              <FontAwesomeIcon
-                icon={faChevronDown}
+              <span className="text-lg-medium">About Me</span>
+              <div
                 className={cn(
                   'transition-default group-hover:text-orange-300/80',
                   show ? 'text-white transform -rotate-180' : 'text-white/50'
                 )}
-              />
+              >
+                <FontAwesomeIcon
+                  icon={faChevronDown}
+                />
+              </div>
             </Popover.Button>
             <Transition
               enter="transition ease-out duration-200"

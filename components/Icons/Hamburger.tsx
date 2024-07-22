@@ -9,7 +9,7 @@ interface Props {
 const Hamburger = ( props: Props ) => {
   return (
     <>
-      <div className="menu cross menu--2">
+      <div className="hamburger menu cross menu--2">
         <label>
           <input
             type="checkbox"
