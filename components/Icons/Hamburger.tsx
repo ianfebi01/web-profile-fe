@@ -1,17 +1,23 @@
-'use client';
+'use client'
 import '@/assets/scss/components/hamburger.scss'
+import { Dispatch, SetStateAction } from 'react'
 
-const Hamburger = () => {
-
+interface Props {
+  open: boolean
+  setOpen: Dispatch<SetStateAction<boolean>>
+}
+const Hamburger = ( props: Props ) => {
   return (
     <>
-
       <div className="menu cross menu--2">
         <label>
           <input
             type="checkbox"
+            checked={props.open}
+            onChange={( e ) => props.setOpen( e.target.checked )}
           />
-          <svg viewBox="25 25 50 50"
+          <svg
+            viewBox="25 25 50 50"
             preserveAspectRatio="none"
             xmlns="http://www.w3.org/2000/svg"
           >
@@ -27,7 +33,6 @@ const Hamburger = () => {
           </svg>
         </label>
       </div>
-
     </>
   )
 }

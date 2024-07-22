@@ -8,6 +8,9 @@ const config: Config = {
   ],
   theme : {
     extend : {
+      transitionTimingFunction : {
+        burger : 'cubic-bezier(.645, .045, .355, 1)',
+      },
       backgroundImage : {
         'gradient-radial' : 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic' :

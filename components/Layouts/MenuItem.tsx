@@ -3,31 +3,8 @@ import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Popover, Transition } from '@headlessui/react'
 import { useState } from 'react'
-import LinkedinIcon from '../Icons/LinkedinIcon'
-import InstagramIcon from '../Icons/InstagramIcon'
 import CopyToClipboard from '../Inputs/CopyToClipboard'
-
-const solutions = [
-  {
-    name        : 'LinkedIn',
-    description : 'Connect with my profesional side on LinkedIn',
-    href        : 'https://www.linkedin.com/in/ian-febi-sastrataruna-895598149/',
-    icon        : LinkedinIcon,
-  },
-  {
-    name        : 'Instagram',
-    description : 'Follow me on Instagram to get closer to me',
-    href        : 'https://www.instagram.com/ianfebi01/',
-    icon        : InstagramIcon,
-  },
-  // {
-  //   name        : 'Reports',
-  //   description : 'Keep track of your growth',
-  //   href        : '##',
-  //   icon        : IconThree,
-  // },
-]
-
+import { socials } from '@/lib/constans/socials-media'
 export default function MenuItem() {
   const [show, setShow] = useState<boolean>( false )
 
@@ -73,7 +50,7 @@ export default function MenuItem() {
               >
                 <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black/5">
                   <div className="relative grid gap-8 bg-dark-secondary p-7">
-                    {solutions.map( ( item ) => (
+                    {socials.map( ( item ) => (
                       <button
                         key={item.name}
                         onClick={() => openNewTab( item.href )}
