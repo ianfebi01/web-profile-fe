@@ -34,11 +34,11 @@ const MobileNavbar = ( { isOpen }: Props ) => {
     >
       <Transition.Child
         className={cn( 'h-full', 'md:hidden' )}
-        enter="transition-all duration-300 ease-in-out delay-500"
+        enter="transition-all duration-300 ease-out delay-500"
         enterFrom="opacity-0"
-        enterTo="no-doc-scroll bg-dark opacity-100"
-        leave="duration-300 ease-in-out delay-1000"
-        leaveFrom="no-doc-scroll bg-dark opacity-100"
+        enterTo="no-doc-scroll bg-black opacity-100"
+        leave="duration-300 ease-in delay-[600ms]"
+        leaveFrom="no-doc-scroll bg-black opacity-100"
         leaveTo="opacity-0"
       >
         <div className="flex flex-col h-full p-6 justify-center items-center font-bold text-xl text-white">
