@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import { useState } from 'react'
 import MenuItem from './MenuItem'
 import {
@@ -8,9 +8,8 @@ import {
   motion,
 } from 'framer-motion'
 import Hamburger from '../Icons/Hamburger'
-import { cn, openNewTab } from '@/lib/utils'
-import { Transition } from '@headlessui/react'
-import { socials } from '@/lib/constans/socials-media'
+import { cn } from '@/lib/utils';
+import MobileNavbar from './MobileNavbar'
 
 const NavbarV2 = () => {
   const { scrollY } = useScroll()
@@ -54,45 +53,12 @@ const NavbarV2 = () => {
         <div className="inset-x-0 mx-auto max-w-5xl px-4 lg:px-0 h-full hidden md:flex gap-2 items-center">
           <MenuItem />
         </div>
-        <div className="absolute top-4 right-4 z-50">
+        <div className="absolute top-4 right-4 z-50 md:hidden">
           <Hamburger open={isOpen}
             setOpen={setIsOpen}
           />
         </div>
-        <Transition
-          className="h-full w-full fixed top-0"
-          appear={true}
-          show={isOpen}
-        >
-          <Transition.Child
-            className={cn( 'h-full' )}
-            enter="transition-all duration-300 ease-in-out delay-500"
-            enterFrom="opacity-0"
-            enterTo="no-doc-scroll bg-dark opacity-100"
-            leave="duration-300 ease-in-out delay-500"
-            leaveFrom="no-doc-scroll bg-dark opacity-100"
-            leaveTo="opacity-0"
-          >
-            <div className="flex flex-col gap-y-4 h-full p-6 justify-center items-center font-bold text-xl text-white">
-              {socials.map( ( item ) => (
-                <button
-                  key={item.name}
-                  onClick={() => openNewTab( item.href )}
-                  className={cn(
-                    'flex items-center rounded-lg transition duration-150 ease-in-out',
-                    'focus:outline-none focus-visible:ring focus-visible:ring-orange-500/50'
-                  )}
-                >
-                  <div>
-                    <p className="text-4xl font-bold text-white text-center">
-                      {item.name}
-                    </p>
-                  </div>
-                </button>
-              ) )}
-            </div>
-          </Transition.Child>
-        </Transition>
+        <MobileNavbar isOpen={isOpen}/>
       </motion.nav>
       {/* {open && (
         // <div className="h-full w-full fixed top-16 bg-dark z-50 no-doc-scroll md:hidden"></div>
