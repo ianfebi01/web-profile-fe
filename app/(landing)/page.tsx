@@ -32,6 +32,7 @@ export default async function Home() {
 
   return (
     <main className="main">
+
       <ParalaxProvider>
         <Section1 profile={data.data?.profile as IApiProfile} />
       </ParalaxProvider>
