@@ -25,3 +25,12 @@
 .progress-bar {
     @apply h-4 static top-0 left-0 right-0 bg-red-500 origin-[0%];
 }
+
+.scroll-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    will-change: transform;
+  }
