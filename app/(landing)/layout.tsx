@@ -11,11 +11,13 @@ export default function landingLayout( {
 } ) {
   return (
     <div className="min-h-screen flex flex-col">
-      <NavbarV2 />
-      <SmoothScroll>{children}</SmoothScroll>
-      <ParalaxProvider position="end">
-        <Footer />
-      </ParalaxProvider>
+      <SmoothScroll>
+        <NavbarV2 />
+        {children}
+        <ParalaxProvider position="end">
+          <Footer />
+        </ParalaxProvider>
+      </SmoothScroll>
     </div>
   )
 }
