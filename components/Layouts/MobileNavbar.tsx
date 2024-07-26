@@ -33,13 +33,14 @@ const MobileNavbar = ( { isOpen }: Props ) => {
       beforeLeave={()=> setShowItem( false )}
     >
       <Transition.Child
-        className={cn( 'h-full', 'md:hidden' )}
-        enter="transition-all duration-300 ease-out delay-500"
-        enterFrom="opacity-0"
-        enterTo="no-doc-scroll bg-black opacity-100"
-        leave="duration-300 ease-in delay-[600ms]"
-        leaveFrom="no-doc-scroll bg-black opacity-100"
-        leaveTo="opacity-0"
+        className={cn( 'h-full', 'md:hidden', 'transition-all duration-300 ease-out delay-500' )}
+
+        // enter="transition-all duration-300 ease-out delay-500"
+        // enterFrom="opacity-0"
+        enterTo="no-doc-scroll bg-black !opacity-100"
+        // leave="duration-300 ease-in delay-[600ms]"
+        // leaveFrom="no-doc-scroll bg-black opacity-100"
+        // leaveTo="opacity-0"
       >
         <div className="flex flex-col h-full p-6 justify-center items-center font-bold text-xl text-white">
           {socials.map( ( item, index ) => (
