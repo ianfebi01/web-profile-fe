@@ -33,11 +33,11 @@ const MobileNavbar = ( { isOpen }: Props ) => {
       beforeLeave={()=> setShowItem( false )}
     >
       <Transition.Child
-        className={cn( 'h-full', 'md:hidden', 'transition-all duration-300 ease-out delay-500' )}
+        className={cn( 'h-screen', 'md:hidden', 'transition-all duration-300 ease-out delay-500 opacity-0' )}
 
         // enter="transition-all duration-300 ease-out delay-500"
         // enterFrom="opacity-0"
-        enterTo="no-doc-scroll bg-black !opacity-100"
+        enterTo="no-doc-scroll bg-black opacity-100"
         // leave="duration-300 ease-in delay-[600ms]"
         // leaveFrom="no-doc-scroll bg-black opacity-100"
         // leaveTo="opacity-0"
