@@ -13,7 +13,7 @@ const SectionProvider = ( {
 } ) => {
   const [myPosY, setMyPosY] = useState<number>( 0 )
 
-  const sectionRef = useRef<HTMLElement>( null )
+  const sectionRef = useRef<HTMLDivElement>( null )
 
   useEffect( () => {
     // Add event listener when component mounts
@@ -31,7 +31,9 @@ const SectionProvider = ( {
   }
 
   return (
-    <section ref={sectionRef}>
+    <div className='main'
+      ref={sectionRef}
+    >
       {React.Children.map( children, ( child ) => {
         if ( React.isValidElement( child ) ) {
           return React.cloneElement( child, { myposy : myPosY } ) // Passing myPosY to React child components
@@ -39,7 +41,7 @@ const SectionProvider = ( {
 
         return child
       } )}
-    </section>
+    </div>
   )
 }
 

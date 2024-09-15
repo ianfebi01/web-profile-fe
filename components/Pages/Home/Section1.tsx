@@ -17,7 +17,7 @@ interface Props {
 const Section1: FunctionComponent<Props> = ( props ) => {
   const { profile, myposy } = props
 
-  const scale = scalePow().domain( [-2000, 2000] ).range( [-200, 200] )
+  const scale = scalePow().domain( [-2000, 2000] ).range( [-100, 100] )
 
   return (
     <section

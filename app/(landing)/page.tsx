@@ -32,7 +32,7 @@ export default async function Home() {
   }
 
   return (
-    <main className="main">
+    <main className="">
       <SectionProvider>
         <Section1 profile={data.data?.profile as IApiProfile} />
         <Section2 quote={data.data?.profile?.quote as string} />
