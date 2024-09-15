@@ -1,3 +1,4 @@
+'use client'
 import LinkOpenNewTab from '@/components/Buttons/LinkOpenNewTab'
 import InstagramIcon from '@/components/Icons/InstagramIcon'
 import LinkedinIcon from '@/components/Icons/LinkedinIcon'
@@ -6,22 +7,31 @@ import Shape from '@/components/Shape'
 import { IApiProfile } from '@/types/api/profile'
 import Image from 'next/image'
 import { FunctionComponent } from 'react'
+import { scalePow } from 'd3-scale'
 
 interface Props {
   profile: IApiProfile
+  myposy?: number
 }
 
 const Section1: FunctionComponent<Props> = ( props ) => {
-  const { profile } = props
+  const { profile, myposy } = props
+
+  const scale = scalePow().domain( [-2000, 2000] ).range( [-200, 200] )
 
   return (
     <section
       id="home"
       className="main__section !px-0 sm:px-0 md:px-0 transition-default bg-dark relative"
     >
-      <Shape />
+      <Shape myposy={myposy ? myposy : 0}/>
       <div className="flex w-full h-56 relative bg-[url('/rock-bg.jpg')] bg-cover bg-center bg-no-repeat">
-        <div className="aspect-square w-48 border border-none rounded-full overflow-hidden inset-x-0 mx-auto absolute -bottom-24">
+        <div
+          className="aspect-square w-48 border border-none rounded-full overflow-hidden inset-x-0 mx-auto absolute -bottom-24"
+          style={{
+            transform : `translate(0, ${scale.exponent( 1 )( myposy ? myposy : 0 )}px)`,
+          }}
+        >
           <Image
             src={profile.personImage as string}
             alt="Profile image"
@@ -32,7 +42,12 @@ const Section1: FunctionComponent<Props> = ( props ) => {
           />
         </div>
       </div>
-      <div className="w-full grow-[1] max-w-3xl relative overflow-hidden mt-32 mb-8 flex flex-col gap-4 sm:px-4 px-4 md:px-4 lg:px-0 xl:px-0 2xl:px-0">
+      <div
+        className="w-full grow-[1] max-w-3xl relative overflow-hidden mt-32 mb-8 flex flex-col gap-4 sm:px-4 px-4 md:px-4 lg:px-0 xl:px-0 2xl:px-0"
+        style={{
+          transform : `translate(0, ${scale.exponent( 1 )( myposy ? myposy : 0 )}px)`,
+        }}
+      >
         <p className="text-center text-display-md-medium">{profile.name}</p>
         <p className="text-center text-md text-white/75">
           A frontend developer with pixel-perfect mindset, I am committed to
