@@ -1,4 +1,5 @@
-import ParalaxProvider from '@/components/Context/ParalaxProvider'
+// import ParalaxProvider from '@/components/Context/ParalaxProvider'
+import SectionProvider from '@/components/Context/SectionProvider'
 import Section1 from '@/components/Pages/Home/Section1'
 import Section2 from '@/components/Pages/Home/Section2'
 import Section3 from '@/components/Pages/Home/Section3'
@@ -31,14 +32,16 @@ export default async function Home() {
   }
 
   return (
+    
     <main className="main">
-
-      <ParalaxProvider position='top'>
+      <SectionProvider>
+        {/* <ParalaxProvider position='top'> */}
         <Section1 profile={data.data?.profile as IApiProfile} />
-      </ParalaxProvider>
-      <Section2 quote={data.data?.profile?.quote as string} />
-      <Section3 />
-      <Section4 />
+        {/* </ParalaxProvider> */}
+        <Section2 quote={data.data?.profile?.quote as string} />
+        <Section3 />
+        <Section4 />
+      </SectionProvider>
     </main>
   )
 }
