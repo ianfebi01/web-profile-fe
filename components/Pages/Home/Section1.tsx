@@ -17,7 +17,7 @@ interface Props {
 const Section1: FunctionComponent<Props> = ( props ) => {
   const { profile, myposy } = props
 
-  const scale = scalePow().domain( [-2000, 2000] ).range( [-100, 100] )
+  const translate = scalePow().domain( [-2000, 2000] ).range( [-100, 100] )
 
   return (
     <section
@@ -29,7 +29,7 @@ const Section1: FunctionComponent<Props> = ( props ) => {
         <div
           className="aspect-square w-48 border border-none rounded-full overflow-hidden inset-x-0 mx-auto absolute -bottom-24"
           style={{
-            transform : `translate(0, ${scale.exponent( 1 )( myposy ? myposy : 0 )}px)`,
+            transform : `translate(0, ${translate.exponent( 1 )( myposy ? myposy : 0 )}px)`,
           }}
         >
           <Image
@@ -45,7 +45,7 @@ const Section1: FunctionComponent<Props> = ( props ) => {
       <div
         className="w-full grow-[1] max-w-3xl relative overflow-hidden mt-32 mb-8 flex flex-col gap-4 sm:px-4 px-4 md:px-4 lg:px-0 xl:px-0 2xl:px-0"
         style={{
-          transform : `translate(0, ${scale.exponent( 1 )( myposy ? myposy : 0 )}px)`,
+          transform : `translate(0, ${translate.exponent( 1 )( myposy ? myposy : 0 )}px)`,
         }}
       >
         <p className="text-center text-display-md-medium">{profile.name}</p>
