@@ -28,12 +28,12 @@ const Footer = ( {
       className="main__section h-fit bg-dark overflow-hidden"
       style={{
         opacity : opacity.exponent( 1 )(
-          myposy - ( winheight - ( ref.current?.offsetHeight || 0 ) )
+          myposy - ( winheight - ( ref.current?.offsetHeight || 0 ) + 83 )
         ),
       }}
     >
       <div
-        className="main__container my-8 h-full"
+        className="main__container my-8 md:my-16 h-full"
         style={{
           transform : `translate(0, ${translate.exponent( 1 )( -myposy || 0 )}px)`,
         }}
