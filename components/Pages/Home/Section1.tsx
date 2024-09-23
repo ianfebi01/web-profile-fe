@@ -6,30 +6,45 @@ import CopyToClipboard from '@/components/Inputs/CopyToClipboard'
 import Shape from '@/components/Shape'
 import { IApiProfile } from '@/types/api/profile'
 import Image from 'next/image'
-import { FunctionComponent } from 'react'
+import { FunctionComponent, useRef } from 'react'
 import { scalePow } from 'd3-scale'
+import { cn } from '@/lib/utils'
 
 interface Props {
   profile: IApiProfile
   myposy?: number
+  winheight?: number
 }
 
 const Section1: FunctionComponent<Props> = ( props ) => {
   const { profile, myposy } = props
 
+  const ref = useRef<HTMLElement>( null )
+
   const translate = scalePow().domain( [-2000, 2000] ).range( [-100, 100] )
+  const opacity = scalePow()
+    .domain( [0, ref.current?.offsetHeight ? ref.current?.offsetHeight - 40 : 0] )
+    .range( [1, 0] )
 
   return (
     <section
+      ref={ref}
       id="home"
-      className="main__section !px-0 sm:px-0 md:px-0 transition-default bg-dark relative"
+      className={cn( 'main__section !px-0 sm:px-0 md:px-0 bg-dark relative' )}
+      style={
+        {
+          opacity : opacity.exponent( 1 )( myposy ? -myposy : 0 ),
+        }
+      }
     >
-      <Shape myposy={myposy ? myposy : 0}/>
+      <Shape myposy={myposy ? myposy : 0} />
       <div className="flex w-full h-56 relative bg-[url('/rock-bg.jpg')] bg-cover bg-center bg-no-repeat">
         <div
           className="aspect-square w-48 border border-none rounded-full overflow-hidden inset-x-0 mx-auto absolute -bottom-24"
           style={{
-            transform : `translate(0, ${translate.exponent( 1 )( myposy ? myposy : 0 )}px)`,
+            transform : `translate(0, ${translate.exponent( 1 )(
+              myposy ? -myposy : 0
+            )}px)`,
           }}
         >
           <Image
@@ -43,9 +58,11 @@ const Section1: FunctionComponent<Props> = ( props ) => {
         </div>
       </div>
       <div
-        className="w-full grow-[1] max-w-3xl relative overflow-hidden mt-32 mb-8 flex flex-col gap-4 sm:px-4 px-4 md:px-4 lg:px-0 xl:px-0 2xl:px-0"
+        className="w-full grow-[1] max-w-3xl relative overflow-hidden mt-32 mb-20 flex flex-col gap-4 sm:px-4 px-4 md:px-4 lg:px-0 xl:px-0 2xl:px-0"
         style={{
-          transform : `translate(0, ${translate.exponent( 1 )( myposy ? myposy : 0 )}px)`,
+          transform : `translate(0, ${translate.exponent( 1 )(
+            myposy ? -myposy : 0
+          )}px)`,
         }}
       >
         <p className="text-center text-display-md-medium">{profile.name}</p>

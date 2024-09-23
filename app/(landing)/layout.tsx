@@ -1,5 +1,6 @@
 // import ParalaxProvider from '@/components/Context/ParalaxProvider'
 // import SmoothScroll from '@/components/Context/SmoothScrollProvider'
+import SectionProvider from '@/components/Context/SectionProvider'
 import NavbarV2 from '@/components/Layouts/NavbarV2'
 import Footer from '@/components/Pages/Home/Footer'
 import React from 'react'
@@ -15,7 +16,9 @@ export default function landingLayout( {
       <NavbarV2 />
       {children}
       {/* <ParalaxProvider position="end"> */}
-      <Footer />
+      <SectionProvider>
+        <Footer />
+      </SectionProvider>
       {/* </ParalaxProvider> */}
       {/* </SmoothScroll> */}
     </div>

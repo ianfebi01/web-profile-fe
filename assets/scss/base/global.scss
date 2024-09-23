@@ -37,3 +37,7 @@ p {
     // background-color: unset !important;
     @apply bg-black;
 }
+
+.unready {
+    @apply opacity-10;
+}

@@ -1,20 +1,39 @@
-import TextQuote from '@/components/Texts/TextQuote'
-import Image from 'next/image'
-import React, { FunctionComponent } from 'react'
+'use client'
 
-interface Props{
-	quote: string
+import TextQuote from '@/components/Texts/TextQuote'
+import { cn } from '@/lib/utils'
+import { scalePow } from 'd3-scale'
+import Image from 'next/image'
+import { FunctionComponent } from 'react';
+
+interface Props {
+  quote: string
+  myposy?: number
 }
 const Section2: FunctionComponent<Props> = ( props ) => {
-  const { quote } = props
-	
+  const { quote, myposy } = props
+
+  const translate = scalePow().domain( [-2000, 2000] ).range( [-100, 100] )
+
   return (
     <section id="quote"
       className="main__section h-fit bg-dark-secondary"
     >
       <div className="main__container my-8 h-full">
-        <div className="bg-dark h-full border border-none rounded-3xl bg-plus bg-contain  bg-center flex justify-center items-center p-4 md:p-10 ">
-          <div className="h-fit p-8 md:p-14 relative">
+        <div
+          className={cn(
+            'bg-dark h-full border border-none rounded-3xl flex justify-center items-center p-4 md:p-10 relative overflow-hidden'
+          )}
+        >
+          <div
+            className="bg-plus absolute top-0 left-0 w-full h-full bg-contain bg-center z-0"
+            style={{
+              transform : `translate(0, ${translate.exponent( 1 )(
+                myposy ? -myposy : 0
+              )}px)`,
+            }}
+          ></div>
+          <div className="h-fit p-8 md:p-14 relative z-10">
             <Image
               src="/quote.svg"
               alt="Quote icon"

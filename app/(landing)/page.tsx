@@ -32,16 +32,18 @@ export default async function Home() {
   }
 
   return (
-    <main className="">
+    <main>
       <SectionProvider>
         <Section1 profile={data.data?.profile as IApiProfile} />
+      </SectionProvider>
+      <SectionProvider>
         <Section2 quote={data.data?.profile?.quote as string} />
+      </SectionProvider>
+      <SectionProvider>
         <Section3 />
+      </SectionProvider>
+      <SectionProvider>
         <Section4 />
-
-        {/* <ParalaxProvider position='top'> */}
-        {/* <Section1 profile={data.data?.profile as IApiProfile} /> */}
-        {/* </ParalaxProvider> */}
       </SectionProvider>
     </main>
   )
