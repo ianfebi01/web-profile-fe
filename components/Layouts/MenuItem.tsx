@@ -49,7 +49,7 @@ export default function MenuItem() {
             >
               <Popover.Panel
                 static
-                className="absolute left-0 z-10 pt-3 w-screen max-w-xs px-4 sm:px-0"
+                className="absolute right-0 z-10 pt-3 w-screen max-w-xs px-4 sm:px-0"
               >
                 <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black/5">
                   <div className="relative grid gap-8 bg-dark-secondary p-7">

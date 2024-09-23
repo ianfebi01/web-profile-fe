@@ -10,6 +10,8 @@ import {
 import Hamburger from '../Icons/Hamburger'
 import { cn } from '@/lib/utils';
 import MobileNavbar from './MobileNavbar'
+import Image from 'next/image';
+import Link from 'next/link';
 
 const NavbarV2 = () => {
   const { scrollY } = useScroll()
@@ -51,6 +53,14 @@ const NavbarV2 = () => {
         className={cn( 'fixed top-0 w-full h-16 z-30 bg-transparent md:bg-dark' )}
       >
         <div className="inset-x-0 mx-auto max-w-5xl px-4 lg:px-0 h-full hidden md:flex gap-2 items-center">
+          <Link href={'/'}>
+            <Image src="/Logo.svg"
+              alt="Logo image"
+              width={40}
+              height={40}
+            />
+          </Link>
+          <div className='grow'></div>
           <MenuItem />
         </div>
         <div className="absolute top-4 right-4 z-50 md:hidden">
