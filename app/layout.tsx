@@ -7,6 +7,7 @@ import { LandingProvider } from '@/context/LandingContext'
 import ReactQueryProvider from '@/components/Context/ReactQueryProvider'
 import { Toaster } from 'react-hot-toast'
 import GoogleAnalytics from '@/components/GoogleAnalytics'
+import NextTopLoader from 'nextjs-toploader'
 // const outfit = Outfit( { subsets : ['latin'] } )
 
 config.autoAddCss = false
@@ -28,6 +29,17 @@ export default function RootLayout( {
       <ReactQueryProvider>
         <LandingProvider>
           <body suppressHydrationWarning={true}>
+            <NextTopLoader
+              color="#F26B50"
+              initialPosition={0.08}
+              crawlSpeed={200}
+              height={3}
+              crawl={true}
+              showSpinner={false}
+              easing="ease"
+              speed={200}
+              shadow="0 0 10px #F26B50,0 0 5px #F26B50"
+            />
             <Toaster
               toastOptions={{
                 // icon : (

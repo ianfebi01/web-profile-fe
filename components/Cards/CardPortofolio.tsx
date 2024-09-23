@@ -10,7 +10,7 @@ import Button from '../Buttons/Button'
 import { format } from 'date-fns'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons'
-import { useRouter } from 'next/navigation'
+import { useRouter } from 'nextjs-toploader/app';
 // import MacbookMockup from '../Atoms/MacbookMockup'
 
 interface Props {

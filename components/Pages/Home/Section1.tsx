@@ -23,7 +23,7 @@ const Section1: FunctionComponent<Props> = ( props ) => {
 
   const translate = scalePow().domain( [-2000, 2000] ).range( [-100, 100] )
   const opacity = scalePow()
-    .domain( [0, ref.current?.offsetHeight ? ref.current?.offsetHeight - 40 : 0] )
+    .domain( [0, ref.current?.offsetHeight ? ref.current?.offsetHeight - 40 : 1000] )
     .range( [1, 0] )
 
   return (
@@ -33,7 +33,7 @@ const Section1: FunctionComponent<Props> = ( props ) => {
       className={cn( 'main__section !px-0 sm:px-0 md:px-0 bg-dark relative' )}
       style={
         {
-          opacity : opacity.exponent( 1 )( myposy ? -myposy : 0 ),
+          opacity : opacity.exponent( 1 )( myposy ? -myposy : 1 ),
         }
       }
     >

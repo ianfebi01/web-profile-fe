@@ -5,6 +5,7 @@ import { sanitize } from 'isomorphic-dompurify'
 import Image from 'next/image'
 import SkeletonDetail from './SkeletonDetail'
 import Chip from '@/components/Chip'
+import Header from '@/components/Layouts/Header'
 interface Props {
   id: string | number
 }
@@ -20,9 +21,9 @@ const Detail = ( { id }: Props ) => {
         <SkeletonDetail />
       ) : (
         <div className="article__container mt-20 sm:mt-20 mb-8 flex flex-col gap-4">
-          <div className="my-4">
-            <h1 className="text-5xl font-bold">{data?.data?.name}</h1>
-          </div>
+          <Header text={data?.data?.name || ''}
+            link={'/portofolio'}
+          />
           {data?.data?.image !== undefined && (
             <div className="relative aspect-video  overflow-hidden">
               <Image

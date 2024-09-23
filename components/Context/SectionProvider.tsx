@@ -29,8 +29,10 @@ const SectionProvider = ( {
   }, [] )
 
   function handleScroll() {
-    const { top } = sectionRef.current?.getBoundingClientRect() as DOMRect
-    setMyPosY( top )
+    if ( sectionRef.current ) {
+      const { top } = sectionRef.current?.getBoundingClientRect() as DOMRect
+      setMyPosY( top )
+    }
   }
 
   return (
