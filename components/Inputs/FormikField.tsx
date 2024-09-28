@@ -267,11 +267,11 @@ const FormikField = forwardRef<FormikFieldHandler, Props>( function FormikField(
                 accept="image/jpeg,image/png,image/gif,image/webp,image/svg+xml"
               />
               {field.value !== '' ? (
-                <div className=" aspect-square w-60 relative">
+                <div className=" aspect-square w-60 relative border border-dashed border-white-overlay hover:border-white transition-default">
                   <div className="absolute z-20 right-4 top-4">
                     <button
                       type="button"
-                      className="text-white w-6 aspect-square border border-none bg-dark-secondary rounded-full"
+                      className="text-white w-6 aspect-square border border-white-overlay-2 hover:border-white-overlay bg-dark-secondary rounded-full"
                       onClick={() => clearImage()}
                       disabled={disabled}
                     >
