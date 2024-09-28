@@ -27,7 +27,7 @@ export default async function AdminLayout( {
   const session = await getServerSession( authOptions )
 
   return (
-    <main className={`h-screen overflow-scroll ${inter.className}`}>
+    <main className={`h-screen overflow-y-scroll ${inter.className} pb-0`}>
       <NextAuthProvider session={session as Session}>
         <ReactQueryProvider>
           <ProfileProvider>

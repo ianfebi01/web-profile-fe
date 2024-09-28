@@ -2,7 +2,8 @@
 import { cn } from '@/lib/utils';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
+import { useRouter } from 'nextjs-toploader/app';
 import React, { FunctionComponent } from 'react'
 
 interface Props{

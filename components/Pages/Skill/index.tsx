@@ -126,25 +126,26 @@ const Skill = () => {
                   className="flex-shrink-0"
                 />
 
-                <div className="flex flex-col gap-2 grow-[1]">
+                <div className="flex flex-col gap-2 h-full grow">
                   <div className="flex gap-4 justify-between">
                     <p className="text-xl font-bold line-clamp-1 leading-none text-ellipsis">
                       {item.name}
                     </p>
-                    <div className="flex items-center justify-center gap-4">
-                      <EditButton
-                        onClick={() => handleEdit( item.id as number )}
-                      />
-                      <DeleteButton
-                        loading={isPending && id === item.id}
-                        disabled={isPending}
-                        onClick={() => handleDelete( item.id as number )}
-                      />
-                    </div>
                   </div>
                   <p className="text-[0.75rem] line-clamp-4 leading-normal">
                     {item.description}
                   </p>
+                  <div className="grow"></div>
+                  <div className="flex items-center justify-end gap-4">
+                    <EditButton
+                      onClick={() => handleEdit( item.id as number )}
+                    />
+                    <DeleteButton
+                      loading={isPending && id === item.id}
+                      disabled={isPending}
+                      onClick={() => handleDelete( item.id as number )}
+                    />
+                  </div>
                 </div>
               </article>
             ) )}
@@ -154,7 +155,7 @@ const Skill = () => {
             {mockLoop.map( ( item, i ) => (
               <article
                 key={i}
-                className="h-28 p-4 border border-none rounded-lg flex flex-col gap-2 animate-pulse bg-dark-secondary"
+                className="h-28 p-4 border border-none rounded-lg flex flex-col gap-2 animate-pulse bg-dark"
               >
                 <div className="h-6 bg-dark-secondary max-w-[10rem]"></div>
                 <div className="h-4 bg-dark-secondary" />
