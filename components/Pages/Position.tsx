@@ -107,7 +107,7 @@ const Position = () => {
                 {
                   mockLoop.map( ( item, i )=>(
                     <article key={i}
-                      className='h-24 p-4 border border-none rounded-lg flex flex-col gap-2 animate-pulse bg-dark-secondary'
+                      className='h-24 p-4 border border-none rounded-lg flex flex-col gap-2 animate-pulse bg-dark'
                     >
                       <div className='h-6 bg-dark-secondary max-w-[10rem]'>
 		
