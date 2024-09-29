@@ -218,7 +218,7 @@ const FormikField = forwardRef<FormikFieldHandler, Props>( function FormikField(
 
   return (
     <div className="flex flex-col gap-2 relative">
-      <label htmlFor={name}>
+      <label htmlFor={name} className='w-fit'>
         <span>{label}</span>
         {requiredIcon}
       </label>
