@@ -24,29 +24,29 @@ interface Props {
   loading?: boolean
 }
 
-const DataTable = ({ columns, datas = [], loading = false }: Props) => {
-  const themeStyles = useMemo(() => {
+const DataTable = ( { columns, datas = [], loading = false }: Props ) => {
+  const themeStyles = useMemo( () => {
     return {
-      Table: `
+      Table : `
               border: 1px solid rgba(251, 251, 251, 0.20);
               border-radius: 0.5rem;
               --data-table-library_grid-template-columns: ${columns
-                ?.map((item) =>
-                  item?.size ? `minmax(0px, ${item.size})` : 'minmax(0px, 1fr)'
-                )
-                .join(' ')};
+    ?.map( ( item ) =>
+      item?.size ? `minmax(0px, ${item.size})` : 'minmax(0px, 1fr)'
+    )
+    .join( ' ' )};
             `,
-      HeaderRow: `
+      HeaderRow : `
               background-color: #222222;
               color: #f1f1f1;
             `,
-      HeaderCell: `
+      HeaderCell : `
               font-weight: 400;
               font-size: 0.875rem;
               border-bottom: 1px solid rgba(251, 251, 251, 0.20);
               padding-block: 0.75rem;
             `,
-      Row: `
+      Row : `
               transition: all 0.15s ease-in-out;
               cursor: pointer;
       
@@ -73,7 +73,7 @@ const DataTable = ({ columns, datas = [], loading = false }: Props) => {
             }
       
             `,
-      Cell: `
+      Cell : `
               &:focus {
                 outline: dotted;
                 outline-width: 1px;
@@ -84,38 +84,42 @@ const DataTable = ({ columns, datas = [], loading = false }: Props) => {
               padding-block: 0.75rem;
             `,
     }
-  }, [columns])
-  const theme = useTheme([getTheme(), themeStyles])
+  }, [columns] )
+  const theme = useTheme( [getTheme(), themeStyles] )
 
   return (
     <div className="relative">
       {loading && <OverlayLoading />}
       <Table
-        data={{ nodes: datas }}
+        data={{ nodes : datas }}
         theme={theme}
-        layout={{ custom: true, horizontalScroll: true }}
+        layout={{ custom : true, horizontalScroll : true }}
       >
-        {(tableList: any) => (
+        {( tableList: any ) => (
           <>
             <Header>
               <HeaderRow>
-                {columns.map((item, i) => (
-                  <HeaderCell key={i} {...item.cellProps}>
+                {columns.map( ( item, i ) => (
+                  <HeaderCell key={i}
+                    {...item.cellProps}
+                  >
                     {item.label}
                   </HeaderCell>
-                ))}
+                ) )}
               </HeaderRow>
             </Header>
 
             <Body className="relative">
               {tableList?.length ? (
-                tableList.map((item: any) => (
-                  <Row key={item.id} item={item}>
-                    {columns.map((column, i) => (
-                      <Cell key={i}>{column.renderCell(item)}</Cell>
-                    ))}
+                tableList.map( ( item: any ) => (
+                  <Row key={item.id}
+                    item={item}
+                  >
+                    {columns.map( ( column, i ) => (
+                      <Cell key={i}>{column.renderCell( item )}</Cell>
+                    ) )}
                   </Row>
-                ))
+                ) )
               ) : (
                 <div className="w-full h-72">
                   <div className="absolute inset-x-0 inset-y-0 mx-auto my-auto w-fit h-fit">

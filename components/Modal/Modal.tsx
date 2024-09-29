@@ -7,7 +7,7 @@ import { faWarning } from '@fortawesome/free-solid-svg-icons'
 
 interface Props {
   isOpen: boolean
-  setIsOpen: (value: boolean) => void
+  setIsOpen: ( value: boolean ) => void
   title: string
   desciption?: string
   children?: ReactNode
@@ -19,7 +19,7 @@ interface Props {
   border?: boolean
   variant?: 'warning' | 'normal'
 }
-const Modal: FunctionComponent<Props> = (props) => {
+const Modal: FunctionComponent<Props> = ( props ) => {
   const {
     isOpen,
     setIsOpen,
@@ -36,24 +36,26 @@ const Modal: FunctionComponent<Props> = (props) => {
   } = props
 
   const handleCancel = () => {
-    if (onCancel !== undefined) {
+    if ( onCancel !== undefined ) {
       onCancel()
     } else {
-      setIsOpen(false)
+      setIsOpen( false )
     }
   }
 
   function closeModal() {
-    setIsOpen(false)
-  }
-
-  function openModal() {
-    setIsOpen(true)
+    setIsOpen( false )
   }
 
   return (
-    <Transition appear show={isOpen} as={Fragment}>
-      <Dialog as="div" className="relative z-50" onClose={closeModal}>
+    <Transition appear
+      show={isOpen}
+      as={Fragment}
+    >
+      <Dialog as="div"
+        className="relative z-50"
+        onClose={closeModal}
+      >
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
@@ -85,11 +87,11 @@ const Modal: FunctionComponent<Props> = (props) => {
               >
                 {title && variant !== 'warning' ? (
                   <Dialog.Title
-                    className={cn(`px-4 pt-4 text-xl`, [
+                    className={cn( `px-4 pt-4 text-xl`, [
                       !desciption && [
                         border && 'border-b-[1px] border-white/25 pb-4',
                       ],
-                    ])}
+                    ] )}
                   >
                     {title}
                   </Dialog.Title>
@@ -98,9 +100,9 @@ const Modal: FunctionComponent<Props> = (props) => {
                 )}
                 {desciption && variant !== 'warning' ? (
                   <Dialog.Description
-                    className={cn('px-4 pb-4', [
+                    className={cn( 'px-4 pb-4', [
                       border && 'border-b-[1px] border-white/25',
-                    ])}
+                    ] )}
                   >
                     {desciption}
                   </Dialog.Description>
@@ -108,18 +110,20 @@ const Modal: FunctionComponent<Props> = (props) => {
                   ''
                 )}
                 <div
-                  className={cn('p-4 overflow-y-scroll', [
+                  className={cn( 'p-4 overflow-y-scroll', [
                     border &&
                       variant !== 'warning' &&
                       'border-b-[1px] border-white/25',
                     !border && 'pb-0',
                     variant === 'warning' && 'pb-0',
-                  ])}
+                  ] )}
                 >
                   {variant === 'warning' ? (
                     <div className="flex gap-4">
                       <div className="text-red-500 w-10 h-10 mt-1 flex items-center justify-center border border-red-500 rounded-full">
-                        <FontAwesomeIcon icon={faWarning} size="xl" />
+                        <FontAwesomeIcon icon={faWarning}
+                          size="xl"
+                        />
                       </div>
                       <div>
                         <h2 className="text-xl">{title}</h2>
@@ -141,7 +145,7 @@ const Modal: FunctionComponent<Props> = (props) => {
 
                   <Button2
                     type="button"
-                    className={cn(variant !== 'warning' && 'bg-dark-secondary')}
+                    className={cn( variant !== 'warning' && 'bg-dark-secondary' )}
                     variant={variant === 'warning' ? 'error' : 'primary'}
                     loading={loading}
                     disabled={loading}
