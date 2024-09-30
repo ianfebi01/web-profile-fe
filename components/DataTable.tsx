@@ -121,11 +121,15 @@ const DataTable = ( { columns, datas = [], loading = false }: Props ) => {
                   </Row>
                 ) )
               ) : (
-                <div className="w-full h-72">
-                  <div className="absolute inset-x-0 inset-y-0 mx-auto my-auto w-fit h-fit">
-                    <span>No Data</span>
-                  </div>
-                </div>
+                <tr>
+                  <td colSpan={columns?.length || 0}>
+                    <div className="w-full h-72">
+                      <div className="absolute inset-x-0 inset-y-0 mx-auto my-auto w-fit h-fit">
+                        <span>No Data</span>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
               )}
             </Body>
           </>
