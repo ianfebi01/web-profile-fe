@@ -16,10 +16,12 @@ const ITextEditor = ( {
   setValue,
 }: Props ) => {
 
+  const apiKey = process.env.NEXT_PUBLIC_TINYMCE_API_KEY
+
   return (
     <Editor
       id='tiny-mce-ianfebi01'
-      apiKey="m6wjf0u396o1ry5g3s4nm9yhfiav9mfc5vqug1aiqfnz192l"
+      apiKey={apiKey || ''}
       init={{
         plugins : [
           // Core editing features

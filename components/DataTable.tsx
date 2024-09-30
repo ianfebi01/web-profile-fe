@@ -14,6 +14,7 @@ import {
   TableNode,
 } from '@table-library/react-table-library/table'
 import { useMemo } from 'react'
+import Spinner from './Icons/Spinner'
 
 export interface IColumn<T extends TableNode> extends Column<T> {
   size?: string | number
@@ -145,7 +146,7 @@ const OverlayLoading = () => (
   <>
     <div className="absolute z-10 w-full h-full top-0 left-0 inset-x-0 inset-y-0 mx-auto my-auto bg-dark-secondary opacity-60 rounded-lg" />
     <div className="absolute z-10 inset-x-0 inset-y-0 mx-auto my-auto w-fit h-fit">
-      <span className="text-white font-normal text-base w-fit">Loading...</span>
+      <Spinner />
     </div>
   </>
 )
