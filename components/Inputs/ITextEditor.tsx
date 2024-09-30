@@ -1,6 +1,5 @@
 'use client'
-import { useRef, useMemo } from 'react'
-import JoditEditor from 'jodit-react'
+import { Editor } from '@tinymce/tinymce-react'
 
 // type DeepPartial<T> = T extends object
 //   ? {
@@ -10,36 +9,41 @@ import JoditEditor from 'jodit-react'
 
 interface Props {
   value: string
-  placeholder: string
   setValue: ( val: string ) => void
 }
 const ITextEditor = ( {
-  value= '',
+  value = '',
   setValue,
-  placeholder = 'Start typings...',
-  ...props
 }: Props ) => {
-  const editor = useRef( null )
-  // const [content, setContent] = useState( '' )
-
-  const config = useMemo( () => {
-    return {
-      readonly    : false, // all options from https://xdsoft.net/jodit/docs/,
-      tabIndex    : 1,
-      placeholder : placeholder,
-      ...props,
-    }
-  }, [] )
 
   return (
-    <JoditEditor
-      className="!text-dark"
-      ref={editor}
-      value={value}
-      config={config}
-      // tabIndex={1} // tabIndex of textarea
-      // onBlur={( newContent ) => setValue( newContent )} // preferred to use only this option to update the content for performance reasons
-      onChange={( newContent ) => setValue( newContent )}
+    <Editor
+      id='tiny-mce-ianfebi01'
+      apiKey="m6wjf0u396o1ry5g3s4nm9yhfiav9mfc5vqug1aiqfnz192l"
+      init={{
+        plugins : [
+          // Core editing features
+          'anchor',
+          'autolink',
+          'charmap',
+          'codesample',
+          'emoticons',
+          'image',
+          'link',
+          'lists',
+          'media',
+          'searchreplace',
+          'table',
+          'visualblocks',
+          'wordcount',
+          // Your account includes a free trial of TinyMCE premium features
+          // Try the most popular premium features until Oct 8, 2024:
+        ],
+        toolbar :
+          'undo redo | bold italic underline strikethrough | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl',
+      }}
+      initialValue={value}
+      onChange={( e )=>setValue( e.target.getContent() )}
     />
   )
 }

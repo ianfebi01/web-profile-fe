@@ -1,5 +1,5 @@
 'use client'
-import { ChangeEvent, useMemo, useRef } from 'react';
+import { ChangeEvent, useMemo, useRef } from 'react'
 import { useField } from 'formik'
 import Image from 'next/image'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -11,6 +11,7 @@ import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import Select, { Options, StylesConfig, components } from 'react-select'
 import { IOptions } from '@/types/form'
+import ITextEditor from '@/components/Inputs/ITextEditor'
 interface Props {
   name: string
   label: string
@@ -54,11 +55,8 @@ const FormikField = ( props: Props ) => {
    *  text editor handle value
    */
   const handleTextEditor = async ( val: string ) => {
-    if ( val === '<p><br></p>' ) {
-      helpers.setValue( '' )
-    } else {
-      helpers.setValue( val )
-    }
+    helpers.setValue( val )
+
     setTimeout( () => helpers.setTouched( true ) )
   }
   // handle image
@@ -419,7 +417,14 @@ const FormikField = ( props: Props ) => {
             }
           />
         </>
-      )  : (
+      ) : fieldType === 'text-editor' ? (
+        <div className="text-dark">
+          <ITextEditor
+            value={field.value}
+            setValue={( val ) => handleTextEditor( val )}
+          />
+        </div>
+      ) : (
         ''
       )}
       <p className="invisible">space for error message</p>
