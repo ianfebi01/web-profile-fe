@@ -14,7 +14,7 @@ interface Props {
   setValue: ( val: string ) => void
 }
 const ITextEditor = ( {
-  value,
+  value= '',
   setValue,
   placeholder = 'Start typings...',
   ...props

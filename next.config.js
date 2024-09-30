@@ -1,5 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  reactStrictMode : false,
+
   publicRuntimeConfig : {
     // Will be available on both server and client
     baseUrl : process.env.BASE_URL,

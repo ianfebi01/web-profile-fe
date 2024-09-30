@@ -1,11 +1,5 @@
 'use client'
-import React, {
-  ChangeEvent,
-  forwardRef,
-  useImperativeHandle,
-  useMemo,
-  useRef,
-} from 'react'
+import { ChangeEvent, useMemo, useRef } from 'react';
 import { useField } from 'formik'
 import Image from 'next/image'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -17,7 +11,6 @@ import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import Select, { Options, StylesConfig, components } from 'react-select'
 import { IOptions } from '@/types/form'
-import ITextEditor from './ITextEditor'
 interface Props {
   name: string
   label: string
@@ -42,13 +35,7 @@ interface Props {
   options?: Options<IOptions>
 }
 
-export interface FormikFieldHandler {
-  clearImage: () => void
-}
-const FormikField = forwardRef<FormikFieldHandler, Props>( function FormikField(
-  props,
-  ref
-) {
+const FormikField = ( props: Props ) => {
   const {
     name,
     label,
@@ -96,12 +83,6 @@ const FormikField = forwardRef<FormikFieldHandler, Props>( function FormikField(
       return <span className="text-red-500">*</span>
     else if ( required && !disabled ) return ''
   }, [] )
-
-  useImperativeHandle( ref, () => {
-    return {
-      clearImage,
-    }
-  } )
 
   // React select
   const handleSelectChange = async ( val: IOptions | IOptions[] ) => {
@@ -218,7 +199,9 @@ const FormikField = forwardRef<FormikFieldHandler, Props>( function FormikField(
 
   return (
     <div className="flex flex-col gap-2 relative">
-      <label htmlFor={name} className='w-fit'>
+      <label htmlFor={name}
+        className="w-fit"
+      >
         <span>{label}</span>
         {requiredIcon}
       </label>
@@ -436,15 +419,7 @@ const FormikField = forwardRef<FormikFieldHandler, Props>( function FormikField(
             }
           />
         </>
-      ) : fieldType === 'text-editor' ? (
-        <div className="text-dark">
-          <ITextEditor
-            placeholder={'Type here'}
-            value={field.value}
-            setValue={( val ) => handleTextEditor( val )}
-          />
-        </div>
-      ) : (
+      )  : (
         ''
       )}
       <p className="invisible">space for error message</p>
@@ -461,6 +436,6 @@ const FormikField = forwardRef<FormikFieldHandler, Props>( function FormikField(
       </p>
     </div>
   )
-} )
+}
 
 export default FormikField

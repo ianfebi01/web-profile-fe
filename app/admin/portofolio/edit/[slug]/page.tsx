@@ -1,4 +1,4 @@
-'use client';
+'use client';;
 import { generateValidationSchema } from '@/lib/generateValidationSchema'
 import useAxiosAuth from '@/lib/hooks/useAxiosAuth'
 import { IApi } from '@/types/api'
