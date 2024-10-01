@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { FunctionComponent, useState } from 'react'
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
 import { format } from 'date-fns'
-import { sanitize } from 'isomorphic-dompurify'
+import sanitizeHtml from 'sanitize-html';
 
 const experience = [
   {
@@ -85,7 +85,7 @@ const Section4: FunctionComponent = () => {
                 {show.includes( i ) && (
                   <div
                     className="leading-5"
-                    dangerouslySetInnerHTML={{ __html : sanitize( item.desc ) }}
+                    dangerouslySetInnerHTML={{ __html : sanitizeHtml( item.desc ) }}
                   ></div>
                 )}
               </div>

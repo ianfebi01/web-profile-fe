@@ -1,7 +1,7 @@
 'use client'
 import Image from 'next/image'
 import React, { FunctionComponent, useEffect, useRef } from 'react'
-import { sanitize } from 'isomorphic-dompurify'
+import sanitizeHtml from 'sanitize-html';
 import { useInView, useAnimation } from 'framer-motion'
 import AnimationProvider from '@/components/Context/AnimationProvider'
 import { cn } from '@/lib/utils'
@@ -135,7 +135,7 @@ const CardPortofolio: FunctionComponent<Props> = ( props ) => {
               <h3 className="text-base font-bold">{data.name}</h3>
               <div
                 className="line-clamp-3"
-                dangerouslySetInnerHTML={{ __html : sanitize( data.description ) }}
+                dangerouslySetInnerHTML={{ __html : sanitizeHtml( data.description ) }}
               ></div>
             </div>
             <div className="grow-[1]" />
@@ -194,7 +194,7 @@ const CardPortofolio: FunctionComponent<Props> = ( props ) => {
               <h3 className="text-base font-bold">{data.name}</h3>
               <div
                 className="line-clamp-3"
-                dangerouslySetInnerHTML={{ __html : sanitize( data.description ) }}
+                dangerouslySetInnerHTML={{ __html : sanitizeHtml( data.description ) }}
               ></div>
             </div>
             <div className="grow-[1]" />

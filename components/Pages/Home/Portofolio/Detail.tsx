@@ -1,7 +1,7 @@
 'use client'
 import { useGetDetail } from '@/lib/hooks/api/portofolio'
 import { useFormatDate } from '@/lib/hooks/useFormatDate'
-import { sanitize } from 'isomorphic-dompurify'
+import sanitizeHtml from 'sanitize-html';
 import Image from 'next/image'
 import SkeletonDetail from './SkeletonDetail'
 import Chip from '@/components/Chip'
@@ -47,7 +47,7 @@ const Detail = ( { id }: Props ) => {
               <div
                 className="text-white/90"
                 dangerouslySetInnerHTML={{
-                  __html : sanitize( data?.data?.description ),
+                  __html : sanitizeHtml( data?.data?.description ),
                 }}
               />
             </div>
