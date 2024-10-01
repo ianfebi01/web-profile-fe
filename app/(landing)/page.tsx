@@ -1,4 +1,3 @@
-// import ParalaxProvider from '@/components/Context/ParalaxProvider'
 import SectionProvider from '@/components/Context/SectionProvider'
 import Section1 from '@/components/Pages/Home/Section1'
 import Section2 from '@/components/Pages/Home/Section2'
@@ -10,18 +9,50 @@ import axios from 'axios'
 
 export const dynamic = 'force-dynamic'
 
-export async function generateMetadata() {
-  const metaData = await getMetadata()
+let cachedMetadata: any | null = null
 
-  return metaData
+export async function generateMetadata() {
+  if ( !cachedMetadata ) {
+    cachedMetadata = await getMetadata()
+  }
+  
+  return cachedMetadata
 }
-let resolve: any
-const getMetadata = () => {
-  return new Promise( ( res ) => {
-    if ( resolve && typeof resolve === 'object' ) {
-      res( resolve )
-    } else resolve = res
-  } )
+
+const getMetadata = async () => {
+  try {
+    const response = await axios.get<IApi<IApiLanding>>(
+      `${process.env.BASE_URL}/v1/landing`,
+      {
+        params : {
+          email : 'ianfebi01@gmail.com',
+        },
+      }
+    )
+    
+    const data = response.data
+    const title = data.data?.profile.name
+    const desc = 'Front End Web Developer with 1+ year of experience. Expert on React js and Vue js'
+
+    return {
+      title,
+      description : desc,
+      openGraph   : {
+        title,
+        description : desc,
+        url         : 'https://ianfebisastrataruna.my.id',
+        siteName    : title,
+        images      : [{ url : data.data?.profile.personImage }],
+        type        : 'article',
+        authors     : [data.data?.profile.name],
+      },
+    }
+  } catch ( error ) {
+    // eslint-disable-next-line no-console
+    console.error( 'Error fetching metadata:', error )
+    
+    return null
+  }
 }
 
 export default async function Home() {
@@ -37,25 +68,6 @@ export default async function Home() {
       }
     )
     data = response.data
-
-    const title = data.data?.profile.name
-    const desc =
-      'Front End Web Developer with 1+ year of experience. Expert on React js and Vue js'
-    const me = {
-      title       : title,
-      description : desc,
-      openGraph   : {
-        title       : title,
-        description : desc,
-        url         : 'https://ianfebisastrataruna.my.id',
-        siteName    : title,
-        images      : [{ url : data.data?.profile.avatar }],
-        type        : 'article',
-        authors     : [data.data?.profile.name],
-      },
-    }
-    if ( resolve && typeof resolve === 'function' ) resolve( me )
-    else resolve = me
   } catch ( error ) {
     return <div>Error loading data</div>
   }

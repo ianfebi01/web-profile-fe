@@ -53,7 +53,7 @@ const Section1: FunctionComponent<Props> = ( props ) => {
             fill
             priority
             sizes="auto"
-            objectFit="cover"
+            className='object-cover'
           />
         </div>
       </div>
