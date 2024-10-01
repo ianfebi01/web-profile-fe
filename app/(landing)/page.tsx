@@ -10,6 +10,20 @@ import axios from 'axios'
 
 export const dynamic = 'force-dynamic'
 
+export async function generateMetadata() {
+  const metaData = await getMetadata()
+
+  return metaData
+}
+let resolve: any
+const getMetadata = () => {
+  return new Promise( ( res ) => {
+    if ( resolve && typeof resolve === 'object' ) {
+      res( resolve )
+    } else resolve = res
+  } )
+}
+
 export default async function Home() {
   let data: IApi<IApiLanding> | null = null
 
@@ -23,11 +37,26 @@ export default async function Home() {
       }
     )
     data = response.data
-  } catch ( error ) {
-    return <div>Error loading data</div>
-  }
 
-  if ( !data ) {
+    const title = data.data?.profile.name
+    const desc =
+      'Front End Web Developer with 1+ year of experience. Expert on React js and Vue js'
+    const me = {
+      title       : title,
+      description : desc,
+      openGraph   : {
+        title       : title,
+        description : desc,
+        url         : 'https://ianfebisastrataruna.my.id',
+        siteName    : title,
+        images      : [{ url : data.data?.profile.avatar }],
+        type        : 'article',
+        authors     : [data.data?.profile.name],
+      },
+    }
+    if ( resolve && typeof resolve === 'function' ) resolve( me )
+    else resolve = me
+  } catch ( error ) {
     return <div>Error loading data</div>
   }
 
