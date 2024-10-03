@@ -7,8 +7,6 @@ import { IApi, IApiLanding } from '@/types/api'
 import { IApiProfile } from '@/types/api/profile'
 import axios from 'axios'
 
-export const dynamic = 'force-dynamic'
-
 let cachedMetadata: any | null = null
 
 export async function generateMetadata() {
