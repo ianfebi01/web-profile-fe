@@ -9,6 +9,7 @@ import Image from 'next/image'
 import { FunctionComponent, useRef } from 'react'
 import { scalePow } from 'd3-scale'
 import { cn } from '@/lib/utils'
+import getImageSize from '@/lib/getImageSize'
 
 interface Props {
   profile: IApiProfile
@@ -23,7 +24,10 @@ const Section1: FunctionComponent<Props> = ( props ) => {
 
   const translate = scalePow().domain( [-2000, 2000] ).range( [-100, 100] )
   const opacity = scalePow()
-    .domain( [0, ref.current?.offsetHeight ? ref.current?.offsetHeight - 40 : 1000] )
+    .domain( [
+      0,
+      ref.current?.offsetHeight ? ref.current?.offsetHeight - 40 : 1000,
+    ] )
     .range( [1, 0] )
 
   return (
@@ -31,11 +35,9 @@ const Section1: FunctionComponent<Props> = ( props ) => {
       ref={ref}
       id="home"
       className={cn( 'main__section !px-0 sm:px-0 md:px-0 bg-dark relative' )}
-      style={
-        {
-          opacity : opacity.exponent( 1 )( myposy ? -myposy : 1 ),
-        }
-      }
+      style={{
+        opacity : opacity.exponent( 1 )( myposy ? -myposy : 1 ),
+      }}
     >
       <Shape myposy={myposy ? myposy : 0} />
       <div className="flex w-full h-56 relative bg-[url('/rock-bg.jpg')] bg-cover bg-center bg-no-repeat">
@@ -48,12 +50,12 @@ const Section1: FunctionComponent<Props> = ( props ) => {
           }}
         >
           <Image
-            src={profile.personImage as string}
+            src={getImageSize( profile.personImage || '', 'sm' )}
             alt="Profile image"
             fill
             priority
             sizes="auto"
-            className='object-cover'
+            className="object-cover"
           />
         </div>
       </div>
