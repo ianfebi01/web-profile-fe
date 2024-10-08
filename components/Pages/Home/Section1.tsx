@@ -50,7 +50,7 @@ const Section1: FunctionComponent<Props> = ( props ) => {
           }}
         >
           <Image
-            src={getImageSize( profile.personImage || '', 'sm' )}
+            src={getImageSize( profile.personImage || '', 'lg' )}
             alt="Profile image"
             fill
             priority
