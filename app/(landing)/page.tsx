@@ -44,6 +44,13 @@ const getMetadata = async () => {
         type        : 'article',
         authors     : [data.data?.profile.name],
       },
+      twitter : {
+        card        : 'summary', // 'summary' for small card
+        site        : '@ianfebi01', // Replace with your Twitter username
+        title,
+        description : desc,
+        image       : [{ url : data.data?.profile.personImage }],
+      },
     }
   } catch ( error ) {
     // eslint-disable-next-line no-console
