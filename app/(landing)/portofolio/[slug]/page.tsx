@@ -28,7 +28,7 @@ const getMetadata = async ( id: string ) => {
 
     const data = response.data
     const title = data?.name
-    const desc = data?.description.slice( 0, 100 )
+    const desc = `Potofolio for project called ${data?.name}`
 
     return {
       title,
@@ -38,7 +38,7 @@ const getMetadata = async ( id: string ) => {
         description : desc,
         url         : 'https://ianfebisastrataruna.my.id',
         siteName    : title,
-        images      : [{ url : 'https://cdn.stoneandchalk.com.au/cyber_big_image_a64ab93ede.jpg' }],
+        images      : [{ url : data?.image }],
         type        : 'article',
         authors     : ['Ian Febi Sastrataruna'],
       },
@@ -47,7 +47,11 @@ const getMetadata = async ( id: string ) => {
         site        : '@ianfebi01', // Replace with your Twitter username
         title,
         description : desc,
-        image       : [{ url : 'https://cdn.stoneandchalk.com.au/cyber_big_image_a64ab93ede.jpg' }],
+        image       : [
+          {
+            url : 'https://cdn.stoneandchalk.com.au/cyber_big_image_a64ab93ede.jpg',
+          },
+        ],
       },
     }
   } catch ( error ) {
