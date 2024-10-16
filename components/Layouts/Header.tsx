@@ -27,7 +27,7 @@ const Header: FunctionComponent<Props> = ( props ) => {
         </Link>
       ) : ''}
 			
-      <h1 className="text-2xl font-semibold ">{text}</h1>
+      <h1 className="text-2xl font-semibold m-0">{text}</h1>
     </div>
   )
 }

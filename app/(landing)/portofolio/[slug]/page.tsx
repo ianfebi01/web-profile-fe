@@ -8,12 +8,61 @@ import {
   dehydrate,
 } from '@tanstack/react-query'
 
+let cachedMetadata: any | null = null
+
+export async function generateMetadata( {
+  params,
+}: {
+  params: { slug: string }
+} ) {
+  if ( !cachedMetadata ) {
+    cachedMetadata = await getMetadata( params.slug )
+  }
+
+  return cachedMetadata
+}
+
+const getMetadata = async ( id: string ) => {
+  try {
+    const response = await getDetail( id )
+
+    const data = response.data
+    const title = data?.name
+    const desc = data?.description.slice( 0, 100 )
+
+    return {
+      title,
+      description : desc,
+      openGraph   : {
+        title,
+        description : desc,
+        url         : 'https://ianfebisastrataruna.my.id',
+        siteName    : title,
+        images      : [{ url : 'https://cdn.stoneandchalk.com.au/cyber_big_image_a64ab93ede.jpg' }],
+        type        : 'article',
+        authors     : ['Ian Febi Sastrataruna'],
+      },
+      twitter : {
+        card        : 'summary', // 'summary' for small card
+        site        : '@ianfebi01', // Replace with your Twitter username
+        title,
+        description : desc,
+        image       : [{ url : 'https://cdn.stoneandchalk.com.au/cyber_big_image_a64ab93ede.jpg' }],
+      },
+    }
+  } catch ( error ) {
+    // eslint-disable-next-line no-console
+    console.error( 'Error fetching metadata:', error )
+
+    return null
+  }
+}
+
 export default async function PortofolioPage( {
   params,
 }: {
   params: { slug: string }
 } ) {
-
   const queryClient = new QueryClient()
   await queryClient.prefetchQuery( {
     queryKey : ['portofolio', 'detail', params.slug],
