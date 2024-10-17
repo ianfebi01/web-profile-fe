@@ -49,7 +49,7 @@ const getMetadata = async ( id: string ) => {
         description : desc,
         image       : [
           {
-            url : 'https://cdn.stoneandchalk.com.au/cyber_big_image_a64ab93ede.jpg',
+            url : data?.image,
           },
         ],
       },
