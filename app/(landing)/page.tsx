@@ -4,11 +4,9 @@ import Section1 from '@/components/Pages/Home/Section1'
 import Section2 from '@/components/Pages/Home/Section2'
 import Section3 from '@/components/Pages/Home/Section3'
 import Section4 from '@/components/Pages/Home/Section4'
-import { cn } from '@/lib/utils'
 import { IApi, IApiLanding } from '@/types/api'
 import { IApiProfile } from '@/types/api/profile'
 import axios from 'axios'
-import Image from 'next/image'
 
 let cachedMetadata: any | null = null
 
