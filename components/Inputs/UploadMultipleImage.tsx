@@ -27,7 +27,7 @@ const UploadMultipleImage = ( { placeholder, disabled = false }: Props ) => {
   const uploadImage = useUpload()
 
   const handleImage = async ( e: ChangeEvent<HTMLInputElement> ) => {
-    if ( !e?.target?.files ) return
+    if ( !e?.target?.files?.length ) return
 
     setLoading( true )
     const base64 = await readAsBase64( e.target.files[0] )

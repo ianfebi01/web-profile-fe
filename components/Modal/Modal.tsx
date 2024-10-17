@@ -17,7 +17,7 @@ interface Props {
   cancelText?: string
   loading?: boolean
   border?: boolean
-  variant?: 'warning' | 'normal'
+  variant?: 'warning' | 'normal' | 'fullscreen'
 }
 const Modal: FunctionComponent<Props> = ( props ) => {
   const {
@@ -69,7 +69,12 @@ const Modal: FunctionComponent<Props> = ( props ) => {
         </Transition.Child>
 
         <div className="fixed inset-0 overflow-y-auto z-10">
-          <div className="flex min-h-full items-center justify-center p-4 text-center">
+          <div className={cn(
+            'flex min-h-full items-center justify-center text-center',
+            'py-4 px-4',
+            [variant === 'fullscreen' && 'px-0 py-0']
+          )}
+          >
             <Transition.Child
               as={Fragment}
               enter="ease-out duration-300"
@@ -82,12 +87,13 @@ const Modal: FunctionComponent<Props> = ( props ) => {
               <Dialog.Panel
                 className={cn(
                   'inset-x-0 inset-y-0 m-auto max-w-2xl w-full max-h-[600px] flex flex-col bg-dark border border-none rounded-lg overflow-hidden',
-                  [variant === 'warning' && 'max-w-sm']
+                  [variant === 'warning' && 'max-w-sm'],
+                  [variant === 'fullscreen' && 'max-w-[unset] max-h-[unset] h-screen'],
                 )}
               >
                 {title && variant !== 'warning' ? (
                   <Dialog.Title
-                    className={cn( `px-4 pt-4 text-xl`, [
+                    className={cn( `px-4 pt-4 text-xl text-left`, [
                       !desciption && [
                         border && 'border-b-[1px] border-white/25 pb-4',
                       ],
@@ -116,6 +122,7 @@ const Modal: FunctionComponent<Props> = ( props ) => {
                       'border-b-[1px] border-white/25',
                     !border && 'pb-0',
                     variant === 'warning' && 'pb-0',
+                    variant === 'fullscreen' && 'grow'
                   ] )}
                 >
                   {variant === 'warning' ? (

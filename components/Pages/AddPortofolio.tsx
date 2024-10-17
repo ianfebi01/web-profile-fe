@@ -16,6 +16,7 @@ import { useSession } from 'next-auth/react'
 import { Options } from 'react-select'
 import Modal from '../Modal/Modal'
 import {  useRouter, useSearchParams } from 'next/navigation'
+import UploadMultipleImage from '../Inputs/UploadMultipleImage'
 
 const AddPortofolio = () => {
   const axiosAuth = useAxiosAuth()
@@ -215,6 +216,7 @@ const AddPortofolio = () => {
 	            />
 	          ) )
 	        }
+	        <UploadMultipleImage/>
 	        <Button2 disabled={ isPending}
 	          type="submit"
 	        >Submit</Button2>

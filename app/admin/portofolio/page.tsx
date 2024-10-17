@@ -18,6 +18,7 @@ import { format } from 'date-fns'
 import { useRouter } from 'nextjs-toploader/app'
 import Header from '@/components/Layouts/Header'
 import { useGetDatas } from '@/lib/hooks/api/portofolio'
+import ModalAddPortofolio from '@/components/Modal/ModalAddPortofolio'
 
 export default function PortofolioPage() {
   const router = useRouter()
@@ -69,12 +70,6 @@ export default function PortofolioPage() {
   /**
    *  Router
    */
-
-  const goToAdd = () => {
-    const queryParams = new URLSearchParams( searchParams.toString() )
-
-    router.push( '/admin/portofolio/add' + '?' + queryParams.toString() )
-  }
 
   const goToEdit = ( id: number ) => {
     const queryParams = new URLSearchParams( searchParams.toString() )
@@ -170,58 +165,68 @@ export default function PortofolioPage() {
     [isFetching]
   )
 
+  /**
+   *  Add Portofolio
+   */
+  const [isOpen, setIsOpen] = useState<boolean>( false )
+
   return (
-    <div className="flex flex-col gap-6 h-full">
-      <Header text="Portofolio" />
-      <>
-        <div className="flex flex-col gap-8 h-full">
-          <div className="flex gap-4 justify-between">
-            <SearchInput
-              placeholder="Search portofolio"
-              type="text"
-              value={( q as string ) || ''}
-              setValue={( value: string ) => setSearchParams( 'q', value )}
+    <>
+      <div className="flex flex-col gap-6 h-full">
+        <Header text="Portofolio" />
+        <>
+          <div className="flex flex-col gap-8 h-full">
+            <div className="flex gap-4 justify-between">
+              <SearchInput
+                placeholder="Search portofolio"
+                type="text"
+                value={( q as string ) || ''}
+                setValue={( value: string ) => setSearchParams( 'q', value )}
+              />
+
+              <Button2
+                type="button"
+                className="gap-2 flex"
+                onClick={() => setIsOpen( true )}
+              >
+                <FontAwesomeIcon icon={faPlus} />
+                Add Portofolio
+              </Button2>
+            </div>
+            <DataTable
+              columns={COLUMNS}
+              datas={data?.data}
+              loading={isFetching}
             />
 
-            <Button2
-              type="button"
-              className="gap-2 flex"
-              onClick={() => goToAdd()}
-            >
-              <FontAwesomeIcon icon={faPlus} />
-              Add Portofolio
-            </Button2>
+            {/* Pagination */}
+            {data && data?.data?.length && !isFetching ? (
+              <StyledPagination
+                setCurrentPage={handlePageChange}
+                currentPage={page}
+                totalPages={data?.totalPage as number}
+                hasNextPage={data?.hasNextPage as boolean}
+              />
+            ) : (
+              ''
+            )}
           </div>
-          <DataTable
-            columns={COLUMNS}
-            datas={data?.data}
-            loading={isFetching}
-          />
-
-          {/* Pagination */}
-          {data && data?.data?.length && !isFetching ? (
-            <StyledPagination
-              setCurrentPage={handlePageChange}
-              currentPage={page}
-              totalPages={data?.totalPage as number}
-              hasNextPage={data?.hasNextPage as boolean}
-            />
-          ) : (
-            ''
-          )}
-        </div>
-        <Modal
-          isOpen={deleteWarningAlert}
-          setIsOpen={setDeleteWarningAlert}
-          onConfirm={() => onDeleteOk()}
-          onCancel={() => setDeleteWarningAlert( false )}
-          variant="warning"
-          title="Are you sure?"
-          desciption="Are you sure want to delete portofolio?"
-          confirmText="Confirm"
-          loading={isPending}
-        ></Modal>
-      </>
-    </div>
+          <Modal
+            isOpen={deleteWarningAlert}
+            setIsOpen={setDeleteWarningAlert}
+            onConfirm={() => onDeleteOk()}
+            onCancel={() => setDeleteWarningAlert( false )}
+            variant="warning"
+            title="Are you sure?"
+            desciption="Are you sure want to delete portofolio?"
+            confirmText="Confirm"
+            loading={isPending}
+          ></Modal>
+        </>
+      </div>
+      <ModalAddPortofolio isOpen={isOpen}
+        setIsOpen={setIsOpen}
+      />
+    </>
   )
 }
