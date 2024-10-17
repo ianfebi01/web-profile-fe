@@ -1,11 +1,14 @@
 import SectionProvider from '@/components/Context/SectionProvider'
+import ErrorLoadingData from '@/components/Layouts/ErrorLoadingData'
 import Section1 from '@/components/Pages/Home/Section1'
 import Section2 from '@/components/Pages/Home/Section2'
 import Section3 from '@/components/Pages/Home/Section3'
 import Section4 from '@/components/Pages/Home/Section4'
+import { cn } from '@/lib/utils'
 import { IApi, IApiLanding } from '@/types/api'
 import { IApiProfile } from '@/types/api/profile'
 import axios from 'axios'
+import Image from 'next/image'
 
 let cachedMetadata: any | null = null
 
@@ -13,7 +16,7 @@ export async function generateMetadata() {
   if ( !cachedMetadata ) {
     cachedMetadata = await getMetadata()
   }
-  
+
   return cachedMetadata
 }
 
@@ -27,10 +30,11 @@ const getMetadata = async () => {
         },
       }
     )
-    
+
     const data = response.data
     const title = data.data?.profile.name
-    const desc = 'Front End Web Developer with 1+ year of experience. Expert on React js and Vue js'
+    const desc =
+      'Front End Web Developer with 1+ year of experience. Expert on React js and Vue js'
 
     return {
       title,
@@ -55,7 +59,7 @@ const getMetadata = async () => {
   } catch ( error ) {
     // eslint-disable-next-line no-console
     console.error( 'Error fetching metadata:', error )
-    
+
     return null
   }
 }
@@ -74,7 +78,7 @@ export default async function Home() {
     )
     data = response.data
   } catch ( error ) {
-    return <div>Error loading data</div>
+    return <ErrorLoadingData />
   }
 
   return (
