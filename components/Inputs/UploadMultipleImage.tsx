@@ -6,10 +6,12 @@ import { IUploadImageResponse } from '@/types/api/upload-image'
 import { faXmark } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Image from 'next/image'
-import { ChangeEvent, useRef, useState } from 'react'
+import { ChangeEvent, Fragment, useRef, useState } from 'react'
 import Spinner from '../Icons/Spinner'
 import getImageSize from '@/lib/getImageSize'
 import Button2 from '../Buttons/Button2'
+import { Transition } from '@headlessui/react'
+import { useAutoAnimate } from '@formkit/auto-animate/react'
 
 interface Props {
   placeholder?: string
@@ -21,6 +23,11 @@ const UploadMultipleImage = ( { placeholder, disabled = false }: Props ) => {
   const [loading, setLoading] = useState<boolean>( false )
   const [selected, setSelected] = useState<string>( '' )
   const [isUploadFailed, setIsUploadFailed] = useState<boolean>( false )
+
+  const [parent] = useAutoAnimate( {
+    duration : 300,
+    easing   : 'ease-in-out'
+  } )
 
   const imageField = useRef<HTMLInputElement>( null )
 
@@ -40,6 +47,9 @@ const UploadMultipleImage = ( { placeholder, disabled = false }: Props ) => {
       setIsUploadFailed( true )
     }
     setLoading( false )
+    if ( imageField.current ) {
+      imageField.current.value = "";
+    }
   }
 
   const clearImage = () => {
@@ -51,13 +61,15 @@ const UploadMultipleImage = ( { placeholder, disabled = false }: Props ) => {
   }
 
   return (
-    <>
+    <div ref={parent}
+      className="flex flex-col gap-4 overflow-hidden"
+    >
       <input
         ref={imageField}
         type="file"
         placeholder={placeholder}
         className="hidden"
-        onChange={handleImage}
+        onInput={handleImage}
         disabled={disabled}
         accept="image/jpeg,image/png,image/gif,image/webp,image/svg+xml"
       />
@@ -66,12 +78,12 @@ const UploadMultipleImage = ( { placeholder, disabled = false }: Props ) => {
         value.map( ( item, i: number ) => (
           <div
             key={i}
-            className=" aspect-square w-60 relative border border-dashed border-white-overlay hover:border-white transition-default"
+            className="aspect-video w-full relative border border-white/25 rounded-lg hover:border-white/50 transition-default overflow-hidden"
           >
             <div className="absolute z-20 right-4 top-4">
               <button
                 type="button"
-                className="text-white w-6 aspect-square border border-white-overlay-2 hover:border-white-overlay bg-dark-secondary rounded-full"
+                className="text-white w-6 aspect-square border border-white/25 hover:border-white/50 bg-dark-secondary rounded-full"
                 onClick={() => removeUploadedImage( item )}
                 disabled={disabled || loading}
               >
@@ -87,62 +99,39 @@ const UploadMultipleImage = ( { placeholder, disabled = false }: Props ) => {
               }}
               className="z-0"
             />
+            {loading && (
+              <div className="absolute w-full h-full flex items-center justify-center top-0 left-0">
+                <div className="absolute w-full h-full flex items-center justify-center top-0 left-0 bg-white-overlay opacity-50"></div>
+                <Spinner />
+              </div>
+            )}
+            {isUploadFailed && (
+              <div className="absolute w-full h-full flex items-center justify-center top-0 left-0">
+                <div className="absolute w-full h-full flex items-center justify-center top-0 left-0 bg-white-overlay opacity-50"></div>
+                <Button2
+                  onClick={clearImage}
+                  className="z-10 whitespace-nowrap"
+                  variant="link"
+                >
+                  <FontAwesomeIcon icon={faXmark} />
+                Clear image
+                </Button2>
+              </div>
+            )}
           </div>
         ) )}
-      {selected !== '' ? (
-        <div className=" aspect-square w-60 border border-dashed border-white-overlay hover:border-white transition-default relative">
-          <div className="absolute z-20 right-4 top-4">
-            <button
-              type="button"
-              className="text-white w-6 aspect-square border border-white-overlay-2 hover:border-white-overlay bg-dark-secondary rounded-full"
-              onClick={() => clearImage()}
-              disabled={disabled}
-            >
-              <FontAwesomeIcon icon={faXmark} />
-            </button>
-          </div>
-          <Image
-            src={selected as string}
-            alt="Preview image"
-            fill
-            style={{
-              objectFit : 'contain',
-            }}
-            className="z-0"
-          />
-          {loading && (
-            <div className="absolute w-full h-full flex items-center justify-center top-0 left-0">
-              <div className="absolute w-full h-full flex items-center justify-center top-0 left-0 bg-white-overlay opacity-50"></div>
-              <Spinner />
-            </div>
-          )}
-          {isUploadFailed && (
-            <div className="absolute w-full h-full flex items-center justify-center top-0 left-0">
-              <div className="absolute w-full h-full flex items-center justify-center top-0 left-0 bg-white-overlay opacity-50"></div>
-              <Button2
-                onClick={clearImage}
-                className="z-10 whitespace-nowrap"
-                variant="link"
-              >
-                <FontAwesomeIcon icon={faXmark} />
-                Clear image
-              </Button2>
-            </div>
-          )}
-        </div>
-      ) : (
-        <button
-          type="button"
-          className={cn(
-            'bg-dark-secondary aspect-square w-60 border border-dashed border-white/25'
-          )}
-          onClick={() => imageField.current?.click()}
-          disabled={disabled}
-        >
-          Select Image
-        </button>
-      )}
-    </>
+
+      <button
+        type="button"
+        className={cn(
+          'h-40 w-full border border-dashed border-white/25 hover:border-white/50 rounded-lg text-base'
+        )}
+        onClick={() => imageField.current?.click()}
+        disabled={disabled}
+      >
+        Select Image
+      </button>
+    </div>
   )
 }
 

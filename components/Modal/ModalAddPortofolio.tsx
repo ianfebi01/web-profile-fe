@@ -1,10 +1,9 @@
-"use client"
-import React, { FunctionComponent, useContext, useEffect, useRef } from 'react'
+"use client";
+import { FunctionComponent, useContext, useEffect, useRef } from 'react';
 import Modal from './Modal'
 import { generateValidationSchema } from '@/lib/generateValidationSchema'
 import { IDynamicForm } from '@/types/form'
-import { Form, FormikProvider, useFormik } from 'formik'
-import FormikField from '../Inputs/FormikField'
+import { useFormik } from 'formik';
 import useAxiosAuth from '@/lib/hooks/useAxiosAuth'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { PositionContext } from '@/context/PositionContext'
@@ -12,6 +11,7 @@ import { AxiosResponse } from 'axios'
 import { IApi, IApiPagination } from '@/types/api'
 import { IApiPosition } from '@/types/api/position'
 import toast from 'react-hot-toast'
+import AddPortofolio from '../Pages/AddPortofolio'
 
 interface Props{
     isOpen: boolean
@@ -117,32 +117,11 @@ const ModalAddPortofolio: FunctionComponent<Props> = ( { isOpen, setIsOpen } ) =
       setIsOpen={setIsOpen}
       onConfirm={()=>submitRef.current?.click()}
       onCancel={()=> setIsOpen( false )}
-      title='Add new position'
+      title='Add new portofolio'
       loading={isPending}
       variant='fullscreen'
     >
-      <FormikProvider value={formik}>
-        <Form onSubmit={formik.handleSubmit}
-          className='flex flex-col gap-2'
-        >
-          {
-            fields.map( ( item: IDynamicForm )=>(
-              <FormikField     
-                label={item.label}
-                name={item.name}
-                placeholder={item.placeholder}
-                key={item.name}
-                fieldType={item.fieldType}
-                required={item.validation?.required}
-              />
-            ) )
-          }
-          <button ref={submitRef}
-            type='submit'
-            className='hidden'
-          ></button>
-        </Form>
-      </FormikProvider>
+      <AddPortofolio/>
     </Modal>
   )
 }

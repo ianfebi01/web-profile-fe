@@ -93,7 +93,7 @@ const Modal: FunctionComponent<Props> = ( props ) => {
               >
                 {title && variant !== 'warning' ? (
                   <Dialog.Title
-                    className={cn( `px-4 pt-4 text-xl text-left`, [
+                    className={cn( `px-4 pt-4 text-xl text-left max-w-7xl mx-auto w-full xl:px-0`, [
                       !desciption && [
                         border && 'border-b-[1px] border-white/25 pb-4',
                       ],
@@ -106,7 +106,7 @@ const Modal: FunctionComponent<Props> = ( props ) => {
                 )}
                 {desciption && variant !== 'warning' ? (
                   <Dialog.Description
-                    className={cn( 'px-4 pb-4', [
+                    className={cn( 'px-4 pb-4 max-w-7xl mx-auto w-full xl:px-0', [
                       border && 'border-b-[1px] border-white/25',
                     ] )}
                   >
@@ -116,13 +116,13 @@ const Modal: FunctionComponent<Props> = ( props ) => {
                   ''
                 )}
                 <div
-                  className={cn( 'p-4 overflow-y-scroll', [
+                  className={cn( 'p-4 overflow-y-scroll max-w-7xl mx-auto w-full', [
                     border &&
                       variant !== 'warning' &&
                       'border-b-[1px] border-white/25',
                     !border && 'pb-0',
                     variant === 'warning' && 'pb-0',
-                    variant === 'fullscreen' && 'grow'
+                    variant === 'fullscreen' && 'grow xl:px-0'
                   ] )}
                 >
                   {variant === 'warning' ? (
@@ -141,7 +141,10 @@ const Modal: FunctionComponent<Props> = ( props ) => {
                     children
                   )}
                 </div>
-                <div className="p-4 flex justify-end gap-2">
+                <div className={cn(
+                  'p-4 flex justify-end gap-2 max-w-7xl mx-auto w-full xl:px-0'
+                )}
+                >
                   <Button2
                     type="button"
                     onClick={handleCancel}
